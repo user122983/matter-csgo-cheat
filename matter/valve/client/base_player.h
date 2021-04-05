@@ -22,7 +22,7 @@ struct base_player : base_combat_character {
 
 	}
 
-	auto util_player_by_index( const int entindex ) {
+	static auto util_player_by_index( const int entindex ) {
 
 		const auto function = m_signatures.m_util_player_by_index.as< base_player* ( __thiscall* )( int ) >( );
 

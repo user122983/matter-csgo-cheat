@@ -138,7 +138,7 @@ struct menu {
 
 	std::vector< std::string > m_fakelag_names {
 
-		"None", "Static", "Jitter", "Break lag comp"
+		"None", "Static", "Jitter", "Adaptive"
 
 	};
 
@@ -180,6 +180,7 @@ struct menu {
 
 	std::shared_ptr< container > m_misc_container;
 	std::shared_ptr< checkbox > m_server_hitboxes;
+	std::shared_ptr < slider > m_fov;
 		
 };
 

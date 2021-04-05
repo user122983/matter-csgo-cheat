@@ -1,5 +1,6 @@
 #include "../hooked.h"
 
+#include "../../menu/menu.h"
 #include "../../features/globals.h"
 #include "../../features/legitbot/legitbot.h"
 #include "../../features/misc/misc.h"
@@ -33,7 +34,7 @@ bool __fastcall hooked::create_move( void* ecx, void* edx, const float input_sam
 
 float __fastcall hooked::get_view_model_fov( void* ecx, void* edx ) {
 
-	return 120.f;
+	return m_menu.m_fov->get_value( );
 
 }
 

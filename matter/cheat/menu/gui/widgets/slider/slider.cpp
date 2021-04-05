@@ -25,6 +25,12 @@ void slider::set_prefix( const std::string_view prefix ) {
 	
 }
 
+void slider::set_value( const float value ) {
+
+	m_value = value;
+	
+}
+
 float slider::get_value( ) const {
 	
 	return m_value;

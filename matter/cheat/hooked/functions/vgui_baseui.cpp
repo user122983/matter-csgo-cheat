@@ -2,6 +2,7 @@
 
 #include "../../menu/menu.h"
 #include "../../features/visuals/visuals.h"
+#include "../../features/globals.h"
 
 void __fastcall hooked::paint( engine_vgui* ecx, void* edx, const paint_mode mode ) {
 
@@ -9,14 +10,12 @@ void __fastcall hooked::paint( engine_vgui* ecx, void* edx, const paint_mode mod
 
 	// capture cs_game_rules once per game
 	
-	static auto cs_game_rules_captured = false;
-
 	if ( !m_interfaces.m_engine->is_in_game( ) )
-		cs_game_rules_captured = false;
+		m_globals.m_cs_game_rules_captured = false;
 	
-	if ( m_interfaces.m_engine->is_in_game( ) && !cs_game_rules_captured ) {
+	if ( m_interfaces.m_engine->is_in_game( ) && !m_globals.m_cs_game_rules_captured ) {
 
-		cs_game_rules_captured = true;
+		m_globals.m_cs_game_rules_captured = true;
 
 		m_interfaces.m_cs_game_rules_proxy = **reinterpret_cast< cs_game_rules_proxy*** >( m_signatures.m_client_dll.find_pattern( "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A" ) + 0x1 );
 		

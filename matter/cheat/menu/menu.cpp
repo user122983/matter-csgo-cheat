@@ -166,6 +166,10 @@ bool menu::setup( ) {
 
 	m_server_hitboxes = std::make_shared< checkbox >( );
 	m_builder.widget( m_server_hitboxes ).position( 30, 30 ).title( "Server hitboxes" ).spawn_in( m_misc_container );
+
+	m_fov = std::make_shared< slider >( );
+	m_builder.widget( m_fov ).position( 54, 62 ).title( "Fov" ).spawn_in( m_misc_container ).range( 0.f, 200.f );
+	m_fov->set_value( 100.f );
 	
 	return true;
 	

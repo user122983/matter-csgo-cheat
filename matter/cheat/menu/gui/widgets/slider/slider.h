@@ -9,6 +9,8 @@ struct slider final : widgets {
 	void set_range( float min, float max );
 	
 	void set_prefix( std::string_view prefix );
+
+	void set_value( float value );
 	
 	float get_value( ) const;
 	

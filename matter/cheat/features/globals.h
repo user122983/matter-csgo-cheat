@@ -12,6 +12,8 @@ struct globals {
 	vector_3d m_view_origin;
 
 	bool m_third_person = false;
+
+	bool m_cs_game_rules_captured = false;
 	
 };
 

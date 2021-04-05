@@ -15,7 +15,7 @@ enum fakelag_type {
 	fakelag_none,
 	fakelag_static,
 	fakelag_jitter,
-	fakelag_break_lag_comp
+	fakelag_adaptive
 
 };
 
@@ -34,13 +34,13 @@ struct legitbot {
 
 	bool* m_send_packet = nullptr;
 
-	//bool m_send_packet = true;
-
 private:
 
 	void antiaim( ) const;
 
-	void fakelag( ) const;
+	void fakelag( );
+
+	int m_fakelag_value = 0;
 	
 	struct {
 

@@ -5,7 +5,7 @@
 
 #include <array>
 
-enum key_state {
+enum class key_state {
 
 	up,
 	toggled,
@@ -23,7 +23,7 @@ struct input {
 
 	bool is_key_toggled( const std::size_t code ) {
 
-		if ( m_key_states[ code ].m_state != toggled )
+		if ( m_key_states[ code ].m_state != key_state::toggled )
 			return false;
 
 		return m_key_states[ code ].m_framecount == m_interfaces.m_globals->m_framecount;
@@ -41,13 +41,13 @@ struct input {
 
 	bool is_key_down( const std::size_t code ) {
 
-		return m_key_states[ code ].m_state == down;
+		return m_key_states[ code ].m_state == key_state::down;
 
 	}
 
 	bool is_mouse_down( const std::size_t code ) {
 
-		return m_key_states[ code ].m_state == toggled;
+		return m_key_states[ code ].m_state == key_state::toggled;
 
 	}
 
@@ -105,7 +105,7 @@ private:
 
 	};
 
-	std::array< key_states, 256 > m_key_states = { up };
+	std::array< key_states, 256 > m_key_states = { key_state::up };
 
 };
 

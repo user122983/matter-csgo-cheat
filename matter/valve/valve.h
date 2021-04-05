@@ -18,4 +18,6 @@
 #include "view_shared.h"
 
 #include "engine_vgui.h"
-#include "net_channel.h" 
+#include "net_channel.h"
+
+#include "public/public.h"

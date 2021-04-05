@@ -221,6 +221,8 @@
     <ClInclude Include="valve\mathlib\matrix.h" />
     <ClInclude Include="valve\netvars\netvars.h" />
     <ClInclude Include="valve\net_channel.h" />
+    <ClInclude Include="valve\public\const.h" />
+    <ClInclude Include="valve\public\public.h" />
     <ClInclude Include="valve\shared\csgo_player_anim_state.h" />
     <ClInclude Include="valve\shared\cs_gamerules.h" />
     <ClInclude Include="valve\shared\in_buttons.h" />

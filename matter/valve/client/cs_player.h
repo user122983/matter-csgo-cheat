@@ -200,5 +200,13 @@ struct cs_player : base_animating {
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
 	}
+
+	auto get_shots_fired( ) {
+		 
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_iShotsFired" ) ];
+
+		return reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
 	
 };
