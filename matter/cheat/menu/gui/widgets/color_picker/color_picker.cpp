@@ -16,7 +16,7 @@ void color_picker::geometry( ) {
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
 
 	m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_size.m_width, m_size.m_height, m_color );
-	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_size.m_width, m_size.m_height, color( 45, 45, 45 ) );
+	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_size.m_width, m_size.m_height, m_menu.m_colors.dark3 );
 
 	if ( m_is_open ) {
 

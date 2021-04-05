@@ -8,6 +8,8 @@
 #include "gui/widgets/color_picker/color_picker.h"
 #include "gui/widgets/box/box.h"
 
+#include "../../other/color/color.h"
+
 #include <memory>
 
 struct legitbot_widgets {
@@ -51,7 +53,12 @@ struct menu {
 		color white = color( 255, 255, 255 );
 		color blue1 = color( 139, 195, 235 );
 		color blue2 = color( 129, 185, 225 );
-		
+		color blue3 = color( 109, 165, 205 );
+		color dark1 = color( 37, 37, 37 );
+		color dark2 = color( 30, 30, 30 );
+		color dark3 = color( 45, 45, 45 );
+		color dark4 = color( 35, 35, 35 );
+		color dark5 = color( 55, 55, 55 );
 
 	} m_colors = { };
 	

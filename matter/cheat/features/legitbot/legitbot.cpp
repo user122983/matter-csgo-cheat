@@ -132,15 +132,20 @@ void legitbot::fakelag( ) {
 		
 	}
 
-	const auto triggered_on_ground = m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_local_player.pointer->get_flags( ) & fl_onground;
-	const auto triggered_in_air = m_menu.m_antiaim_fakelag_triggers->get_index( trigger_in_air ) && !( m_local_player.pointer->get_flags( ) & fl_onground );
-	const auto triggered_on_shot = m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_shot ) && *m_local_player.pointer->get_shots_fired() > 0;
-	const auto triggered_on_reload = m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_reload ) && m_local_player.pointer->is_activity_active( activity_reload );
+	// think how to make this better
 	
-	if ( triggered_on_ground || triggered_in_air || triggered_on_shot || triggered_on_reload )
+	if ( m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_local_player.pointer->get_flags( ) & fl_onground ||
+		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_in_air ) && !( m_local_player.pointer->get_flags() & fl_onground ) ||
+		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_shot ) && *m_local_player.pointer->get_shots_fired( ) > 0 ||
+		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_reload ) && m_local_player.pointer->is_activity_active( activity_reload ) ) {
+
 		m_fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_triggers_value->get_value( ) );
-	else 
+
+	} else {
+
 		m_fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_value->get_value( ) );
+		
+	}	
 
 	if ( !m_fakelag_value )
 		return;

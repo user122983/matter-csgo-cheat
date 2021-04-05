@@ -51,14 +51,14 @@ void box::geometry( ) {
 
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
 	
-	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, color( 37, 37, 37 ), color( 35, 35, 35 ), false );
-	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, color( 45, 45, 45 ) );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 8, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, m_title, color( 255, 255, 255 ), y_centre );
+	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark1, m_menu.m_colors.dark4, false );
+	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark3 );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 8, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, m_title, m_menu.m_colors.white, y_centre );
 	
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 8, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 1, 8, 1, color( 55, 55, 55 ) );
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 7, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 2, 6, 1, color( 55, 55, 55 ) );
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 6, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 3, 4, 1, color( 55, 55, 55 ) );
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 5, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 4, 2, 1, color( 55, 55, 55 ) );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 8, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 1, 8, 1, m_menu.m_colors.dark5 );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 7, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 2, 6, 1, m_menu.m_colors.dark5 );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 6, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 3, 4, 1, m_menu.m_colors.dark5 );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 5, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 4, 2, 1, m_menu.m_colors.dark5 );
 	
 	std::string selected_text;
 
@@ -68,11 +68,11 @@ void box::geometry( ) {
 			
 			const area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i ) * 20 + m_widget_area.m_height, m_widget_area.m_width, 20 };
 			
-			m_render.draw_filled_rect( entry_area.m_x, entry_area.m_y, entry_area.m_width, entry_area.m_height, color( 37, 37, 37 ) );
+			m_render.draw_filled_rect( entry_area.m_x, entry_area.m_y, entry_area.m_width, entry_area.m_height, m_menu.m_colors.dark1 );
 
 			auto text_color = color( 255,255,255 );
 			if ( m_box_type == box_type_combobox && m_selected_entry == i || m_box_type == box_type_multibox && m_entries.second.at( i ) == 1 )
-				text_color = color( 139, 195, 235 );
+				text_color = m_menu.m_colors.blue1;
 					
 			m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + m_widget_area.m_height / 2, m_entries.first.at( i ), text_color, y_centre );
 			
@@ -121,7 +121,7 @@ void box::geometry( ) {
 		selected_text = "None";
 	 
 	const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + text_size.m_width + 12, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, selected_text, color( 255, 255, 255 ), y_centre );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + text_size.m_width + 12, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, selected_text, m_menu.m_colors.white, y_centre );
 	
 }
 

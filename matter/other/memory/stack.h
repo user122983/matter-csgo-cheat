@@ -18,13 +18,13 @@ struct stack : address {
 
 	template< typename t = address > t local( const std::size_t offset ) {
 
-		return static_cast< t >( m_address - offset );
+		return ( t )( m_address - offset );
 
 	}
 
 	template< typename t = address > t argument( const std::size_t offset ) {
 
-		return static_cast< t >( m_address + offset);
+		return ( t )( m_address + offset);
 
 	}
 

@@ -10,7 +10,7 @@ DWORD WINAPI cheat::setup( void* parameter ) {
 
 	const auto handle = static_cast< HMODULE >( parameter );
 
-	m_console.setup( "cheat.club" );
+	m_console.setup( "cheat" );
 
 	while ( !( m_matter.m_window = FindWindowA( "Valve001", nullptr ) ) )
 		m_utils.sleep( 100 );

@@ -42,16 +42,16 @@ void slider::geometry( ) {
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
 
 	const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y - text_size.m_height - 2, m_title, color( 255, 255, 255 ) );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y - text_size.m_height - 2, m_title, m_menu.m_colors.white );
 
 	auto value_text = std::to_string( static_cast< int >( m_value ) );
 	if ( !m_prefix.empty( ) )
 		value_text = value_text + " " + m_prefix.data( );
 	
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_widget_area.m_width - m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( value_text.begin( ), value_text.end( ) ) ).m_width, m_widget_area.m_y - text_size.m_height - 2, value_text, color( 255, 255, 255 ) );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_widget_area.m_width - m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( value_text.begin( ), value_text.end( ) ) ).m_width, m_widget_area.m_y - text_size.m_height - 2, value_text, m_menu.m_colors.white );
 
-	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, color( 37, 37, 37 ), color( 30, 30, 30 ), false );
-	m_render.draw_gradient( m_widget_area.m_x + 1, m_widget_area.m_y + 1, m_value / m_max * ( m_size.m_width - 2 ), 5, color( 139, 195, 235 ), color( 109, 165, 205 ), false );
+	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark1, m_menu.m_colors.dark2, false );
+	m_render.draw_gradient( m_widget_area.m_x + 1, m_widget_area.m_y + 1, m_value / m_max * ( m_size.m_width - 2 ), 5, m_menu.m_colors.blue1, m_menu.m_colors.blue3, false );
 
 }
 
