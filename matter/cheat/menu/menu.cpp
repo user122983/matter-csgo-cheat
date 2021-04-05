@@ -1,0 +1,172 @@
+#include "menu.h"
+
+#include "gui/builder.h"
+
+bool menu::setup( ) {
+	
+	m_menu = std::make_shared< container >( );
+	m_builder.widget( m_menu ).size( 860, 540 ).position( 400, 400 );
+
+	m_tab_panel = std::make_shared< tab_panel >( );
+	m_builder.widget( m_tab_panel ).size( 200, 40 ).position( 0, 170 ).tabs( tabs ).spawn_in( m_menu );
+
+	// legitbot
+		
+	m_legitbot_container = std::make_shared< container >( );
+	m_builder.widget( m_legitbot_container ).size( 285, 480 ).position( 230, 30 ).title( "Legitbot" ).spawn_in( m_menu ).medium( m_tab_panel, 0 );
+	
+	m_legitbot_activation = std::make_shared< key_binder >( );
+	m_builder.widget( m_legitbot_activation ).position( 233, 25 ).spawn_in( m_legitbot_container );
+
+	m_legitbot_weapon = std::make_shared< box >( );
+	m_builder.widget( m_legitbot_weapon ).position( 54, 54 ).title( "Weapon:" ).entries( m_weapon_names ).spawn_in( m_legitbot_container ).type( box_type_combobox ).lock_input( m_legitbot_activation );
+
+	// triggerbot
+
+	m_triggerbot_container = std::make_shared< container >( );
+	m_builder.widget( m_triggerbot_container ).size( 285, 225 ).position( 545, 30 ).title( "Triggerbot" ).spawn_in( m_menu ).medium( m_tab_panel, 0 );
+
+	m_triggerbot_activation = std::make_shared< key_binder >( );
+	m_builder.widget( m_triggerbot_activation ).position( 233, 25 ).spawn_in( m_triggerbot_container );
+	
+	for ( unsigned int i = 0; i < m_weapon_widgets.size( ); i++ ) {
+
+		std::vector< std::shared_ptr< widgets > > m_legitbot_lock_input_widgets {
+
+			m_legitbot_activation,
+			m_legitbot_weapon,
+			m_weapon_widgets[ i ].m_target,
+			m_weapon_widgets[ i ].m_ignore,
+			m_weapon_widgets[ i ].m_accuracy
+			
+		};
+		
+		m_weapon_widgets[ i ].m_enabled = std::make_shared< checkbox >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_enabled ).position( 30, 30 ).title( i == 0 ? "Enabled" : "Override" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i );
+		
+		m_weapon_widgets[ i ].m_friendly_fire = std::make_shared< checkbox >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_friendly_fire ).position( 30, 87 ).title( "Friendly fire" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i );
+
+		m_weapon_widgets[ i ].m_target = std::make_shared< box >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_target ).position( 54, 111 ).title( "Target:" ).entries( m_target_names ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).type( box_type_combobox );
+		
+		m_weapon_widgets[ i ].m_silent_aim = std::make_shared< checkbox >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_silent_aim ).position( 30, 144 ).title( "Silent aim" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).lock_input( m_weapon_widgets[ i ].m_target );
+
+		m_weapon_widgets[ i ].m_fov = std::make_shared< slider >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_fov ).position( 54, 179 ).title( "Fov" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 180.f ).lock_input( m_legitbot_weapon ).lock_input( m_weapon_widgets[ i ].m_target );
+
+		m_weapon_widgets[ i ].m_smooth = std::make_shared< slider >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_smooth ).position( 54, 212 ).title( "Smooth" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 100.f ).lock_input( m_weapon_widgets[ i ].m_target );
+
+		m_weapon_widgets[ i ].m_rcs_enabled = std::make_shared< checkbox >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_rcs_enabled ).position( 30, 234 ).title( "Recoil control" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i );
+
+		m_weapon_widgets[ i ].m_rcs_x = std::make_shared< slider >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_rcs_x ).position( 54, 267 ).title( "X" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 10.f );
+
+		m_weapon_widgets[ i ].m_rcs_y = std::make_shared< slider >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_rcs_y ).position( 54, 300 ).title( "Y" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range(0.f, 10.f );
+
+		m_weapon_widgets[ i ].m_ignore = std::make_shared< box >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_ignore ).position( 54, 325 ).title( "Ignore:" ).entries( m_ignore_names ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).type( box_type_multibox );
+
+		m_weapon_widgets[ i ].m_accuracy = std::make_shared< box >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_accuracy ).position( 54, 358 ).title( "Accuracy:" ).entries( m_accuracy_names ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).type( box_type_multibox ).lock_input( m_weapon_widgets[ i ].m_ignore );
+		 
+		m_weapon_widgets[ i ].m_backtrack = std::make_shared< slider >( ); 
+		m_builder.widget( m_weapon_widgets[ i ].m_backtrack ).position( 54, 402 ).title( "Backtrack" ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 400.f ).prefix( "ms" );
+
+		std::vector< std::shared_ptr< widgets > > m_triggerbot_lock_input_widgets {
+
+			m_triggerbot_activation,
+			m_weapon_widgets[ i ].m_triggerbot_hitbox,
+			m_weapon_widgets[ i ].m_triggerbot_ignore
+
+		};
+		
+		m_weapon_widgets[ i ].m_triggerbot_enabled = std::make_shared< checkbox >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_enabled ).position( 30, 30 ).title( i == 0 ? "Enabled" : "Override" ).spawn_in( m_triggerbot_container ).medium( m_legitbot_weapon, i );
+
+		m_weapon_widgets[ i ].m_triggerbot_hitbox = std::make_shared< box >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_hitbox ).position( 54, 54 ).title( "Hitbox:" ).entries( m_hitbox_names ).spawn_in( m_triggerbot_container ).type( box_type_multibox ).lock_input( m_triggerbot_activation );
+
+		m_weapon_widgets[ i ].m_triggerbot_friendly_fire = std::make_shared< checkbox >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_friendly_fire ).position( 30, 87 ).title( "Friendly fire" ).spawn_in( m_triggerbot_container ).medium( m_legitbot_weapon, i ).lock_input( m_weapon_widgets[ i ].m_triggerbot_hitbox );
+
+		m_weapon_widgets[ i ].m_triggerbot_ignore = std::make_shared< box >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_ignore ).position( 54, 111 ).title( "Ignore:" ).entries( m_ignore_names ).spawn_in( m_triggerbot_container ).medium( m_legitbot_weapon, i ).type( box_type_multibox ).lock_input( m_weapon_widgets[ i ].m_triggerbot_hitbox );
+
+		m_weapon_widgets[ i ].m_triggerbot_delay = std::make_shared< slider >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_delay ).position( 54, 155 ).title( "Delay" ).spawn_in( m_triggerbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 100.f ).prefix( "ms" ).lock_input( m_weapon_widgets[ i ].m_triggerbot_hitbox ).lock_input( m_weapon_widgets[ i ].m_triggerbot_ignore );
+
+		m_weapon_widgets[ i ].m_triggerbot_hitchance = std::make_shared< slider >( );
+		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_hitchance ).position( 54, 185 ).title( "Hitchance" ).spawn_in( m_triggerbot_container ).medium( m_legitbot_weapon, i ).range(0.f, 100.f ).prefix( "%" );
+		
+	}
+	
+	// antiaim
+	
+	m_antiaim_container = std::make_shared< container >( );
+	m_builder.widget( m_antiaim_container ).size( 285, 225 ).position( 545, 285 ).title( "Antiaim" ).spawn_in( m_menu ).medium( m_tab_panel, 0 );
+
+	m_antiaim_enabled = std::make_shared< checkbox >( );
+	m_builder.widget( m_antiaim_enabled ).position( 30, 30 ).title( "Enabled" ).spawn_in( m_antiaim_container );
+
+	m_antiaim_desync = std::make_shared< box >( );
+	m_builder.widget( m_antiaim_desync ).position( 54, 54 ).title( "Desync:" ).entries( m_desync_names ).spawn_in( m_antiaim_container ).type( box_type_combobox );
+
+	m_antiaim_fakelag_type = std::make_shared< box >( );
+	m_builder.widget( m_antiaim_fakelag_type ).position( 54, 87 ).title( "Fakelag:" ).entries( m_fakelag_names ).spawn_in( m_antiaim_container ).type( box_type_combobox ).lock_input( m_antiaim_desync );
+
+	m_antiaim_fakelag_value = std::make_shared< slider >( );
+	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 131 ).title( "Choke:" ).spawn_in( m_antiaim_container ).range( 0.f, 14.f ).prefix( "ticks" ).lock_input( m_antiaim_fakelag_type );
+
+	m_antiaim_fakelag_triggers = std::make_shared< box >( );
+	m_builder.widget( m_antiaim_fakelag_triggers ).position( 54, 153 ).title( "Trigger:" ).entries( m_fakelag_triggers_names ).spawn_in( m_antiaim_container ).type( box_type_multibox ).lock_input( m_antiaim_fakelag_type );
+
+	m_antiaim_fakelag_triggers_value = std::make_shared< slider >( );
+	m_builder.widget( m_antiaim_fakelag_triggers_value ).position( 54, 197 ).title( "Trigger choke:" ).spawn_in( m_antiaim_container ).range( 0.f, 14.f ).prefix( "ticks" ).lock_input( m_antiaim_fakelag_triggers );
+	
+	// esp
+	
+	m_esp_container = std::make_shared< container >( );
+	m_builder.widget( m_esp_container ).size( 285, 480 ).position( 230, 30 ).title( "Esp" ).spawn_in( m_menu ).medium( m_tab_panel, 1 );
+
+	m_esp_player = std::make_shared< box >( );
+	m_builder.widget( m_esp_player ).position( 54, 54 ).title( "Player:" ).entries( m_player_names ).spawn_in( m_esp_container ).type( box_type_combobox );
+
+	for ( std::uint8_t i = 0; i < m_esp_widgets.size( ); i++ ) {
+
+		m_esp_widgets[ i ].m_enabled = std::make_shared< checkbox >( );
+		m_builder.widget( m_esp_widgets[ i ].m_enabled ).position( 30, 30 ).title( "Enabled" ).spawn_in( m_esp_container ).medium( m_esp_player, i );
+
+		m_esp_widgets[ i ].m_box = std::make_shared< checkbox >( );
+		m_builder.widget( m_esp_widgets[ i ].m_box ).position( 30, 87 ).title( "Box" ).spawn_in( m_esp_container ).medium( m_esp_player, i ).lock_input( m_esp_player );
+
+		m_esp_widgets[ i ].m_box_color = std::make_shared< color_picker >( );
+		m_builder.widget( m_esp_widgets[ i ].m_box_color ).position( 211, 87 ).spawn_in( m_esp_container ).medium( m_esp_player, i ).lock_input( m_esp_player );
+		
+	}
+		
+	// chams
+	
+	m_chams_container = std::make_shared< container >( );
+	m_builder.widget( m_chams_container ).size( 285, 225 ).position( 545, 30 ).title( "Chams" ).spawn_in( m_menu ).medium( m_tab_panel, 1 );
+
+	// hud
+	
+	m_hud_container = std::make_shared< container >( );
+	m_builder.widget( m_hud_container ).size( 285, 225 ).position( 545, 285 ).title( "Hud" ).spawn_in( m_menu ).medium( m_tab_panel, 1 );
+
+	// misc
+
+	m_misc_container = std::make_shared< container >( );
+	m_builder.widget( m_misc_container ).size( 285, 480 ).position( 230, 30 ).title( "Misc" ).spawn_in( m_menu ).medium( m_tab_panel, 3 );
+
+	m_server_hitboxes = std::make_shared< checkbox >( );
+	m_builder.widget( m_server_hitboxes ).position( 30, 30 ).title( "Server hitboxes" ).spawn_in( m_misc_container );
+	
+	return true;
+	
+}
