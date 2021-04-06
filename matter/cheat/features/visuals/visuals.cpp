@@ -59,13 +59,9 @@ void visuals::run( ) {
 
 		draw_flags( );
 
-		if ( !m_player.is_dormant ) {
+		draw_ammo( );
 
-			draw_ammo( );
-
-			draw_weapon( );
-
-		}
+		draw_weapon( );
 
 	}
 	

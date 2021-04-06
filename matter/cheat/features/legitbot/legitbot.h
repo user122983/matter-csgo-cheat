@@ -36,11 +36,13 @@ struct legitbot {
 
 private:
 
-	void antiaim( ) const;
+	void antiaim( );
 
 	void fakelag( );
 
 	int m_fakelag_value = 0;
+
+	float m_next_lby_update = -1.f;
 	
 	struct {
 

@@ -70,7 +70,7 @@ void box::geometry( ) {
 			
 			m_render.draw_filled_rect( entry_area.m_x, entry_area.m_y, entry_area.m_width, entry_area.m_height, m_menu.m_colors.dark1 );
 
-			auto text_color = color( 255,255,255 );
+			auto text_color = m_menu.m_colors.white;
 			if ( m_box_type == box_type_combobox && m_selected_entry == i || m_box_type == box_type_multibox && m_entries.second.at( i ) == 1 )
 				text_color = m_menu.m_colors.blue1;
 					

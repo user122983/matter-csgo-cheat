@@ -18,9 +18,9 @@ bool __fastcall hooked::create_move( void* ecx, void* edx, const float input_sam
 	
 	m_globals.m_cmd = cmd;
 	
-	auto& send_packet = *reinterpret_cast< bool* >( *reinterpret_cast< std::uintptr_t* >( reinterpret_cast< std::uintptr_t >( _AddressOfReturnAddress( ) ) - sizeof( std::uintptr_t ) ) - 0x1C );
+	const stack stack( _AddressOfReturnAddress( ) );
 
-	m_legitbot.m_send_packet = &send_packet;
+	m_legitbot.m_send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	
 	auto old_view_angles = m_globals.m_cmd->m_view_angles;
 	

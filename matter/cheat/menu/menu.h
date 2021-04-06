@@ -51,6 +51,7 @@ struct menu {
 	struct {
 
 		color white = color( 255, 255, 255 );
+		color white2 = color( 255, 255, 255, 50 );
 		color blue1 = color( 139, 195, 235 );
 		color blue2 = color( 129, 185, 225 );
 		color blue3 = color( 109, 165, 205 );

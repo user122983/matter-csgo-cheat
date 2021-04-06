@@ -33,14 +33,14 @@ void legitbot::run( ) {
 
 	fakelag( );
 
-	if ( m_globals.m_cmd->m_buttons & in_use || m_globals.m_cmd->m_buttons & in_attack )
+	if ( m_globals.m_cmd->m_buttons & in_use ) 
 		return;
-
+		
 	antiaim( );
 
 }
 
-void legitbot::antiaim( ) const {
+void legitbot::antiaim( ) {
 	
 	static auto m_last_desync_type = 0;
 
@@ -54,7 +54,7 @@ void legitbot::antiaim( ) const {
 	
 	auto micromovement_desync = [ ]( const float yaw ) {
 
-		if ( m_globals.m_cmd->m_buttons & ( in_move_left ) || m_globals.m_cmd->m_buttons & ( in_move_right ) )
+		if ( m_globals.m_cmd->m_buttons & in_move_left || m_globals.m_cmd->m_buttons & in_move_right )
 			return;
 
 		static auto move_side = false;
@@ -83,7 +83,7 @@ void legitbot::antiaim( ) const {
 
 		static float spawn_time;
 		
-		if ( spawn_time != m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended ) {
+		if ( spawn_time != m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended || m_next_lby_update == -1.f ) {
 
 			spawn_time = m_local_player.pointer->get_spawn_time( );
 
@@ -93,7 +93,6 @@ void legitbot::antiaim( ) const {
 
 		const auto server_time = m_interfaces.m_globals->m_interval_per_tick * m_interfaces.m_client_state->m_clockdriftmgr.m_servertick;
 
-		static auto m_next_lby_update = -1.f;
 		if ( m_local_player.anim_state->m_velocity_length_xy > 0.1 )
 			m_next_lby_update = server_time + 0.22f;
 		else if ( server_time >= m_next_lby_update || m_next_lby_update == -1.f )
@@ -101,8 +100,8 @@ void legitbot::antiaim( ) const {
 
 		if ( m_next_lby_update - server_time <= m_interfaces.m_globals->m_interval_per_tick ) {
 
-			m_globals.m_cmd->m_view_angles.y += 120;
 			*m_send_packet = false;
+			m_globals.m_cmd->m_view_angles.y += 120;
 
 		} else {
 
@@ -132,7 +131,7 @@ void legitbot::fakelag( ) {
 		
 	}
 
-	// think how to make this better
+	// think how to make this cleaner / readable
 	
 	if ( m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_local_player.pointer->get_flags( ) & fl_onground ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_in_air ) && !( m_local_player.pointer->get_flags() & fl_onground ) ||
@@ -156,6 +155,8 @@ void legitbot::fakelag( ) {
 			break;
 		case fakelag_adaptive:
 			m_fakelag_value = m_fakelag_value * ( m_local_player.anim_state->m_velocity_length_xy / m_weapon.pointer->get_max_speed( ) );
+			break;
+		default: 
 			break;
 	}
 	
