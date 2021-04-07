@@ -32,17 +32,13 @@ struct legitbot {
 	
 	void run( );
 
-	bool* m_send_packet = nullptr;
-
 private:
 
-	void antiaim( );
+	void antiaim( ) const;
 
 	void fakelag( );
 
 	int m_fakelag_value = 0;
-
-	float m_next_lby_update = -1.f;
 	
 	struct {
 

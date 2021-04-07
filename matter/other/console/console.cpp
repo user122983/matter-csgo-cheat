@@ -6,7 +6,7 @@
 
 bool console::setup( const std::string_view name ) {
 
-	if ( !m_matter.m_debug_mode || !AllocConsole( ) )
+	if ( !m_cheat.m_debug_mode || !AllocConsole( ) )
 		return false;
 
 	freopen_s( reinterpret_cast< _iobuf** >( stdout ), "CONOUT$", "w", stdout );
@@ -29,7 +29,7 @@ void console::unload( ) {
 
 void console::log( std::string_view format, ... ) {
 
-	if ( !m_matter.m_debug_mode || std::strlen( format.data( ) ) >= sizeof( m_buffer ) )
+	if ( !m_cheat.m_debug_mode || std::strlen( format.data( ) ) >= sizeof( m_buffer ) )
 		return;
 
 	va_list arguments;

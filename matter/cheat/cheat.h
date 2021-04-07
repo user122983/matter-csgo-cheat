@@ -27,4 +27,4 @@ struct cheat {
 
 };
 
-inline cheat m_matter;
+inline cheat m_cheat;

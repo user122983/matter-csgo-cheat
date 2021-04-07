@@ -3,6 +3,7 @@
 #include "base_combat_character.h"
 
 struct user_cmd;
+struct base_view_model;
 
 struct base_player : base_combat_character {
 
@@ -27,6 +28,28 @@ struct base_player : base_combat_character {
 		const auto function = m_signatures.m_util_player_by_index.as< base_player* ( __thiscall* )( int ) >( );
 
 		return function( entindex );
+
+	}
+
+	auto& get_sequence( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_nSequence" ) ];
+
+		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+
+	auto get_view_model( const int index ) {
+
+		const auto function = m_signatures.m_get_view_model.as< base_view_model* ( __thiscall* )( void*, int ) >( );
+
+		return function( this, index );
+
+	}
+	
+	auto is_local_player( ) {
+
+		return m_utils.get_v_func< bool( __thiscall* )( void* ) >( this, 157 )( this );
 
 	}
 

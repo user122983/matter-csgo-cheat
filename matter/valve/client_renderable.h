@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../other/math/vector_3d.h"
+
 struct client_renderable {
 
 	auto& get_render_origin( ) {

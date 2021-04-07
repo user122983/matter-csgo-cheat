@@ -20,7 +20,7 @@ bool __fastcall hooked::create_move( void* ecx, void* edx, const float input_sam
 	
 	const stack stack( _AddressOfReturnAddress( ) );
 
-	m_legitbot.m_send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
+	m_globals.m_send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	
 	auto old_view_angles = m_globals.m_cmd->m_view_angles;
 	

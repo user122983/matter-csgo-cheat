@@ -14,6 +14,10 @@ struct globals {
 	bool m_third_person = false;
 
 	bool m_cs_game_rules_captured = false;
+
+	float m_server_time = 0.f;
+
+	bool* m_send_packet = nullptr; 
 	
 };
 

@@ -189,6 +189,7 @@
     <ClInclude Include="valve\client\animation_layer.h" />
     <ClInclude Include="valve\client\base_animating.h" />
     <ClInclude Include="valve\client\base_combat_character.h" />
+    <ClInclude Include="valve\client\base_cs_grenade.h" />
     <ClInclude Include="valve\client\base_entity.h" />
     <ClInclude Include="valve\client\base_player.h" />
     <ClInclude Include="valve\client\client.h" />
@@ -223,8 +224,10 @@
     <ClInclude Include="valve\net_channel.h" />
     <ClInclude Include="valve\public\const.h" />
     <ClInclude Include="valve\public\public.h" />
+    <ClInclude Include="valve\shared\base_view_model.h" />
     <ClInclude Include="valve\shared\csgo_player_anim_state.h" />
     <ClInclude Include="valve\shared\cs_gamerules.h" />
+    <ClInclude Include="valve\shared\cs_weapon_parse.h" />
     <ClInclude Include="valve\shared\in_buttons.h" />
     <ClInclude Include="valve\shared\shared.h" />
     <ClInclude Include="valve\shared\user_cmd.h" />
@@ -253,6 +256,7 @@
     <ClCompile Include="cheat\hooked\functions\client_mode_shared.cpp" />
     <ClCompile Include="cheat\hooked\functions\cl_main.cpp" />
     <ClCompile Include="cheat\hooked\functions\csgo_player_anim_state.cpp" />
+    <ClCompile Include="cheat\hooked\functions\cs_player.cpp" />
     <ClCompile Include="cheat\hooked\functions\mat_system_surface.cpp" />
     <ClCompile Include="cheat\hooked\functions\scheme_manager.cpp" />
     <ClCompile Include="cheat\hooked\functions\studio_render.cpp" />

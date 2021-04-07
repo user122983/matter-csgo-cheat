@@ -120,13 +120,13 @@ bool menu::setup( ) {
 	m_builder.widget( m_antiaim_fakelag_type ).position( 54, 87 ).title( "Fakelag:" ).entries( m_fakelag_names ).spawn_in( m_antiaim_container ).type( box_type_combobox ).lock_input( m_antiaim_desync );
 
 	m_antiaim_fakelag_value = std::make_shared< slider >( );
-	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 131 ).title( "Choke:" ).spawn_in( m_antiaim_container ).range( 0.f, 14.f ).prefix( "ticks" ).lock_input( m_antiaim_fakelag_type );
+	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 131 ).title( "Choke:" ).spawn_in( m_antiaim_container ).range( 0.f, 16.f ).prefix( "ticks" ).lock_input( m_antiaim_fakelag_type );
 
 	m_antiaim_fakelag_triggers = std::make_shared< box >( );
 	m_builder.widget( m_antiaim_fakelag_triggers ).position( 54, 153 ).title( "Trigger:" ).entries( m_fakelag_triggers_names ).spawn_in( m_antiaim_container ).type( box_type_multibox ).lock_input( m_antiaim_fakelag_type );
 
 	m_antiaim_fakelag_triggers_value = std::make_shared< slider >( );
-	m_builder.widget( m_antiaim_fakelag_triggers_value ).position( 54, 197 ).title( "Trigger choke:" ).spawn_in( m_antiaim_container ).range( 0.f, 14.f ).prefix( "ticks" ).lock_input( m_antiaim_fakelag_triggers );
+	m_builder.widget( m_antiaim_fakelag_triggers_value ).position( 54, 197 ).title( "Trigger choke:" ).spawn_in( m_antiaim_container ).range( 0.f, 16.f ).prefix( "ticks" ).lock_input( m_antiaim_fakelag_triggers );
 	
 	// esp
 	

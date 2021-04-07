@@ -9,6 +9,7 @@
  *  return on grenade throw etc, ladder ...
  *
  *  small sway on normal desync when crouched
+ *  when switching ANIMATION_LAYER_ADJUST
  *  
  */
 
@@ -33,6 +34,27 @@ void legitbot::run( ) {
 
 	fakelag( );
 
+	/*	if ( m_weapon.pointer->is_gun( ) ) {
+
+		if ( m_weapon.pointer->can_shoot( ) && ( m_globals.m_cmd->m_buttons & in_attack
+			|| m_local_player.pointer->get_item_definition_index( ) == weapon_revolver && m_globals.m_cmd->m_buttons & in_attack2 ) )
+			return;
+
+	} else if ( m_weapon.info->m_weapon_type == weapon_type_knife ) {
+
+		if ( ( m_globals.m_cmd->m_buttons & in_attack && m_local_player.pointer->get_next_primary_attack( ) <= m_globals.m_m_globals.m_server_time ) ||
+			( m_globals.m_cmd->m_buttons & in_attack2 && m_local_player.pointer->get_next_secondary_attack( ) <= m_globals.m_m_globals.m_server_time ) )
+			return;
+
+	} else if ( auto grenade = reinterpret_cast< base_cs_grenade* >( m_local_player.pointer->get_active_weapon( ) ); grenade && m_weapon.info->m_weapon_type == weapon_type_grenade ) {
+
+		if ( !grenade->is_pin_pulled( ) || m_globals.m_cmd->m_buttons & ( in_attack | in_attack2 ) ) {
+
+			if ( grenade->get_throw_time( ) > 0.f )
+				return;
+
+		} */
+	
 	if ( m_globals.m_cmd->m_buttons & in_use ) 
 		return;
 		
@@ -40,7 +62,7 @@ void legitbot::run( ) {
 
 }
 
-void legitbot::antiaim( ) {
+void legitbot::antiaim( ) const {
 	
 	static auto m_last_desync_type = 0;
 
@@ -51,8 +73,10 @@ void legitbot::antiaim( ) {
 		return;
 		
 	}
+
+	const auto is_shooting = m_weapon.pointer->can_shoot( ) && m_globals.m_cmd->m_buttons & in_attack;
 	
-	auto micromovement_desync = [ ]( const float yaw ) {
+	auto micromovement_desync = [ is_shooting ]( const float yaw ) {
 
 		if ( m_globals.m_cmd->m_buttons & in_move_left || m_globals.m_cmd->m_buttons & in_move_right )
 			return;
@@ -65,10 +89,13 @@ void legitbot::antiaim( ) {
 
 		move_side = !move_side;
 
-		if ( !m_legitbot.m_fakelag_value )
-			*m_legitbot.m_send_packet = m_globals.m_cmd->m_command_number % 2;
+		if ( is_shooting )
+			return;
 		
-		if ( !*m_legitbot.m_send_packet )
+		if ( !m_legitbot.m_fakelag_value )
+			*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
+		
+		if ( !*m_globals.m_send_packet )
 			m_globals.m_cmd->m_view_angles.y += yaw;
 
 	};
@@ -83,32 +110,33 @@ void legitbot::antiaim( ) {
 
 		static float spawn_time;
 		
-		if ( spawn_time != m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended || m_next_lby_update == -1.f ) {
+		if ( spawn_time != m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended ) {
 
 			spawn_time = m_local_player.pointer->get_spawn_time( );
 
 			micromovement_desync( 120.f );
 			
 		}
-
-		const auto server_time = m_interfaces.m_globals->m_interval_per_tick * m_interfaces.m_client_state->m_clockdriftmgr.m_servertick;
-
+		
+		static auto next_lby_update = -1.f;
 		if ( m_local_player.anim_state->m_velocity_length_xy > 0.1 )
-			m_next_lby_update = server_time + 0.22f;
-		else if ( server_time >= m_next_lby_update || m_next_lby_update == -1.f )
-			m_next_lby_update = server_time + 1.1f;
+			next_lby_update = m_globals.m_server_time + 0.22f;
+		else if ( m_globals.m_server_time >= next_lby_update || next_lby_update == -1.f )
+			next_lby_update = m_globals.m_server_time + 1.1f;
 
-		if ( m_next_lby_update - server_time <= m_interfaces.m_globals->m_interval_per_tick ) {
+		if ( next_lby_update - m_globals.m_server_time <= m_interfaces.m_globals->m_interval_per_tick ) {
 
-			*m_send_packet = false;
-			m_globals.m_cmd->m_view_angles.y += 120;
+			*m_globals.m_send_packet = false;
+
+			if ( !is_shooting )
+				m_globals.m_cmd->m_view_angles.y += 120;
 
 		} else {
 
 			if ( !m_fakelag_value )
-				*m_send_packet = m_globals.m_cmd->m_command_number % 2;
-			
-			if ( !*m_legitbot.m_send_packet )
+				*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
+	
+			if ( !*m_globals.m_send_packet && !is_shooting )
 				m_globals.m_cmd->m_view_angles.y -= 120;
 
 		}
@@ -161,6 +189,6 @@ void legitbot::fakelag( ) {
 	}
 	
 	m_fakelag_value = m_interfaces.m_cs_game_rules_proxy->is_valve_server( ) ? std::clamp( m_fakelag_value, 0, 6 ) : m_fakelag_value;
-	*m_legitbot.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= m_fakelag_value;
+	*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= m_fakelag_value;
 	
 }

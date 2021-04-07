@@ -1,20 +1,10 @@
 #pragma once
 
 #include "base_entity.h"
+#include "../../cheat/features/globals.h"
 
-enum weapon_type {
-	
-	weapon_type_knife = 0,
-	weapon_type_pistol = 1,
-	weapon_type_submachinegun = 2,
-	weapon_type_rifle = 3,
-	weapon_type_shotgun = 4,
-	weapon_type_sniper = 5,
-	weapon_type_machinegun = 6,
-	weapon_type_c4 = 7,
-	weapon_type_grenade = 9,
-	
-};
+#include "../interfaces/interfaces.h"
+#include "../shared/cs_weapon_parse.h"
 
 struct cs_weapon_info {
 
@@ -32,6 +22,30 @@ struct weapon_cs_base : base_entity {
 	auto& get_ammo( ) {
 
 		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_iClip1" ) ];
+
+		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+
+	auto& get_view_model_index( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_nViewModelIndex" ) ];
+
+		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+
+	auto is_burst_mode( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_bBurstMode" ) ];
+
+		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+
+	auto get_burst_shots_remaining( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_iBurstShotsRemaining" ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -65,6 +79,29 @@ struct weapon_cs_base : base_entity {
 
 		return false;
 
+	}
+
+	auto can_shoot( ) {
+
+		if ( !this->is_gun( ) )
+			return false;
+
+		m_console.log("next attack: %f", m_globals.m_local_player->get_next_attack( ) );
+		m_console.log("next primary attack: %f", m_globals.m_local_player->get_next_primary_attack( ) );
+		
+		if ( this->get_ammo( ) <= 0 || m_globals.m_local_player->get_next_attack( ) > m_globals.m_server_time )
+			return false;
+
+		const auto weapon_definition_index = m_globals.m_local_player->get_item_definition_index( );
+
+		if ( ( weapon_definition_index == weapon_famas || weapon_definition_index == weapon_glock ) && this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
+			return true;
+
+		if ( m_globals.m_local_player->get_next_primary_attack( ) >= m_globals.m_server_time )
+			return false;
+
+		return true;
+		
 	}
 
 };

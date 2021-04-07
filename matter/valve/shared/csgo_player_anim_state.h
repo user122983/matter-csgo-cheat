@@ -44,6 +44,14 @@ struct animstate_pose_param_cache {
 
 struct csgo_player_anim_state {
 
+	auto update( const float y, const float x ) {
+
+		const auto function = m_signatures.m_update.as< void( __vectorcall* )( void*, void*, float, float, float, void* ) >( );
+
+		return function( this, nullptr, 0.f, y, x, nullptr );
+
+	}
+	
 	auto set_up_velocity( ) {
 
 		const auto function = m_signatures.m_setup_velocity.as< void( __thiscall* )( void* ) >( );
@@ -197,6 +205,7 @@ struct csgo_player_anim_state {
 	float m_aim_yaw_max; 
 	float m_aim_pitch_min; 
 	float m_aim_pitch_max; 
+	int m_animstate_version;
 
 	// custom members
 	

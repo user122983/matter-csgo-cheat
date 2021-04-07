@@ -4,7 +4,7 @@
 
 bool input::setup( ) {
 
-	m_original_wnd_proc = reinterpret_cast< WNDPROC >( SetWindowLongPtr( m_matter.m_window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( wnd_proc ) ) );
+	m_original_wnd_proc = reinterpret_cast< WNDPROC >( SetWindowLongPtr( m_cheat.m_window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( wnd_proc ) ) );
 	if ( !m_original_wnd_proc )
 		return false;
 
@@ -17,7 +17,7 @@ void input::unload( ) const {
 	if ( !m_original_wnd_proc )
 		return;
 
-	SetWindowLongPtr( m_matter.m_window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( m_original_wnd_proc ) );
+	SetWindowLongPtr( m_cheat.m_window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( m_original_wnd_proc ) );
 
 	m_interfaces.m_input_system->enable_input( true );
 	

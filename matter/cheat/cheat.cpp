@@ -12,7 +12,7 @@ DWORD WINAPI cheat::setup( void* parameter ) {
 
 	m_console.setup( "cheat" );
 
-	while ( !( m_matter.m_window = FindWindowA( "Valve001", nullptr ) ) )
+	while ( !( m_cheat.m_window = FindWindowA( "Valve001", nullptr ) ) )
 		m_utils.sleep( 100 );
 
 	if ( !m_pe.setup( ) || !m_signatures.setup( ) || !m_interfaces.setup( ) || !m_netvars.setup( )  || !m_input.setup( ) || !m_render.setup( ) || !m_menu.setup( ) || !m_hooked.setup( ) )
