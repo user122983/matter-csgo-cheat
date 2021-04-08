@@ -1,6 +1,8 @@
 #include "visuals.h"
 
 #include "../globals.h"
+#include "../legitbot/legitbot.h"
+
 #include "../../render/render.h"
 #include "../../../other/math/math.h"
 
@@ -38,7 +40,7 @@ void visuals::run( ) {
 		
 		m_weapon.pointer = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
 		if ( !m_weapon.pointer )
-			continue;
+			continue;;
 
 		m_weapon.info = m_weapon.pointer->get_cs_wpn_data( );
 		if ( !m_weapon.info )
@@ -69,6 +71,9 @@ void visuals::run( ) {
 
 void visuals::draw_box( ) const {
 
+	if ( !m_menu.m_esp_widgets[ enemy ].m_box->get_state( ) )
+		return;
+	
 	m_render.draw_outlined_rect( m_box.left, m_box.top, m_box.width, m_box.height, m_player.m_colors.white, 0 );
 	m_render.draw_outlined_rect( m_box.left - 1, m_box.top - 1, m_box.width + 2, m_box.height + 2,  m_player.m_colors.black, 0 );
 	m_render.draw_outlined_rect( m_box.left + 1, m_box.top + 1, m_box.width - 2, m_box.height - 2,  m_player.m_colors.black, 0 );

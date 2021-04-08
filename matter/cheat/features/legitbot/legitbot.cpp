@@ -6,6 +6,12 @@
 
 /*  todo:
  *
+ *	aimbot:
+ *
+ *	fix weird switching its not p
+ *
+ *	antiaim:
+ *	
  *  return on grenade throw, ladder and on shot ...
  *
  *  small sway on normal desync when crouched
@@ -29,6 +35,14 @@ void legitbot::run( ) {
 	if ( m_weapon.pointer )
 		m_weapon.info = m_weapon.pointer->get_cs_wpn_data( );
 
+	m_weapon.item_definition_index = m_globals.m_local_player->get_item_definition_index( );
+	
+	if ( m_menu.m_weapon_widgets[ weapon_default ].m_enabled->get_state( ) ) {
+
+		aimbot( );
+		
+	}
+	
 	if ( !m_menu.m_antiaim_enabled->get_state( ) )
 		return;
 
@@ -60,6 +74,100 @@ void legitbot::run( ) {
 		
 	antiaim( );
 
+}
+
+void legitbot::aimbot( ) {
+
+	if ( m_weapon.info->m_weapon_type == weapon_type_knife )
+		return;
+
+	// todo: how to make this cleaner
+	
+	auto weapon_id = 0;
+	if ( m_menu.m_weapon_widgets[ weapon_scout ].m_enabled->get_state( ) && m_weapon.item_definition_index == weapon_id_ssg08 )
+		weapon_id = weapon_scout;
+	else if ( m_menu.m_weapon_widgets[ weapon_awp ].m_enabled->get_state( ) && m_weapon.item_definition_index == weapon_id_awp )
+		weapon_id = weapon_awp;
+	else if ( m_menu.m_weapon_widgets[ weapon_pistol ].m_enabled->get_state( ) && m_weapon.info->m_weapon_type == weapon_type_pistol )
+		weapon_id = weapon_pistol;
+	else if ( m_menu.m_weapon_widgets[ weapon_heavy ].m_enabled->get_state( ) && m_weapon.info->m_weapon_type == weapon_type_shotgun || m_weapon.info->m_weapon_type == weapon_type_machinegun )
+		weapon_id = weapon_heavy;
+	else if ( m_menu.m_weapon_widgets[ weapon_rifles ].m_enabled->get_state( ) && m_weapon.info->m_weapon_type == weapon_type_rifle )
+		weapon_id = weapon_rifles;
+	else
+		weapon_id = weapon_default;
+
+	// initialize settings
+	
+	m_settings = m_menu.m_weapon_widgets[ weapon_id ];
+
+	if ( !m_settings.m_fov->get_value( ) )
+		return;
+
+	auto calc_player_head_angle = [ ]( cs_player* player, q_angle& angle ) {
+
+		// todo: use input from settings for getting aim bone
+		
+		const auto head_bone = player->lookup_bone( "head_0" );
+		if ( !head_bone )
+			return;
+
+		vector_3d head_pos;
+		player->get_bone_position( head_bone, head_pos );
+		 
+		angle = m_math.calc_angle( m_legitbot.m_local_player.pointer->get_eye_pos( ), head_pos );
+		
+	};
+	
+	auto fov = 0.f, best_fov = FLT_MAX;
+	
+	m_cheat.iterate_players( [ this, fov, best_fov, calc_player_head_angle ]( cs_player* player ) mutable -> void {
+
+		q_angle angle;
+		calc_player_head_angle( player, angle );
+
+		fov = m_math.calc_fov( m_globals.m_cmd->m_view_angles, angle );
+
+		if ( std::isnan( fov ) )
+			m_player.pointer = player;
+		
+		if ( fov < best_fov && fov < m_settings.m_fov->get_value( ) ) {
+
+			m_player.pointer = player;
+			best_fov = fov;
+			
+		}	
+		
+	}, m_settings.m_friendly_fire->get_state( ) ? iterate_teammates : 0 );
+
+	if ( !m_player.pointer )
+		return;
+	
+	m_player = {
+
+		m_player.pointer,
+		m_player.pointer->get_client_networkable( )->get_index( ),
+
+	};
+
+	if ( !m_player.pointer->is_alive( ) )
+		return;
+
+	q_angle angle;
+	calc_player_head_angle( m_player.pointer, angle );
+
+	if ( m_settings.m_smooth->get_value( ) ) {
+
+		const auto delta = angle - m_globals.m_cmd->m_view_angles;
+		angle = m_globals.m_cmd->m_view_angles + delta / m_settings.m_smooth->get_value( ); 
+		
+	}
+
+	m_globals.m_cmd->m_view_angles = angle;
+
+	if ( !m_settings.m_silent_aim->get_state( ) )
+		m_interfaces.m_engine->set_view_angles( angle );
+	
 }
 
 void legitbot::antiaim( ) const {

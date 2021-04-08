@@ -4,6 +4,14 @@
 
 #include <array>
 
+enum players {
+
+	enemy,
+	team,
+	local
+	
+};
+
 struct visuals {
 
 	void run( );

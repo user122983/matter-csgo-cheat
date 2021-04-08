@@ -233,12 +233,22 @@ struct cs_player : base_animating {
 
 	}
 
+	auto get_eye_pos( ) {
+
+		vector_3d eye_pos;
+		
+		m_utils.get_v_func< void ( __thiscall* )( void*, vector_3d& ) >( this, 168 )( this, eye_pos );
+
+		return eye_pos;
+
+	}
+	
 	auto eye_angles( ) {
 
 		return m_utils.get_v_func< q_angle& ( __thiscall* )( void* ) >( this, 169 )( this );
 
 	}
-
+	
 	auto handle_taser_animation( ) {
 		 
 		static auto function = m_modules.m_client_dll.get_address( "C_CSPlayer::HandleTaserAnimation" ).as< void( __thiscall* )( void* ) >( );

@@ -200,6 +200,12 @@ struct vector_3d {
 
 	}
 
+	float length_2d( ) const {
+
+		return std::sqrtf( this->x * this->x + this->y * this->y );
+
+	}
+
 	float vector_normalize( vector_3d& v ) const {
 
 		auto radius = std::sqrtf( std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 ) );

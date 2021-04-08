@@ -92,7 +92,7 @@ struct weapon_cs_base : base_entity {
 
 		const auto weapon_definition_index = m_globals.m_local_player->get_item_definition_index( );
 
-		if ( ( weapon_definition_index == weapon_famas || weapon_definition_index == weapon_glock ) && this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
+		if ( ( weapon_definition_index == weapon_id_famas || weapon_definition_index == weapon_id_glock ) && this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
 			return true;
 
 		if ( m_globals.m_local_player->get_next_primary_attack( ) >= m_globals.m_server_time )

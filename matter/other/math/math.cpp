@@ -24,7 +24,7 @@ bool math::world_to_screen( const vector_3d& origin, vector_2d& screen ) {
 
 vector_3d math::vector_transform( const vector_3d& transform, const matrix3x4& matrix ) {
 
-	return vector_3d(
+	return vector_3d (
 
 		transform.dot_product( matrix[ 0 ] ) + matrix[ 0 ][ 3 ], 
 		transform.dot_product( matrix[ 1 ] ) + matrix[ 1 ][ 3 ], 
@@ -33,3 +33,25 @@ vector_3d math::vector_transform( const vector_3d& transform, const matrix3x4& m
 	);
 
 }
+
+float math::calc_fov( const q_angle& view_angle, const q_angle& aim_angle ) const {
+	
+	vector_3d view, aim;
+
+	m_mathlib_base.angle_vectors( view_angle, &aim );
+	m_mathlib_base.angle_vectors( aim_angle, &view );
+
+	return m_mathlib_base.rad_to_deg( std::acos( aim.dot_product( view ) / aim.length_sqr( ) ) );
+	
+}
+
+q_angle math::calc_angle( const vector_3d& start, const vector_3d& end ) {
+	
+	q_angle view;
+	const auto delta = end - start;
+	
+	m_mathlib_base.vector_angles( delta, view );
+	
+	return view.normalize( );
+	
+} 

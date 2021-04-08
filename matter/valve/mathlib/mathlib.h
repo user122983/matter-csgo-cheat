@@ -33,9 +33,9 @@ struct mathlib {
 
 	}
 
-	static vector_3d approach( vector_3d target, vector_3d value, const float speed ) {
+	static vector_3d approach( const vector_3d target, vector_3d value, const float speed ) {
 
-		auto diff = ( target - value );
+		const auto diff = ( target - value );
 
 		const auto delta = diff.length( );
 		if ( delta > speed )

@@ -37,7 +37,7 @@ bool container::get_state( ) const {
 void container::geometry( ) {
 
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
-	
+
 	if ( !m_parent_widget ) {
 
 		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark2 );
@@ -56,7 +56,7 @@ void container::geometry( ) {
 		m_render.draw_line( m_widget_area.m_x, m_widget_area.m_y + m_widget_area.m_height, m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y + m_widget_area.m_height, m_menu.m_colors.dark1 );
 		m_render.draw_line( m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y + m_widget_area.m_height, m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y, m_menu.m_colors.dark1 );
 
-		const auto text_size = m_render.get_text_size(m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
+		const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
 		m_render.draw_line( m_widget_area.m_x + 32 + text_size.m_width, m_widget_area.m_y, m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y, m_menu.m_colors.dark1 );
 		
 	}

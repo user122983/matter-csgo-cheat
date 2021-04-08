@@ -48,6 +48,8 @@ struct menu {
 
 	bool setup( );
 
+	// todo: try using less colors
+	
 	struct {
 
 		color white = color( 255, 255, 255 );
@@ -62,7 +64,7 @@ struct menu {
 		color dark5 = color( 55, 55, 55 );
 
 	} m_colors = { };
-	
+
 	std::shared_ptr< container > m_menu;
 	
 	std::shared_ptr< tab_panel > m_tab_panel;

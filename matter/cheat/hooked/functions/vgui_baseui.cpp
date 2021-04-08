@@ -26,7 +26,7 @@ void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, cons
 		m_interfaces.m_surface->start_drawing( );
 
 		m_visuals.run( );
-
+		
 		m_menu.m_menu->render( );
 
 		m_interfaces.m_surface->finish_drawing( );

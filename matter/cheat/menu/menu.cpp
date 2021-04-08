@@ -3,7 +3,7 @@
 #include "gui/builder.h"
 
 bool menu::setup( ) {
-	
+
 	m_menu = std::make_shared< container >( );
 	m_builder.widget( m_menu ).size( 860, 540 ).position( 400, 400 );
 

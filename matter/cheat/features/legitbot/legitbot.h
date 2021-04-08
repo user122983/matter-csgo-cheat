@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../../cheat/cheat.h"
+#include "../../menu/menu.h"
+
+#include "../../../other/math/q_angle.h"
 
 enum desync_type {
 
@@ -28,12 +31,25 @@ enum fakelag_trigger {
 
 };
 
+enum weapons {
+
+	weapon_default,
+	weapon_pistol,
+	weapon_heavy,
+	weapon_rifles,
+	weapon_scout,
+	weapon_awp
+
+};
+
 struct legitbot {
 	
 	void run( );
 
 private:
 
+	void aimbot( );
+	
 	void antiaim( ) const;
 
 	void fakelag( );
@@ -54,7 +70,19 @@ private:
 
 		cs_weapon_info* info;
 
+		short item_definition_index;
+
 	} m_weapon = { };
+
+	struct {
+
+		cs_player* pointer;
+
+		int index;
+
+	} m_player = { };
+
+	legitbot_widgets m_settings;
 	
 };
 

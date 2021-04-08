@@ -127,6 +127,47 @@ struct mathlib_base {
 		}
 
 	}
+
+	void angle_vectors( const q_angle& angles, vector_3d* forward ) const	{
+
+		const auto sin_x = sin( deg_to_rad( angles.x ) );
+		const auto sin_y = sin( deg_to_rad( angles.y ) );
+		const auto cos_x = cos( deg_to_rad( angles.x ) );
+		const auto cos_y = cos( deg_to_rad( angles.y ) );
+
+		forward->x = cos_x * cos_y;
+		forward->y = cos_x * sin_y;
+		forward->z = -sin_x;
+		
+	}
+
+	static void vector_angles( const vector_3d& forward, q_angle& view ) {
+
+		float pitch, yaw;
+
+		if ( forward.x == 0.f && forward.y == 0.f ) {
+			
+			pitch = forward.z > 0.f ? 270.f : 90.f;
+			yaw = 0.f;
+			
+		} else {
+			
+			pitch = std::atan2f(-forward.z, forward.length_2d( ) ) * 180.f / 3.141f;
+
+			if (pitch < 0.f)
+				pitch += 360.f;
+
+			yaw = std::atan2f( forward.y, forward.x ) * 180.f / 3.141f;
+
+			if ( yaw < 0.f )
+				yaw += 360.f;
+		}
+
+		view.x = pitch;
+		view.y = yaw;
+		view.z = 0.f;
+		
+	}
 	
 };
 

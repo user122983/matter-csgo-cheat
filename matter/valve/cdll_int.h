@@ -2,6 +2,7 @@
 
 #include "../mathlib/matrix.h"
 #include "../other/utils/utils.h"
+#include "../other/math/q_angle.h"
 
 struct client_class;
 struct bf_write;
@@ -33,6 +34,12 @@ struct engine_client {
 	auto is_in_game( ) {
 		
 		return m_utils.get_v_func< bool( __thiscall* )( void* ) >( this, 26 )( this );
+
+	}
+
+	auto set_view_angles( q_angle& view_angle ) {
+
+		m_utils.get_v_func< void( __thiscall* )( void*, q_angle& ) >(this, 19 )( this, view_angle );
 
 	}
 
