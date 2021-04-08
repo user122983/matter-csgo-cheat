@@ -132,7 +132,7 @@ void legitbot::antiaim( ) const {
 				m_globals.m_cmd->m_view_angles.y += 120;
 
 		} else {
-
+		//
 			if ( !m_fakelag_value )
 				*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
 	
