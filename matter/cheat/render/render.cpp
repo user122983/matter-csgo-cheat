@@ -6,7 +6,7 @@ bool render::setup( ) {
 
 	create_font( m_fonts.smallest_pixel_7, "smallest pixel-7", 11, 500, fontflag_outline );
 
-	create_font( m_fonts.matter_icons, "cheat-icons", 18, 500, fontflag_antialias );
+	create_font( m_fonts.matter_icons, "matter-icons", 18, 500, fontflag_antialias );
 
 	m_interfaces.m_surface->get_screen_size( m_screen.w, m_screen.h );
 

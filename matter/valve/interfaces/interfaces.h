@@ -14,6 +14,7 @@
 #include "../shared/cs_gamerules.h"
 #include "../engine/client.h"
 #include "../tier0/mem_alloc.h"
+#include "../shared/game_movement.h"
 
 #include "../../other/hash/hash.h"
 #include "../../other/pe/pe.h"
@@ -39,10 +40,13 @@ struct interfaces {
 	cs_game_rules_proxy* m_cs_game_rules_proxy;
 	client_state* m_client_state;
 	mem_alloc* m_mem_alloc;
+	game_movement* m_game_movement;
+	move_data* m_move_data;
+	
 
 private:
 
-	template< class t > static t get( const module_info the_module, const std::string_view interface_name ) {
+	template< class t > static t get( module_info the_module, const std::string_view interface_name ) {
 		
 		static auto fn_hash = m_hash.get( "CreateInterface" );
 

@@ -46,56 +46,56 @@ struct csgo_player_anim_state {
 
 	auto update( const float y, const float x ) {
 
-		const auto function = m_signatures.m_update.as< void( __vectorcall* )( void*, void*, float, float, float, void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::Update" ).as< void( __vectorcall* )( void*, void*, float, float, float, void* ) >( );
+		
 		return function( this, nullptr, 0.f, y, x, nullptr );
 
 	}
 	
 	auto set_up_velocity( ) {
 
-		const auto function = m_signatures.m_setup_velocity.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpVelocity" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto set_up_aim_matrix( ) {
 
-		const auto function = m_signatures.m_setup_aim_matrix.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpAimMatrix" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto set_up_weapon_action( ) {
 
-		const auto function = m_signatures.m_set_up_weapon_action.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpWeaponAction" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto set_up_movement( ) {
 
-		const auto function = m_signatures.m_set_up_movement.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpMovement" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto set_up_alive_loop( ) {
 
-		const auto function = m_signatures.m_set_up_alive_loop.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpAliveloop" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto set_up_whole_body_action( ) {
 
-		const auto function = m_signatures.m_set_up_whole_body_action.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpWholeBodyAction" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
@@ -108,40 +108,40 @@ struct csgo_player_anim_state {
 
 	auto set_up_flinch( ) {
 
-		const auto function = m_signatures.m_set_up_flinch.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpFlinch" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto set_up_lean( ) {
 
-		const auto function = m_signatures.m_set_up_lean.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::SetUpLean" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto cache_sequences( ) {
 
-		const auto function = m_signatures.m_cache_sequences.as< bool( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::CacheSequences" ).as< bool( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto increment_layer_cycle( const int layer_index, const bool allow_loop ) {
 
-		const auto function = m_signatures.m_increment_layer_cycle.as< void( __thiscall* )( void*, int, bool ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::IncrementLayerCycle" ).as< void( __thiscall* )( void*, int, bool ) >( );
+		
 		return function( this, layer_index, allow_loop );
 
 	}
 
 	auto increment_layer_weight( const int layer_index ) {
 
-		const auto function = m_signatures.m_increment_layer_weight.as< void( __thiscall* )( void*, int ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::IncrementLayerWeight" ).as< void( __thiscall* )( void*, int ) >( );
+		
 		return function( this, layer_index );
 
 	}

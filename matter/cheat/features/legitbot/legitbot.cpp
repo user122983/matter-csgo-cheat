@@ -6,10 +6,10 @@
 
 /*  todo:
  *
- *  return on grenade throw etc, ladder ...
+ *  return on grenade throw, ladder and on shot ...
  *
  *  small sway on normal desync when crouched
- *  when switching ANIMATION_LAYER_ADJUST
+ *  when switching desync type ANIMATION_LAYER_ADJUST (try disabling it)
  *  
  */
 
@@ -132,7 +132,7 @@ void legitbot::antiaim( ) const {
 				m_globals.m_cmd->m_view_angles.y += 120;
 
 		} else {
-		//
+		
 			if ( !m_fakelag_value )
 				*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
 	

@@ -196,6 +196,7 @@
     <ClInclude Include="valve\client\client_input.h" />
     <ClInclude Include="valve\client\cs_player.h" />
     <ClInclude Include="valve\client\net_graph_panel.h" />
+    <ClInclude Include="valve\client\prediction.h" />
     <ClInclude Include="valve\client\weapon_cs_base.h" />
     <ClInclude Include="valve\client_class.h" />
     <ClInclude Include="valve\client_entity_list.h" />
@@ -203,7 +204,6 @@
     <ClInclude Include="valve\client_renderable.h" />
     <ClInclude Include="valve\data_cache\data_cache.h" />
     <ClInclude Include="valve\data_cache\mdl_cache.h" />
-    <ClInclude Include="valve\detour\detour.h" />
     <ClInclude Include="valve\dt_common.h" />
     <ClInclude Include="valve\dt_recv.h" />
     <ClInclude Include="valve\engine\client.h" />
@@ -220,6 +220,7 @@
     <ClInclude Include="valve\mathlib\mathlib.h" />
     <ClInclude Include="valve\mathlib\mathlib_base.h" />
     <ClInclude Include="valve\mathlib\matrix.h" />
+    <ClInclude Include="valve\modules\modules.h" />
     <ClInclude Include="valve\netvars\netvars.h" />
     <ClInclude Include="valve\net_channel.h" />
     <ClInclude Include="valve\public\const.h" />
@@ -228,10 +229,11 @@
     <ClInclude Include="valve\shared\csgo_player_anim_state.h" />
     <ClInclude Include="valve\shared\cs_gamerules.h" />
     <ClInclude Include="valve\shared\cs_weapon_parse.h" />
+    <ClInclude Include="valve\shared\game_movement.h" />
     <ClInclude Include="valve\shared\in_buttons.h" />
+    <ClInclude Include="valve\shared\move_helper.h" />
     <ClInclude Include="valve\shared\shared.h" />
     <ClInclude Include="valve\shared\user_cmd.h" />
-    <ClInclude Include="valve\signatures\signatures.h" />
     <ClInclude Include="valve\studio.h" />
     <ClInclude Include="valve\studio_render\studio_render.h" />
     <ClInclude Include="valve\studio_render\studio_render_context.h" />
@@ -258,6 +260,7 @@
     <ClCompile Include="cheat\hooked\functions\csgo_player_anim_state.cpp" />
     <ClCompile Include="cheat\hooked\functions\cs_player.cpp" />
     <ClCompile Include="cheat\hooked\functions\mat_system_surface.cpp" />
+    <ClCompile Include="cheat\hooked\functions\prediction.cpp" />
     <ClCompile Include="cheat\hooked\functions\scheme_manager.cpp" />
     <ClCompile Include="cheat\hooked\functions\studio_render.cpp" />
     <ClCompile Include="cheat\hooked\functions\vgui_baseui.cpp" />
@@ -281,10 +284,9 @@
     <ClCompile Include="other\module\module.cpp" />
     <ClCompile Include="other\pe\pe.cpp" />
     <ClCompile Include="other\utils\utils.cpp" />
-    <ClCompile Include="valve\detour\detour.cpp" />
     <ClCompile Include="valve\interfaces\interfaces.cpp" />
+    <ClCompile Include="valve\modules\modules.cpp" />
     <ClCompile Include="valve\netvars\netvars.cpp" />
-    <ClCompile Include="valve\signatures\signatures.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

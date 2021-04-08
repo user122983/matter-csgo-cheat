@@ -10,3 +10,4 @@
 #include "net_graph_panel.h"
 #include "weapon_cs_base.h"
 #include "base_cs_grenade.h"
+#include "prediction.h"

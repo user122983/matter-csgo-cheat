@@ -2,13 +2,16 @@
 
 #include "animation_layer.h"
 
+#include "../shared/user_cmd.h"
+
 #include "../client_networkable.h"
 #include "../client_renderable.h"
 #include "../netvars/netvars.h"
-#include "../signatures/signatures.h"
 
 #include "../../other/hash/hash.h"
 #include "../../other/math/q_angle.h"
+
+struct base_player;
 
 struct base_entity {
 
@@ -27,6 +30,12 @@ struct base_entity {
 	auto on_latch_interpolated_variables( const int flags ) {
 
 		return m_utils.get_v_func< void( __thiscall* )( void*, int ) >( this, 107 )( this, flags );
+
+	}
+
+	auto think( ) {
+
+		return m_utils.get_v_func< void( __thiscall* )( void* ) >( this, 138 )( this );
 
 	}
 	
@@ -68,16 +77,16 @@ struct base_entity {
 
 	auto calc_absolute_velocity( ) {
 
-		const auto function = m_signatures.m_calc_absolute_velocity.as< void( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::CalcAbsoluteVelocity" ).as< void( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto& get_abs_velocity( ) {
 
-		const auto offset = m_signatures.m_abs_velocity.add( 0x4 ).to< std::size_t >( );
-
+		static auto offset = m_modules.m_client_dll.get_address( "C_BaseEntity->m_vecAbsVelocity" ).add( 0x4 ).to< std::size_t >( );
+		
 		calc_absolute_velocity( );
 
 		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
@@ -86,41 +95,72 @@ struct base_entity {
 
 	auto get_anim_overlay( const int i ) {
 
-		const auto offset = m_signatures.m_anim_overlay.add( 0x2 ).to< std::size_t >( );
-
+		static auto offset = m_modules.m_client_dll.get_address( "C_BaseEntity->m_nAnimOverlay" ).add( 0x2 ).to< std::size_t >( );
+		
 		return reinterpret_cast< animation_layer* >( i * 0x38 + *reinterpret_cast< std::size_t* >( reinterpret_cast< std::size_t >( this ) + offset ) );
 
 	}
 
 	auto get_ground_entity( ) {
 
-		const auto function = m_signatures.m_get_ground_entity.as< base_entity* ( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::GetGroundEntity" ).as< base_entity* ( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto invalidate_physics_recursive( const int change_flags ) {
 
-		const auto function = m_signatures.m_invalidate_physics_recursive.as< void( __thiscall* )( void*, int ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::InvalidatePhysicsRecursive" ).as< void( __thiscall* )( void*, int ) >( );
+		
 		return function( this, change_flags );
 
 	}
 
 	auto set_abs_angles( const q_angle& angles ) {
 
-		const auto function = m_signatures.m_set_abs_angles.as< void( __thiscall* )( void*, const q_angle& ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::SetAbsAngles" ).as< void( __thiscall* )( void*, const q_angle& ) >( );
+		
 		return function( this, angles );
 
 	}
 
-	auto set_abs_origin( const vector_3d& origin ) {
+	auto physics_run_think( const int think_method = 0) {
 
-		const auto function = m_signatures.m_set_abs_origin.as< void( __thiscall* )( void*, const vector_3d& ) >( );
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::PhysicsRunThink" ).as< bool( __thiscall* )( void*, int ) >( );
 
-		return function( this, origin );
+		return function( this, think_method );
+
+	}
+
+	auto check_has_think_function( const bool is_thinking = false ) {
+
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::CheckHasThinkFunction" ).as< void( __thiscall* )( void*, bool ) >( );
+
+		return function( this, is_thinking );
+
+	}
+
+	static auto set_prediction_random_seed( const user_cmd* cmd ) {
+
+		static auto prediction_random_seed = m_modules.m_client_dll.get_address( "C_BaseEntity->m_nPredictionRandomSeed" ).add( 0x4 ).to< int* >( );
+
+		if ( !cmd ) {
+
+			*prediction_random_seed = -1;
+			return;
+
+		}
+
+		*prediction_random_seed = cmd->m_random_seed;
+
+	}
+
+	static auto set_prediction_player( base_player* player ) {
+
+		static auto prediction_player = m_modules.m_client_dll.get_address( "C_BaseEntity->m_pPredictionPlayer" ).add( 0x5 ).to< base_player* >( );
+
+		prediction_player = player;
 
 	}
 

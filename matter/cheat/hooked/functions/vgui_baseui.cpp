@@ -4,9 +4,9 @@
 #include "../../features/visuals/visuals.h"
 #include "../../features/globals.h"
 
-void __fastcall hooked::paint( engine_vgui* ecx, void* edx, const paint_mode mode ) {
+void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, const paint_mode mode ) {
 
-	static auto o_paint = m_detour.get< decltype( &paint ) >( "CEngineVGui::Paint" );
+	static auto o_paint = m_modules.m_engine_dll.get< decltype( &paint ) >( "CEngineVGui::Paint" );
 
 	// capture cs_game_rules once per game
 	
@@ -17,7 +17,7 @@ void __fastcall hooked::paint( engine_vgui* ecx, void* edx, const paint_mode mod
 
 		m_globals.m_cs_game_rules_captured = true;
 
-		m_interfaces.m_cs_game_rules_proxy = **reinterpret_cast< cs_game_rules_proxy*** >( m_signatures.m_client_dll.find_pattern( "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A" ) + 0x1 );
+		m_interfaces.m_cs_game_rules_proxy = **reinterpret_cast< cs_game_rules_proxy*** >( m_modules.m_client_dll.get_address( "CSGameRulesProxy" ) + 0x1 );
 		
 	}
 	

@@ -12,7 +12,8 @@ struct cs_weapon_info {
 	int m_max_clip1;
 	char pad1[ 0x70 ]; 
 	const char* m_hud_name; 
-	char pad2[ 0x3c ];
+	const char* m_weapon_name; 
+	char _pad2[ 0x38 ]; 
 	int m_weapon_type; 
 
 };
@@ -85,9 +86,6 @@ struct weapon_cs_base : base_entity {
 
 		if ( !this->is_gun( ) )
 			return false;
-
-		m_console.log("next attack: %f", m_globals.m_local_player->get_next_attack( ) );
-		m_console.log("next primary attack: %f", m_globals.m_local_player->get_next_primary_attack( ) );
 		
 		if ( this->get_ammo( ) <= 0 || m_globals.m_local_player->get_next_attack( ) > m_globals.m_server_time )
 			return false;

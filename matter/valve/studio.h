@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signatures/signatures.h"
+#include "modules/modules.h"
 
 struct mstudioseqdesc {
 
@@ -13,8 +13,8 @@ struct studio_hdr {
 
 	auto seqdesc( const int seq ) {
 
-		const auto function = m_signatures.m_seqdesc.as< mstudioseqdesc& ( __thiscall* )( void*, int ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "CStudioHdr::pSeqdesc" ).as< mstudioseqdesc& ( __thiscall* )( void*, int ) >( );
+		
 		return function( this, seq );
 
 	}

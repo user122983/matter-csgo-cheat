@@ -15,9 +15,9 @@ struct globals {
 
 	bool m_cs_game_rules_captured = false;
 
-	float m_server_time = 0.f;
+	bool* m_send_packet = nullptr;
 
-	bool* m_send_packet = nullptr; 
+	float m_server_time = 0.f;
 	
 };
 

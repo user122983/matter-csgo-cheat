@@ -2,9 +2,9 @@
 
 #include "../../menu/menu.h"
 
-void __fastcall hooked::lock_cursor( surface* ecx, void* edx ) {
+void __fastcall hooked::mat_system_surface_fn::lock_cursor( surface* ecx, void* edx ) {
 
-	static auto o_lock_cursor = m_detour.get< decltype( &lock_cursor ) >( "CMatSystemSurface::LockCursor" );
+	static auto o_lock_cursor = m_modules.m_vguimatsurface_dll.get< decltype( &lock_cursor ) >( "CMatSystemSurface::LockCursor" );
 
 	if ( m_menu.m_menu->get_state( ) ) {
 

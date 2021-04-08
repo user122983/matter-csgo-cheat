@@ -2,7 +2,7 @@
 
 #include "../../features/globals.h"
 
-void __fastcall hooked::update_client_side_animation( cs_player* ecx, void* edx ) {
+void __fastcall hooked::cs_player_fn::update_client_side_animation( cs_player* ecx, void* edx ) {
 
 	if ( ecx->get_use_new_animstate( ) ) {
 

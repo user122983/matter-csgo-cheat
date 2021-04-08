@@ -7,16 +7,18 @@
 
 #include <intrin.h>
 
-bool __fastcall hooked::create_move( void* ecx, void* edx, const float input_sample_time, user_cmd* cmd ) {
+bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx, const float input_sample_time, user_cmd* cmd ) {
 
-	static auto o_create_move = m_detour.get< decltype( &create_move ) >( "ClientModeShared::CreateMove" );
-	
+	static auto o_create_move = m_modules.m_client_dll.get< decltype( &create_move ) >( "ClientModeShared::CreateMove" );
+
 	m_globals.m_local_player = m_interfaces.m_entity_list->get< cs_player* >( m_interfaces.m_engine->get_local_player( ) );
 	
 	if ( !cmd || !cmd->m_command_number )
 		return o_create_move( ecx, edx, input_sample_time, cmd );
 	
 	m_globals.m_cmd = cmd;
+
+	m_globals.m_server_time = m_interfaces.m_globals->m_interval_per_tick * m_interfaces.m_client_state->m_clockdriftmgr.m_servertick;
 	
 	const stack stack( _AddressOfReturnAddress( ) );
 
@@ -32,15 +34,15 @@ bool __fastcall hooked::create_move( void* ecx, void* edx, const float input_sam
 
 }
 
-float __fastcall hooked::get_view_model_fov( void* ecx, void* edx ) {
+float __fastcall hooked::client_mode_shared_fn::get_view_model_fov( void* ecx, void* edx ) {
 
 	return m_menu.m_fov->get_value( );
 
 }
 
-void __fastcall hooked::override_view( void* ecx, const int edx, view_setup* view_setup ) {
+void __fastcall hooked::client_mode_shared_fn::override_view( void* ecx, const int edx, view_setup* view_setup ) {
 
-	static auto o_override_view = m_detour.get< decltype( &override_view ) >( "ClientModeShared::OverrideView" );
+	static auto o_override_view = m_modules.m_client_dll.get< decltype( &override_view ) >( "ClientModeShared::OverrideView" );
 
 	m_globals.m_view_origin = view_setup->m_origin;
 

@@ -20,16 +20,16 @@ struct base_animating : base_player {
 	
 	auto lookup_bone( const char* name ) {
 
-		const auto function = m_signatures.m_lookup_bone.as< int( __thiscall* )( void*, const char* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::LookupBone" ).as< int( __thiscall* )( void*, const char* ) >( );
+		
 		return function( this, name );
 
 	}
 
 	auto get_bone_position( const int bone_id, vector_3d& origin ) {
 
-		const auto function = m_signatures.m_get_bone_position.as< void( __thiscall* )( void*, int, vector_3d* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetBonePosition" ).as< void( __thiscall* )( void*, int, vector_3d* ) >( );
+		
 		vector_3d vectors[ 4 ];
 		function( this, bone_id, vectors );
 		origin = { vectors[ 1 ].x, vectors[ 2 ].y, vectors[ 3 ].z };
@@ -38,38 +38,40 @@ struct base_animating : base_player {
 
 	auto get_model_ptr( ) {
 
-		const auto function = m_signatures.m_get_model_ptr.as< studio_hdr* ( __thiscall* )( void* ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetModelPtr" ).as< studio_hdr* ( __thiscall* )( void* ) >( );
+		
 		return function( this );
 
 	}
 
 	auto get_first_sequence_anim_tag( const int sequence, const int desired_tag ) {
 
-		const auto function = m_signatures.m_get_first_sequence_anim_tag.as< float( __thiscall* )( void*, int, int, int ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetFirstSequenceAnimTag" ).as< float( __thiscall* )( void*, int, int, int ) >( );
+		
 		return function( this, sequence, desired_tag, 0 );
 
 	}
 	
 	auto get_sequence_activity( const int sequence ) {
 
-		const auto function = m_signatures.m_get_sequence_activity.as< int( __thiscall* )( void*, int ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetSequenceActivity" ).as< int( __thiscall* )( void*, int ) >( );
+		
 		return function( this, sequence );
 
 	}
 
 	auto lookup_pose_parameter( const char* name ) {
 
-		const auto function = m_signatures.m_lookup_pose_parameter.as< int( __thiscall* )( void*, studio_hdr*, const char* name ) >( );
-
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::LookupPoseParameter" ).as< int( __thiscall* )( void*, studio_hdr*, const char* name ) >( );
+		
 		return function( this, get_model_ptr( ), name );
 
 	}
 
 	auto set_pose_parameter( int parameter, float value ) {
 
+		static auto address = m_modules.m_client_dll.get_address( "Studio_SetPoseParameter" );
+		
 		auto studio_hdr = get_model_ptr( );
 		if ( !studio_hdr )
 			return value;
@@ -87,7 +89,7 @@ struct base_animating : base_player {
 				push ecx
 				mov edx, parameter
 				mov ecx, studio_hdr
-				call m_signatures.m_studio_set_pose_parameter
+				call address
 				pop ecx
 
 				popad
@@ -104,6 +106,8 @@ struct base_animating : base_player {
 
 	auto draw_server_hitboxes( float duration = 0.f, int monocolor = 0 ) {
 
+		static auto address = m_modules.m_server_dll.get_address( "CBaseAnimating::DrawServerHitboxes" );
+		
 		auto player = util_player_by_index( get_client_networkable( )->get_index( ) );
 		if ( !player )
 			return;
@@ -115,7 +119,7 @@ struct base_animating : base_player {
 			movss xmm1, duration
 			push monocolor
 			mov ecx, player
-			call m_signatures.m_draw_server_hitboxes
+			call address
 
 			popad
 		}
