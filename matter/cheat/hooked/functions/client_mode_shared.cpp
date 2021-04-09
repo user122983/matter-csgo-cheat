@@ -1,9 +1,7 @@
 #include "../hooked.h"
 
 #include "../../menu/menu.h"
-#include "../../features/globals.h"
-#include "../../features/legitbot/legitbot.h"
-#include "../../features/misc/misc.h"
+#include "../../features/features.h"
 
 #include <intrin.h>
 
@@ -29,6 +27,9 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 	m_legitbot.run( );
 	
 	m_misc.movement_fix( old_view_angles );
+
+	m_globals.m_cmd->m_view_angles.normalize( );
+	m_globals.m_cmd->m_view_angles.clamp( );
 	
 	return false;
 

@@ -163,7 +163,17 @@ struct q_angle {
 		return *this;
 		
 	}
-	
+
+	q_angle clamp( ) {
+		
+		this->x = std::clamp( this->x, -89.f, 89.f );
+		this->y = std::clamp( this->y, -180.f, 180.f );
+		this->z = std::clamp( this->z, -50.f, 50.f );
+
+		return *this;
+
+	}
+
 	float x, y, z;
 
 };

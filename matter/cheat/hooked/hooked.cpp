@@ -2,6 +2,10 @@
 
 bool hooked::setup( ) {
 
+	// vgui_baseui_fn
+	if ( !m_modules.m_engine_dll.hook_function( "CEngineVGui::Paint", &vgui_baseui_fn::paint ) )
+		return false;
+	
 	// cdll_client_fn
 	if ( !m_modules.m_client_dll.hook_function( "CHLClient::LevelShutdown", &cdll_client_fn::level_shutdown ) )
 		return false;
@@ -58,10 +62,6 @@ bool hooked::setup( ) {
 
 	// studio_render_fn
 	if ( !m_modules.m_studiorender_dll.hook_function( "CStudioRenderContext::DrawModel", &studio_render_fn::draw_model ) )
-		return false;
-
-	// vgui_baseui_fn
-	if ( !m_modules.m_engine_dll.hook_function( "CEngineVGui::Paint", &vgui_baseui_fn::paint ) )
 		return false;
 
 	// weapon_cs_base_fn

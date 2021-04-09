@@ -88,7 +88,7 @@ void __cdecl hooked::cl_main_fn::cl_send_move( ) {
 	const auto nextcommandnr = m_interfaces.m_client_state->m_lastoutgoingcommand + m_interfaces.m_client_state->m_choked_commands + 1;
 	const auto choked_commands = m_interfaces.m_client_state->m_choked_commands;
 
-	byte data[ 4000 /* MAX_CMD_BUFFER */ ];
+	std::byte data[ 4000 /* MAX_CMD_BUFFER */ ];
 	cl_msg_move move_msg;
 
 	move_msg.m_data_out.start_writing( data, sizeof( data ) );

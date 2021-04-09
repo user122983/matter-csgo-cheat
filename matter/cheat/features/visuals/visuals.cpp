@@ -156,7 +156,19 @@ void visuals::draw_flags( ) {
 
 	if ( m_player.pointer->has_defuser( ) )
 		flags.emplace_back( "kit", m_player.m_colors.white );
+
+	// is this retarded?
+	
+	if ( !std::string( m_player.pointer->get_last_place_name( ) ).empty( ) )  {
+
+		const auto last_place_name_wstring = std::wstring( m_interfaces.m_localize->find( m_player.pointer->get_last_place_name( ) ) );
+		const auto last_place_name_string = std::string( last_place_name_wstring.begin( ), last_place_name_wstring.end( ) );
 		
+		if ( !last_place_name_string.empty( ) )
+			flags.emplace_back( last_place_name_string, m_player.m_colors.white );
+		
+	}	
+	
 	flags.emplace_back( std::to_string( m_player.pointer->get_money( ) ) + "$", m_player.m_colors.green );
 
 	if ( m_player.pointer->has_c4( ) )
@@ -168,7 +180,7 @@ void visuals::draw_flags( ) {
 	if ( m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
 		flags.emplace_back( "shot", m_player.m_colors.blue );
 	
-	if ( m_player.pointer->get_flash_duration( ) > 0.f )
+	if ( m_player.pointer->get_flash_duration( ) )
 		flags.emplace_back( "flash", m_player.m_colors.blue );
 
 	if ( m_player.pointer->is_activity_active( activity_plant ) )

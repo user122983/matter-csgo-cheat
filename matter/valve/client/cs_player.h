@@ -225,6 +225,14 @@ struct cs_player : base_animating {
 
 	}
 
+	auto get_aim_punch_angle( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_aimPunchAngle" ) ];
+
+		return reinterpret_cast< q_angle* >( reinterpret_cast< std::size_t >( this ) + offset);
+
+	}
+
 	auto& get_use_new_animstate( ) {
 
 		static auto offset = m_modules.m_client_dll.get_address( "C_CSPlayer->m_bUseNewAnimstate" ).add( 0x2 ).to< std::size_t >( );

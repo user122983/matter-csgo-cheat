@@ -84,19 +84,20 @@ struct weapon_cs_base : base_entity {
 
 	auto can_shoot( ) {
 
-		if ( !this->is_gun( ) )
+		const auto weapon = reinterpret_cast< base_combat_character* >( this );
+		if ( !weapon )
 			return false;
 		
-		if ( this->get_ammo( ) <= 0 || m_globals.m_local_player->get_next_attack( ) > m_globals.m_server_time )
+		if ( this->get_ammo( ) <= 0 || weapon->get_next_attack( ) > m_globals.m_server_time )
 			return false;
 
-		const auto weapon_definition_index = m_globals.m_local_player->get_item_definition_index( );
+		const auto weapon_definition_index = weapon->get_item_definition_index( );
 
 		if ( ( weapon_definition_index == weapon_id_famas || weapon_definition_index == weapon_id_glock ) && this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
 			return true;
 
-		if ( m_globals.m_local_player->get_next_primary_attack( ) >= m_globals.m_server_time )
-			return false;
+		//if ( weapon->get_next_primary_attack( ) > m_globals.m_server_time )
+		//	return false;
 
 		return true;
 		

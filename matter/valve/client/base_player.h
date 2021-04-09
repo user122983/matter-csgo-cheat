@@ -46,6 +46,14 @@ struct base_player : base_combat_character {
 
 	}
 
+	auto get_last_place_name( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_szLastPlaceName" ) ];
+
+		return reinterpret_cast< const char* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+
 	auto& get_current_command( ) {
 
 		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_LastCmd" ).add( 0xc ).to< std::size_t >( );

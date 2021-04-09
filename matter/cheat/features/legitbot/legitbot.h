@@ -3,8 +3,6 @@
 #include "../../cheat/cheat.h"
 #include "../../menu/menu.h"
 
-#include "../../../other/math/q_angle.h"
-
 enum desync_type {
 
 	desync_none,
@@ -49,12 +47,22 @@ struct legitbot {
 private:
 
 	void aimbot( );
+
+	void rcs( );
 	
-	void antiaim( ) const;
+	void antiaim( );
 
 	void fakelag( );
 
 	int m_fakelag_value = 0;
+
+	struct {
+
+		float next_update;
+
+		bool force_update;
+
+	} m_lby = { };
 	
 	struct {
 
@@ -71,6 +79,8 @@ private:
 		cs_weapon_info* info;
 
 		short item_definition_index;
+
+		bool is_gun;
 
 	} m_weapon = { };
 
