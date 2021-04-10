@@ -124,7 +124,7 @@ bool loaded_module::add_address( const std::string_view name, const std::string_
 
 }
 
-bool loaded_module::hook_function( std::string_view name, void* custom_function ) {
+bool loaded_module::hook_function( const std::string_view name, void* custom_function ) {
 
 	const auto hash = m_hash.get( name );
 
@@ -145,14 +145,14 @@ void loaded_module::unload_functions( ) {
 
 	static auto unhook = m_modules.m_gameoverlayrenderer_dll.get_address( "GameOverlayRenderer::UnhookFunc" ).as< void( __cdecl* )( void*, bool ) >( );
 
-	for ( auto& [k, v] : m_addresses )
+	for ( auto& [ k, v ] : m_addresses )
 		unhook( v, false );
 
 }
 
 bool loaded_module::valid_addresses( ) {
 
-	for ( auto& [k, v] : m_addresses )
+	for ( auto& [ k, v ] : m_addresses )
 		if ( !v )
 			return false;
 

@@ -96,6 +96,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +114,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -202,6 +204,7 @@
     <ClInclude Include="valve\client_entity_list.h" />
     <ClInclude Include="valve\client_networkable.h" />
     <ClInclude Include="valve\client_renderable.h" />
+    <ClInclude Include="valve\client_unknown.h" />
     <ClInclude Include="valve\data_cache\data_cache.h" />
     <ClInclude Include="valve\data_cache\mdl_cache.h" />
     <ClInclude Include="valve\dt_common.h" />
@@ -256,9 +259,11 @@
     <ClCompile Include="cheat\hooked\functions\cdll_client.cpp" />
     <ClCompile Include="cheat\hooked\functions\client_input.cpp" />
     <ClCompile Include="cheat\hooked\functions\client_mode_shared.cpp" />
+    <ClCompile Include="cheat\hooked\functions\client_state.cpp" />
     <ClCompile Include="cheat\hooked\functions\cl_main.cpp" />
     <ClCompile Include="cheat\hooked\functions\csgo_player_anim_state.cpp" />
     <ClCompile Include="cheat\hooked\functions\cs_player.cpp" />
+    <ClCompile Include="cheat\hooked\functions\engine_bsp_tree.cpp" />
     <ClCompile Include="cheat\hooked\functions\mat_system_surface.cpp" />
     <ClCompile Include="cheat\hooked\functions\prediction.cpp" />
     <ClCompile Include="cheat\hooked\functions\scheme_manager.cpp" />
@@ -284,6 +289,7 @@
     <ClCompile Include="other\module\module.cpp" />
     <ClCompile Include="other\pe\pe.cpp" />
     <ClCompile Include="other\utils\utils.cpp" />
+    <ClCompile Include="valve\client\client_leaf_system.h" />
     <ClCompile Include="valve\interfaces\interfaces.cpp" />
     <ClCompile Include="valve\modules\modules.cpp" />
     <ClCompile Include="valve\netvars\netvars.cpp" />

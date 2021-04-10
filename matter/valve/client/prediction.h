@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../shared/user_cmd.h"
-#include "../other/utils/utils.h"
 
 struct base_player;
 struct move_helper;

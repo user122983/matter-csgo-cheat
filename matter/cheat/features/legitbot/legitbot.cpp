@@ -8,13 +8,9 @@
  *
  *	key binder activation
  *
- *	antiaim:
- *	
- *  return on ladder ...
- *
  *  small sway on normal desync when going crouched
  *  when switching desync type ANIMATION_LAYER_ADJUST (try disabling it)
- *  
+ *
  */
 
 void legitbot::run( ) {
@@ -53,22 +49,7 @@ void legitbot::run( ) {
 		return;
 
 	fakelag( );
-
-	// maybe desync on knife?
 	
-/*	if ( m_weapon.info->m_weapon_type == weapon_type_knife ) {
-
-		if ( ( m_globals.m_cmd->m_buttons & in_attack && m_local_player.pointer->get_next_primary_attack( ) <= m_globals.m_server_time ) ||
-			( m_globals.m_cmd->m_buttons & in_attack2 && m_local_player.pointer->get_next_secondary_attack( ) <= m_globals.m_server_time ) ) {
-
-			m_lby.force_update = true;
-
-			return;
-			
-		}
-
-	}*/
-
 	if ( auto grenade = reinterpret_cast< base_cs_grenade* >( m_weapon.pointer ); grenade && m_weapon.info->m_weapon_type == weapon_type_grenade ) {
 
 		if ( grenade->get_throw_time( ) > 0.f && ( !grenade->is_pin_pulled( ) || m_globals.m_cmd->m_buttons & ( in_attack | in_attack2 ) ) )
@@ -76,9 +57,9 @@ void legitbot::run( ) {
 		
 	}
 	
-	if ( m_globals.m_cmd->m_buttons & in_use ) 
-		return;
-		
+	if ( m_globals.m_cmd->m_buttons & in_use || m_globals.m_local_player->get_move_type( ) == move_type_ladder || m_globals.m_local_player->get_move_type( ) == move_type_noclip )
+		return; 
+	
 	antiaim( );
 
 }
@@ -149,13 +130,13 @@ void legitbot::aimbot( ) {
 		}	
 		
 	}, m_settings.m_friendly_fire->get_state( ) ? iterate_teammates : 0 );
-	
-	if ( !m_player.pointer || !m_player.pointer->is_alive( ) || m_player.pointer->get_client_networkable( )->is_dormant( ) ) {
+
+	if ( !m_player.pointer || !m_player.pointer->is_alive( ) || m_player.pointer->get_client_networkable()->is_dormant( ) ) {
 
 		m_player.pointer = nullptr;
 
 		return;
-
+		
 	}
 	
 	m_player = {
@@ -170,6 +151,9 @@ void legitbot::aimbot( ) {
 	q_angle angle;
 	calc_player_angle( m_player.pointer, angle );
 
+	angle.normalize( );
+	angle.clamp( );
+	
 	fov = m_math.calc_fov( m_globals.m_cmd->m_view_angles, angle );
 	
 	if ( fov > m_settings.m_fov->get_value( ) )  {
@@ -186,9 +170,6 @@ void legitbot::aimbot( ) {
 		angle = m_globals.m_cmd->m_view_angles + delta / m_settings.m_smooth->get_value( );
 		
 	}
-
-	angle.normalize( );
-	angle.clamp( );
 	
 	m_globals.m_cmd->m_view_angles = angle;
 
@@ -229,9 +210,7 @@ void legitbot::antiaim( ) {
 		
 	}
 
-	const auto is_shooting = m_weapon.is_gun && m_weapon.pointer->can_shoot( ) && m_globals.m_cmd->m_buttons & in_attack;
-	
-	auto micromovement_desync = [ ]( const float yaw ) {
+	auto micromovement_desync = [ ]( const float yaw ) mutable  {
 
 		if ( m_globals.m_cmd->m_buttons & in_move_left || m_globals.m_cmd->m_buttons & in_move_right )
 			return;
@@ -243,6 +222,8 @@ void legitbot::antiaim( ) {
 		m_globals.m_cmd->m_side_move = move_side ? velocity : -velocity;
 
 		move_side = !move_side;
+
+		// todo: figure out prevent shooting
 		
 		if ( !m_legitbot.m_fakelag_value )
 			*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
@@ -262,11 +243,9 @@ void legitbot::antiaim( ) {
 
 		static float spawn_time;
 		
-		if ( spawn_time != m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended || m_lby.force_update ) {
+		if ( spawn_time != m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended ) {
 			
 			spawn_time = m_local_player.pointer->get_spawn_time( );
-
-			m_lby.force_update = false;
 			
 			micromovement_desync( 120.f );
 			
@@ -284,33 +263,37 @@ void legitbot::antiaim( ) {
 			m_globals.m_cmd->m_view_angles.y += 120;
 
 		} else {
-			
-			if ( !m_fakelag_value || is_shooting )
+
+			if ( !m_fakelag_value )
 				*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
-	
-			if ( !*m_globals.m_send_packet )
+						
+			if ( !*m_globals.m_send_packet ) {
+
+				// prevent shot until anti aim is sending the normal forward tick
+
+				m_globals.m_cmd->m_buttons &= ~in_attack;
+
 				m_globals.m_cmd->m_view_angles.y -= 120;
 
+			}
+			
 		}
 
 		m_last_desync_type = desync_extended;
 
 	}
 
+	// burst mode and revolver fucked
+	
 	m_globals.m_cmd->m_buttons &= ~( in_forward | in_back | in_move_right | in_move_left );
 
 }
 
 void legitbot::fakelag( ) {
 	
-	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none ) {
-
-		m_fakelag_value = 0;
-		
+	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none )		
 		return;
 		
-	}
-
 	// think how to make this cleaner / readable
 	
 	if ( m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_local_player.pointer->get_flags( ) & fl_onground ||

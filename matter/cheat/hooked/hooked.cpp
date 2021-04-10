@@ -68,6 +68,14 @@ bool hooked::setup( ) {
 	if ( !m_modules.m_client_dll.hook_function( "C_WeaponCSBase::DrawCrosshair", &weapon_cs_base_fn::draw_crosshair ) )
 		return false;
 
+	// client_state_fn
+	if ( !m_modules.m_engine_dll.hook_function( "CClientState::CheckFileCRCsWithServer", &client_state_fn::check_file_crcs_with_server ) )
+		return false;
+
+	// engine_bsp_tree_fn
+	if ( !m_modules.m_engine_dll.hook_function( "CEngineBSPTree::ListLeavesInBox", &engine_bsp_tree_fn::list_leaves_in_box ) )
+		return false;
+	
 	return true;
 
 }

@@ -126,7 +126,7 @@ struct base_player : base_combat_character {
 
 	}
 
-	auto create_move( float input_sample_time, user_cmd* cmd ) {
+	auto create_move( const float input_sample_time, user_cmd* cmd ) {
 
 		return m_utils.get_v_func< bool( __thiscall* )( void*, float, user_cmd* ) >( this, 288 )( this, input_sample_time, cmd );
 
@@ -144,7 +144,7 @@ struct base_player : base_combat_character {
 
 	}
 
-	auto select_item( const char* str, int sub_type ) {
+	auto select_item( const char* str, const int sub_type ) {
 
 		return m_utils.get_v_func< void( __thiscall* )( void*, const char*, int ) >( this, 329 )( this, str, sub_type );
 

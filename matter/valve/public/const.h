@@ -5,7 +5,8 @@
 
 enum move_type {
 	
-	movetype_none = 0,
-	movetype_ladder = 9
+	move_type_none = 0,
+	move_type_noclip = 8,
+	move_type_ladder = 9
 	
 };

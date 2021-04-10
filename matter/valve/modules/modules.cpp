@@ -71,7 +71,7 @@ bool modules::get( ) {
 
 void modules::get_addresses( ) {
 
-	m_client_dll.add_address("CSGameRulesProxy", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A" );
+	m_client_dll.add_address("CCSGameRulesProxy::CGameRulesProxy", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A" );
 	
 	m_client_dll.add_address( "g_pNetGraphPanel", "89 1D ? ? ? ? 8B C3" );
 	m_client_dll.add_address( "g_pMoveData", "FF 35 ? ? ? ? 56 85 DB" );
@@ -144,12 +144,18 @@ void modules::get_addresses( ) {
 
 	m_client_dll.add_address( "CPrediction::RunCommand", "55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08" );
 
+	m_client_dll.add_address( "CClientLeafSystem::InsertIntoTree", "FF 50 18 89 44 24 14 EB 08" );
+
 	m_engine_dll.add_address( "CEngineVGui::Paint", "55 8B EC 83 EC 40 53 8B D9 8B 0D ? ? ? ? 89 5D F8" );
 
 	m_engine_dll.add_address( "CL_SendMove", "E8 ? ? ? ? 84 DB 0F 84 ? ? ? ? 8B 8F ? ? ? ?", true );
 
 	m_engine_dll.add_address( "CCLCMsg_Move::set_data", "E8 ? ? ? ? 8D 7E 18", true );
 	m_engine_dll.add_address( "CCLCMsg_Move::Deconstuctor", "E8 ? ? ? ? 5F 5E 5B 8B E5 5D C3 CC CC CC CC CC CC CC CC CC CC CC CC CC 55 8B EC 81 EC ? ? ? ?", true );
+
+	m_engine_dll.add_address( "CClientState::CheckFileCRCsWithServer", "55 8B EC 81 EC ? ? ? ? 53 8B D9 89 5D F8 80" );
+
+	m_engine_dll.add_address( "CEngineBSPTree::ListLeavesInBox", "55 8B EC 83 EC 18 8B 4D 0C" );
 
 	m_vguimatsurface_dll.add_address( "CMatSystemSurface::StartDrawing", "55 8B EC 83 E4 C0 83 EC 38" );
 	m_vguimatsurface_dll.add_address( "CMatSystemSurface::FinishDrawing", "8B 0D ? ? ? ? 56 C6 05 ? ? ? ? ?" );

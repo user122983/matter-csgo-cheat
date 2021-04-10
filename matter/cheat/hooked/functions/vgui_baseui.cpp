@@ -17,7 +17,7 @@ void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, cons
 
 		m_globals.m_cs_game_rules_captured = true;
 
-		m_interfaces.m_cs_game_rules_proxy = **reinterpret_cast< cs_game_rules_proxy*** >( m_modules.m_client_dll.get_address( "CSGameRulesProxy" ) + 0x1 );
+		m_interfaces.m_cs_game_rules_proxy = **m_modules.m_client_dll.get_address( "CCSGameRulesProxy::CGameRulesProxy" ).add( 0x1 ).as< cs_game_rules_proxy*** >( );
 		
 	}
 	

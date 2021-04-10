@@ -6,6 +6,7 @@
 
 #include "../client_networkable.h"
 #include "../client_renderable.h"
+
 #include "../netvars/netvars.h"
 
 #include "../../other/hash/hash.h"
@@ -44,11 +45,16 @@ struct base_entity {
 		return m_utils.get_v_func< bool( __thiscall* )( void* ) >( this, 155 )( this );
 
 	}
-
+	
 	auto is_player( ) {
 
 		return m_utils.get_v_func< bool( __thiscall* )( void* ) >( this, 157 )( this );
 
+	}
+
+	auto get_move_type( ) {
+
+		return *reinterpret_cast< int* >( reinterpret_cast< std::uintptr_t > ( this ) + static_cast< std::uintptr_t >( 0x25C ) );
 	}
 
 	auto& get_origin( ) {

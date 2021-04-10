@@ -6,6 +6,6 @@ struct view_setup {
 	float m_fov;
 	float m_viewmodel_fov;
 	vector_3d m_origin;
-	char pad1[ 0x8C ];
+	char _pad1[ 0x8C ];
 
 };

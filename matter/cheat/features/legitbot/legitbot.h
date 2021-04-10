@@ -60,8 +60,6 @@ private:
 
 		float next_update;
 
-		bool force_update;
-
 	} m_lby = { };
 	
 	struct {

@@ -92,6 +92,18 @@ private:
 
 	};
 
+	struct client_state_fn {
+
+		static void __fastcall check_file_crcs_with_server(void* ecx, void* edx);
+
+	};
+
+	struct engine_bsp_tree_fn {
+		
+		static int __fastcall list_leaves_in_box( void* ecx, void* edx, vector_3d& min, vector_3d& max, unsigned short* list, int list_max );
+
+	};
+
 };
 
 inline hooked m_hooked;

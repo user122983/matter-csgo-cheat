@@ -4,7 +4,6 @@
 #include "../legitbot/legitbot.h"
 
 #include "../../render/render.h"
-#include "../../../other/math/math.h"
 
 /* todo:
  * 
@@ -59,11 +58,12 @@ void visuals::run( ) {
 
 		draw_name( );
 
-		draw_flags( );
-
 		draw_ammo( );
 
 		draw_weapon( );
+
+		draw_flags( );
+
 
 	}
 	
@@ -158,14 +158,13 @@ void visuals::draw_flags( ) {
 		flags.emplace_back( "kit", m_player.m_colors.white );
 
 	// is this retarded?
-	
-	if ( !std::string( m_player.pointer->get_last_place_name( ) ).empty( ) )  {
 
-		const auto last_place_name_wstring = std::wstring( m_interfaces.m_localize->find( m_player.pointer->get_last_place_name( ) ) );
-		const auto last_place_name_string = std::string( last_place_name_wstring.begin( ), last_place_name_wstring.end( ) );
-		
-		if ( !last_place_name_string.empty( ) )
-			flags.emplace_back( last_place_name_string, m_player.m_colors.white );
+	const auto last_place_name = std::string( m_player.pointer->get_last_place_name( ) );
+	 
+	if ( !last_place_name.empty( ) )  {
+
+		const auto last_place_name_wstring = std::wstring( m_interfaces.m_localize->find( last_place_name.data( ) ) );		
+		flags.emplace_back( std::string( last_place_name_wstring.begin( ), last_place_name_wstring.end( ) ), m_player.m_colors.white );
 		
 	}	
 	

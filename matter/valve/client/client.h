@@ -11,3 +11,4 @@
 #include "weapon_cs_base.h"
 #include "base_cs_grenade.h"
 #include "prediction.h"
+#include "client_leaf_system.h"

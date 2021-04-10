@@ -5,6 +5,7 @@
 
 #include "../interfaces/interfaces.h"
 #include "../shared/cs_weapon_parse.h"
+#include "../shared/in_buttons.h"
 
 struct cs_weapon_info {
 
@@ -51,6 +52,14 @@ struct weapon_cs_base : base_entity {
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
 	}
+
+	auto get_postpone_fire_ready_time( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_flPostponeFireReadyTime" ) ];
+
+		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
 	
 	auto get_max_speed( ) {
 
@@ -67,15 +76,13 @@ struct weapon_cs_base : base_entity {
 	auto is_gun( ) {
 
 		switch ( this->get_cs_wpn_data( )->m_weapon_type ) {
-
 			case weapon_type_pistol:
 			case weapon_type_submachinegun:
 			case weapon_type_rifle:
 			case weapon_type_shotgun:
 			case weapon_type_sniper:
 			case weapon_type_machinegun:
-				return true;
-
+				return true;		
 		}
 
 		return false;
@@ -87,8 +94,8 @@ struct weapon_cs_base : base_entity {
 		const auto weapon = reinterpret_cast< base_combat_character* >( this );
 		if ( !weapon )
 			return false;
-		
-		if ( this->get_ammo( ) <= 0 || weapon->get_next_attack( ) > m_globals.m_server_time )
+
+		if ( !( m_globals.m_cmd->m_buttons & in_attack ) || this->get_ammo( ) <= 0 || weapon->get_next_attack( ) > m_globals.m_server_time )
 			return false;
 
 		const auto weapon_definition_index = weapon->get_item_definition_index( );
@@ -96,8 +103,8 @@ struct weapon_cs_base : base_entity {
 		if ( ( weapon_definition_index == weapon_id_famas || weapon_definition_index == weapon_id_glock ) && this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
 			return true;
 
-		//if ( weapon->get_next_primary_attack( ) > m_globals.m_server_time )
-		//	return false;
+		if ( weapon->get_next_primary_attack( ) > m_globals.m_server_time  || this->get_postpone_fire_ready_time( ) > m_globals.m_server_time )
+			return false;
 
 		return true;
 		
