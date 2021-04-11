@@ -89,25 +89,4 @@ struct weapon_cs_base : base_entity {
 
 	}
 
-	auto can_shoot( ) {
-
-		const auto weapon = reinterpret_cast< base_combat_character* >( this );
-		if ( !weapon )
-			return false;
-
-		if ( !( m_globals.m_cmd->m_buttons & in_attack ) || this->get_ammo( ) <= 0 || weapon->get_next_attack( ) > m_globals.m_server_time )
-			return false;
-
-		const auto weapon_definition_index = weapon->get_item_definition_index( );
-
-		if ( ( weapon_definition_index == weapon_id_famas || weapon_definition_index == weapon_id_glock ) && this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
-			return true;
-
-		if ( weapon->get_next_primary_attack( ) > m_globals.m_server_time  || this->get_postpone_fire_ready_time( ) > m_globals.m_server_time )
-			return false;
-
-		return true;
-		
-	}
-
 };

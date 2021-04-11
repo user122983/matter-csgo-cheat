@@ -144,7 +144,7 @@ void modules::get_addresses( ) {
 
 	m_client_dll.add_address( "CPrediction::RunCommand", "55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08" );
 
-	m_client_dll.add_address( "CClientLeafSystem::InsertIntoTree", "FF 50 18 89 44 24 14 EB 08" );
+	m_client_dll.add_address( "CClientLeafSystem::InsertIntoTree", "56 52 FF 50 18", true  );
 
 	m_engine_dll.add_address( "CEngineVGui::Paint", "55 8B EC 83 EC 40 53 8B D9 8B 0D ? ? ? ? 89 5D F8" );
 

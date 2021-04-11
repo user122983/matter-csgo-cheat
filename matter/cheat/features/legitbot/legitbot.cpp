@@ -15,13 +15,8 @@
 
 void legitbot::run( ) {
 
-	if ( !m_globals.m_local_player || !m_globals.m_local_player->is_alive( ) || !m_globals.m_cs_game_rules_captured || m_interfaces.m_cs_game_rules_proxy->is_freeze_period( ) || m_globals.m_local_player->get_flags( ) & fl_frozen ) {
-
-		m_player.pointer = nullptr;
-
+	if ( !m_globals.m_local_player || !m_globals.m_local_player->is_alive( ) || !m_globals.m_cs_game_rules_captured || m_interfaces.m_cs_game_rules_proxy->is_freeze_period( ) || m_globals.m_local_player->get_flags( ) & fl_frozen )
 		return;
-
-	}
 	
 	m_local_player = {
 
@@ -74,7 +69,7 @@ void legitbot::aimbot( ) {
 		
 	}
 		
-	int weapon_id;
+	auto weapon_id = 0;
 	if ( m_menu.m_weapon_widgets[ weapon_scout ].m_enabled->get_state( ) && m_weapon.item_definition_index == weapon_id_ssg08 )
 		weapon_id = weapon_scout;
 	else if ( m_menu.m_weapon_widgets[ weapon_awp ].m_enabled->get_state( ) && m_weapon.item_definition_index == weapon_id_awp )
@@ -85,9 +80,7 @@ void legitbot::aimbot( ) {
 		weapon_id = weapon_heavy;
 	else if ( m_menu.m_weapon_widgets[ weapon_rifles ].m_enabled->get_state( ) && m_weapon.info->m_weapon_type == weapon_type_rifle )
 		weapon_id = weapon_rifles;
-	else
-		weapon_id = weapon_default;
-	
+
 	m_settings = m_menu.m_weapon_widgets[ weapon_id ];
 
 	if ( !m_settings.m_fov->get_value( ) ) {
@@ -98,7 +91,7 @@ void legitbot::aimbot( ) {
 
 	}
 
-	auto calc_player_angle = [ ]( cs_player* player, q_angle& angle ) {
+	auto calculate_player_angle = [ ]( cs_player* player, q_angle& angle ) {
 
 		// todo: use input from settings for getting aim bone
 		
@@ -109,18 +102,18 @@ void legitbot::aimbot( ) {
 		vector_3d head_pos;
 		player->get_bone_position( head_bone, head_pos );
 		 
-		angle = m_math.calc_angle( m_legitbot.m_local_player.pointer->get_eye_pos( ), head_pos );
+		angle = m_math.calculate_angle( m_legitbot.m_local_player.pointer->get_eye_pos( ), head_pos );
 		
 	};
 	
 	auto fov = 0.f, best_fov = FLT_MAX;
 
-	m_cheat.iterate_players( [ this, fov, best_fov, calc_player_angle ]( cs_player* player ) mutable -> void {
+	m_cheat.iterate_players( [ this, fov, best_fov, calculate_player_angle ]( cs_player* player ) mutable -> void {
 
 		q_angle angle;
-		calc_player_angle( player, angle );
+		calculate_player_angle( player, angle );
 
-		fov = m_math.calc_fov( m_globals.m_cmd->m_view_angles, angle );
+		fov = m_math.calculate_fov( m_globals.m_cmd->m_view_angles, angle );
 
 		if ( std::isnan( fov ) || fov < best_fov && fov < m_settings.m_fov->get_value( ) ) {
 
@@ -145,16 +138,16 @@ void legitbot::aimbot( ) {
 		m_player.pointer->get_client_networkable( )->get_index( ),
 
 	};
-
+	
 	// todo: get values from loop
 	
 	q_angle angle;
-	calc_player_angle( m_player.pointer, angle );
+	calculate_player_angle( m_player.pointer, angle );
 
 	angle.normalize( );
 	angle.clamp( );
 	
-	fov = m_math.calc_fov( m_globals.m_cmd->m_view_angles, angle );
+	fov = m_math.calculate_fov( m_globals.m_cmd->m_view_angles, angle );
 	
 	if ( fov > m_settings.m_fov->get_value( ) )  {
 
@@ -222,14 +215,17 @@ void legitbot::antiaim( ) {
 		m_globals.m_cmd->m_side_move = move_side ? velocity : -velocity;
 
 		move_side = !move_side;
-
-		// todo: figure out prevent shooting
 		
 		if ( !m_legitbot.m_fakelag_value )
 			*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
 		
-		if ( !*m_globals.m_send_packet )
+		if ( !*m_globals.m_send_packet ) {
+
+			m_globals.m_cmd->m_buttons &= ~( in_attack | in_attack2 );
+
 			m_globals.m_cmd->m_view_angles.y += yaw;
+
+		}
 
 	};
 
@@ -253,14 +249,17 @@ void legitbot::antiaim( ) {
 		
 		if ( m_local_player.anim_state->m_velocity_length_xy > 0.1 )
 			m_lby.next_update = m_globals.m_server_time + 0.22f;
-		else if ( m_globals.m_server_time >= m_lby.next_update || !m_lby.next_update )
+		else if ( m_globals.m_server_time >= m_lby.next_update || m_lby.next_update == -1.f )
 			m_lby.next_update = m_globals.m_server_time + 1.1f;
 		
 		if ( m_lby.next_update - m_globals.m_server_time <= m_interfaces.m_globals->m_interval_per_tick ) {
 
 			*m_globals.m_send_packet = false;
 
+			m_globals.m_cmd->m_buttons &= ~( in_attack | in_attack2 );
+
 			m_globals.m_cmd->m_view_angles.y += 120;
+
 
 		} else {
 
@@ -269,9 +268,7 @@ void legitbot::antiaim( ) {
 						
 			if ( !*m_globals.m_send_packet ) {
 
-				// prevent shot until anti aim is sending the normal forward tick
-
-				m_globals.m_cmd->m_buttons &= ~in_attack;
+				m_globals.m_cmd->m_buttons &= ~( in_attack | in_attack2 );
 
 				m_globals.m_cmd->m_view_angles.y -= 120;
 

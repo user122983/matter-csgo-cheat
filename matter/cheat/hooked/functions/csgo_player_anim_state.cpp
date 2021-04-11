@@ -1,9 +1,5 @@
 #include "../hooked.h"
 
-#include "../../cheat.h"
-#include "../../features/globals.h"
-#include "../../menu/menu.h"
-
 void __vectorcall hooked::csgo_player_anim_state_fn::update( csgo_player_anim_state* ecx, void* unk0, float z, const float y, float x, void* unk1 ) {
 
 	auto player = ecx->m_player;

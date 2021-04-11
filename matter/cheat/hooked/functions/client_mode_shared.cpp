@@ -1,8 +1,5 @@
 #include "../hooked.h"
 
-#include "../../menu/menu.h"
-#include "../../features/features.h"
-
 #include <intrin.h>
 
 bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx, const float input_sample_time, user_cmd* cmd ) {
@@ -15,7 +12,6 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 		return o_create_move( ecx, edx, input_sample_time, cmd );
 	
 	m_globals.m_cmd = cmd;
-
 	m_globals.m_server_time = m_interfaces.m_globals->m_interval_per_tick * m_interfaces.m_client_state->m_clockdriftmgr.m_servertick;
 	
 	const stack stack( _AddressOfReturnAddress( ) );

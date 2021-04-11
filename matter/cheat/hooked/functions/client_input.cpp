@@ -1,8 +1,5 @@
 #include "../hooked.h"
 
-#include "../../input/input.h"
-#include "../../features/globals.h"
-
 void __fastcall hooked::client_input_fn::cam_think( client_input* ecx, void* edx ) {
 
 	static auto o_cam_think = m_modules.m_client_dll.get< decltype( &cam_think ) >( "CInput::CAM_Think" );

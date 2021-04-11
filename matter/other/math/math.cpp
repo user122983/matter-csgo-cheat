@@ -34,7 +34,7 @@ vector_3d math::vector_transform( const vector_3d& transform, const matrix3x4& m
 
 }
 
-float math::calc_fov( const q_angle& view_angle, const q_angle& aim_angle ) const {
+float math::calculate_fov( const q_angle& view_angle, const q_angle& aim_angle ) const {
 	
 	vector_3d view, aim;
 
@@ -45,7 +45,7 @@ float math::calc_fov( const q_angle& view_angle, const q_angle& aim_angle ) cons
 	
 }
 
-q_angle math::calc_angle( const vector_3d& start, const vector_3d& end ) {
+q_angle math::calculate_angle( const vector_3d& start, const vector_3d& end ) {
 	
 	q_angle view;
 	const auto delta = end - start;

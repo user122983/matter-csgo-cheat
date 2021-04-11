@@ -1,9 +1,5 @@
 #include "../hooked.h"
 
-#include "../../menu/menu.h"
-#include "../../features/visuals/visuals.h"
-#include "../../features/globals.h"
-
 void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, const paint_mode mode ) {
 
 	static auto o_paint = m_modules.m_engine_dll.get< decltype( &paint ) >( "CEngineVGui::Paint" );

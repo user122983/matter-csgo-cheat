@@ -25,7 +25,7 @@ struct render {
 
 	static void draw_outlined_rect( int x, int y, int width, int height, const color& color, int flags = { } );
 
-	static void draw_gradient( int x, int y, int width, int height, const color color1, color color2, bool horizontal );
+	static void draw_gradient( int x, int y, int width, int height, color color1, color color2, bool horizontal );
 
 	static void draw_text( const h_font& font, int x, int y, std::wstring_view text, const color& color, int flags = { } );
 

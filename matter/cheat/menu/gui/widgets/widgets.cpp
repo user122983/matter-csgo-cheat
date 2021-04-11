@@ -56,12 +56,12 @@ bool widgets::is_unlocked( ) const {
 		return true;
 
 	switch ( m_medium_widget->m_type ) {
-	case widget_type_tab_panel:
-		return std::reinterpret_pointer_cast< tab_panel >( m_medium_widget )->get_index( ) == m_page;
-	case widget_type_box:
-		return std::reinterpret_pointer_cast< box >( m_medium_widget )->get_index( ) == m_page;
-	default: 
-		return true;
+		case widget_type_tab_panel:
+			return std::reinterpret_pointer_cast< tab_panel >( m_medium_widget )->get_index( ) == m_page;
+		case widget_type_box:
+			return std::reinterpret_pointer_cast< box >( m_medium_widget )->get_index( ) == m_page;
+		default: 
+			return true;
 	}
 
 }

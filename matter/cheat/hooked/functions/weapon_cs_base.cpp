@@ -1,5 +1,4 @@
 #include "../hooked.h"
-#include "../../features/globals.h"
 
 void __fastcall hooked::weapon_cs_base_fn::draw_crosshair( weapon_cs_base* ecx, void* edx ) {
 

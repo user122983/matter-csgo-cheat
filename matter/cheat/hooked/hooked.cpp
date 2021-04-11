@@ -73,8 +73,8 @@ bool hooked::setup( ) {
 		return false;
 
 	// engine_bsp_tree_fn
-	if ( !m_modules.m_engine_dll.hook_function( "CEngineBSPTree::ListLeavesInBox", &engine_bsp_tree_fn::list_leaves_in_box ) )
-		return false;
+	//if ( !m_modules.m_engine_dll.hook_function( "CEngineBSPTree::ListLeavesInBox", &engine_bsp_tree_fn::list_leaves_in_box ) )
+	//	return false;
 	
 	return true;
 
