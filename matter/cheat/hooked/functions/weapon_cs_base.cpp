@@ -4,14 +4,14 @@ void __fastcall hooked::weapon_cs_base_fn::draw_crosshair( weapon_cs_base* ecx, 
 
 	static auto o_draw_crosshair = m_modules.m_client_dll.get< decltype( &draw_crosshair ) >( "C_WeaponCSBase::DrawCrosshair" );
 
-	const auto weapon_info = ecx->get_cs_wpn_data( );
+	cs_weapon_info* weapon_info = ecx->get_cs_wpn_data( );
 	if ( !weapon_info )
 		return;
 
-	if ( m_globals.m_local_player && m_globals.m_local_player->is_scoped( ) )
+	if ( m_globals.m_local_player.pointer && m_globals.m_local_player.pointer->is_scoped( ) )
 		return;
 
-	const auto old_weapon_type = weapon_info->m_weapon_type;
+	int old_weapon_type = weapon_info->m_weapon_type;
 
 	weapon_info->m_weapon_type = 0xff;
 

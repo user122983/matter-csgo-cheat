@@ -11,7 +11,7 @@ struct mstudioseqdesc {
 
 struct studio_hdr {
 
-	auto seqdesc( const int seq ) {
+	auto seqdesc( int seq ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "CStudioHdr::pSeqdesc" ).as< mstudioseqdesc& ( __thiscall* )( void*, int ) >( );
 		

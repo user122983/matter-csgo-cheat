@@ -30,25 +30,25 @@ struct base_entity {
 
 	auto on_latch_interpolated_variables( const int flags ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, int ) >( this, 107 )( this, flags );
+		return m_memory.get_v_func< void( __thiscall* )( void*, int ) >( this, 107 )( this, flags );
 
 	}
 
 	auto think( ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void* ) >( this, 138 )( this );
+		return m_memory.get_v_func< void( __thiscall* )( void* ) >( this, 138 )( this );
 
 	}
 	
 	auto is_alive( ) {
 
-		return m_utils.get_v_func< bool( __thiscall* )( void* ) >( this, 155 )( this );
+		return m_memory.get_v_func< bool( __thiscall* )( void* ) >( this, 155 )( this );
 
 	}
 	
 	auto is_player( ) {
 
- 		return m_utils.get_v_func< bool( __thiscall* )( void* ) >( this, 157 )( this );
+ 		return m_memory.get_v_func< bool( __thiscall* )( void* ) >( this, 157 )( this );
 
 	}
 
@@ -99,7 +99,7 @@ struct base_entity {
 
 	}
 
-	auto get_anim_overlay( const int i ) {
+	auto get_anim_overlay( int i ) {
 
 		static auto offset = m_modules.m_client_dll.get_address( "C_BaseEntity->m_nAnimOverlay" ).add( 0x2 ).to< std::size_t >( );
 		
@@ -115,7 +115,7 @@ struct base_entity {
 
 	}
 
-	auto invalidate_physics_recursive( const int change_flags ) {
+	auto invalidate_physics_recursive( int change_flags ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::InvalidatePhysicsRecursive" ).as< void( __thiscall* )( void*, int ) >( );
 		
@@ -131,7 +131,7 @@ struct base_entity {
 
 	}
 
-	auto physics_run_think( const int think_method = 0) {
+	auto physics_run_think( int think_method = 0) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::PhysicsRunThink" ).as< bool( __thiscall* )( void*, int ) >( );
 
@@ -139,7 +139,7 @@ struct base_entity {
 
 	}
 
-	auto check_has_think_function( const bool is_thinking = false ) {
+	auto check_has_think_function( bool is_thinking = false ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::CheckHasThinkFunction" ).as< void( __thiscall* )( void*, bool ) >( );
 
@@ -147,7 +147,7 @@ struct base_entity {
 
 	}
 
-	static auto set_prediction_random_seed( const user_cmd* cmd ) {
+	static auto set_prediction_random_seed( user_cmd* cmd ) {
 
 		static auto prediction_random_seed = m_modules.m_client_dll.get_address( "C_BaseEntity->m_nPredictionRandomSeed" ).add( 0x4 ).to< int* >( );
 

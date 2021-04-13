@@ -1,13 +1,13 @@
 #pragma once
 
-#include <windows.h>
+#include <Windows.h>
 #include <string>
 
 struct console {
 
 	bool setup( std::string_view name );
 
-	static void unload( );
+	void unload( );
 
 	void log( std::string_view format, ... );
 

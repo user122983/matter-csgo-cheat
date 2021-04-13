@@ -4,31 +4,31 @@
 
 struct stack : address {
 
-	stack( void* address_of_return_address ) : address( m_utils.get_ebp( address_of_return_address ) ) {
+	stack( void* address_of_return_address ) : address( m_memory.get_ebp( address_of_return_address ) ) {
 
 
 
 	}
 
-	stack& next( ) const {
+	stack& next( ) {
 
 		return *reinterpret_cast< stack* >( m_address );
 
 	}
 
-	template< typename t = address > t local( const std::size_t offset ) {
+	template< typename t = address > t local( std::size_t offset ) {
 
 		return ( t )( m_address - offset );
 
 	}
 
-	template< typename t = address > t argument( const std::size_t offset ) {
+	template< typename t = address > t argument( std::size_t offset ) {
 
 		return ( t )( m_address + offset);
 
 	}
 
-	address return_address( ) const {
+	address return_address( ) {
 
 		if ( !m_address )
 			return address( );
@@ -37,7 +37,7 @@ struct stack : address {
 
 	}
 
-	address address_of_return_address( ) const {
+	address address_of_return_address( ) {
 
 		if ( !m_address )
 			return address( );

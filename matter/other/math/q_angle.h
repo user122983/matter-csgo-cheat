@@ -7,7 +7,7 @@ struct q_angle {
 	
 	q_angle() : x{ }, y{ }, z{ } { }
 
-	q_angle( const float x, const float y, const float z ) : x{ x }, y{ y }, z{ z } { }
+	q_angle( float x, float y, float z ) : x{ x }, y{ y }, z{ z } { }
 
 	q_angle& operator+=( const q_angle& a ) {
 
@@ -49,7 +49,7 @@ struct q_angle {
 
 	}
 
-	q_angle& operator+=( const float fl ) {
+	q_angle& operator+=( float fl ) {
 
 		x += fl;
 		y += fl;
@@ -59,7 +59,7 @@ struct q_angle {
 
 	}
 
-	q_angle& operator-=( const float fl ) {
+	q_angle& operator-=( float fl ) {
 
 		x -= fl;
 		y -= fl;
@@ -70,7 +70,7 @@ struct q_angle {
 	}
 
 
-	q_angle& operator*=( const float fl ) {
+	q_angle& operator*=( float fl ) {
 
 		x *= fl;
 		y *= fl;
@@ -80,7 +80,7 @@ struct q_angle {
 
 	}
 
-	q_angle& operator/=( const float fl ) {
+	q_angle& operator/=( float fl ) {
 
 		x /= fl;
 		y /= fl;
@@ -90,7 +90,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator+( const q_angle& a ) const {
+	q_angle operator+( const q_angle& a ) {
 
 		auto result = *this;
 
@@ -98,7 +98,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator-( const q_angle& a ) const {
+	q_angle operator-( const q_angle& a ) {
 
 		auto result = *this;
 
@@ -106,7 +106,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator*( const q_angle& a ) const {
+	q_angle operator*( const q_angle& a ) {
 
 		auto result = *this;
 
@@ -114,7 +114,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator/( const q_angle& a ) const {
+	q_angle operator/( const q_angle& a ) {
 
 		auto result = *this;
 
@@ -122,7 +122,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator+( const float fl ) const {
+	q_angle operator+( float fl ) {
 
 		auto result = *this;
 
@@ -130,7 +130,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator-( const float fl ) const {
+	q_angle operator-( float fl ) {
 
 		auto result = *this;
 
@@ -138,7 +138,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator*( const float fl ) const {
+	q_angle operator*( float fl ) {
 
 		auto result = *this;
 
@@ -146,7 +146,7 @@ struct q_angle {
 
 	}
 
-	q_angle operator/( const float fl ) const {
+	q_angle operator/( float fl ) {
 
 		auto result = *this;
 

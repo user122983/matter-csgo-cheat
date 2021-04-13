@@ -4,7 +4,7 @@
 
 struct misc {
 
-	void movement_fix( q_angle& angle ) const;
+	void movement_fix( q_angle& angle );
 	
 };
 

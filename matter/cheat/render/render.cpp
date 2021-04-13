@@ -14,7 +14,7 @@ bool render::setup( ) {
 
 }
 
-void render::draw_line( const int x0, const int y0, const int x1, const int y1, const color& color ) {
+void render::draw_line( int x0, int y0, int x1, int y1, const color& color ) {
 
 	m_interfaces.m_surface->draw_set_color( color.r, color.g, color.b, color.a );
 
@@ -22,7 +22,7 @@ void render::draw_line( const int x0, const int y0, const int x1, const int y1, 
 
 }
 
-void render::draw_filled_rect( int x, int y, const int width, const int height, const color& color, const int flags ) {
+void render::draw_filled_rect( int x, int y, int width, int height, const color& color, int flags ) {
 
 	m_interfaces.m_surface->draw_set_color( color.r, color.g, color.b, color.a );
 
@@ -32,7 +32,7 @@ void render::draw_filled_rect( int x, int y, const int width, const int height, 
 
 }
 
-void render::draw_outlined_rect( int x, int y, const int width, const int height, const color& color, const int flags ) {
+void render::draw_outlined_rect( int x, int y, int width, int height, const color& color, int flags ) {
 
 	m_interfaces.m_surface->draw_set_color( color.r, color.g, color.b, color.a );
 
@@ -42,7 +42,7 @@ void render::draw_outlined_rect( int x, int y, const int width, const int height
 
 }
 
-void render::draw_gradient( const int x, const int y, const int width, const int height, const color color1, const color color2, const bool horizontal ) {
+void render::draw_gradient( int x, int y, int width, int height, color color1, const color color2, bool horizontal ) {
 
 	m_interfaces.m_surface->draw_set_color( color1.r, color1.g, color1.b, color1.a );
 	m_interfaces.m_surface->draw_filled_rect_fade( x, y, x + width, y + height, 255, 255, horizontal );
@@ -52,7 +52,7 @@ void render::draw_gradient( const int x, const int y, const int width, const int
 
 }
 
-void render::draw_text( const h_font& font, int x, int y, const std::wstring_view text, const color& color, const int flags ) {
+void render::draw_text( h_font& font, int x, int y, std::wstring_view text, const color& color, int flags ) {
 
 	if ( flags ) {
 		
@@ -70,11 +70,21 @@ void render::draw_text( const h_font& font, int x, int y, const std::wstring_vie
 
 }
 
-void render::draw_text( const h_font& font, const int x, const int y, const std::string_view text, const color& color, const int flags ) const {
+void render::draw_text( h_font& font, int x, int y, std::string_view text, const color& color, int flags ) {
 
 	draw_text( font, x, y, std::wstring( text.begin( ), text.end( ) ), color, flags );
 
 }
+
+dimension render::get_text_size( h_font font, std::wstring_view text ) {
+
+	dimension text_area;
+	m_interfaces.m_surface->get_text_size( font, text.data( ), text_area.m_width, text_area.m_height );
+
+	return text_area;
+
+}
+
 
 std::string_view render::format_text( std::string_view format, ... ) {
 
@@ -88,7 +98,7 @@ std::string_view render::format_text( std::string_view format, ... ) {
 	std::memset( m_buffer, '\0', sizeof( m_buffer ) );
 	vsprintf_s( m_buffer, format.data( ), arguments );
 
-	const auto text = m_buffer;
+	std::string_view text = m_buffer;
 
 	va_end( arguments );
 
@@ -96,16 +106,7 @@ std::string_view render::format_text( std::string_view format, ... ) {
 
 }
 
-dimension render::get_text_size( const h_font font, const std::wstring_view text ) {
-	
-	dimension text_area = { };
-	m_interfaces.m_surface->get_text_size( font, text.data( ), text_area.m_width, text_area.m_height );
-
-	return text_area;
-	
-}
-
-void render::create_font( h_font& font, const std::string_view name, const int tall, const int weight, const int flags ) {
+void render::create_font( h_font& font, std::string_view name, int tall, int weight, int flags ) {
 
 	font = m_interfaces.m_surface->create_font( );
 		
@@ -113,7 +114,7 @@ void render::create_font( h_font& font, const std::string_view name, const int t
 
 }
 
-void render::handle_flags( int& x, int& y, const int width, const int height, const int flags ) {
+void render::handle_flags( int& x, int& y, int width, int height, int flags ) {
 
 	if ( !flags )
 		return;

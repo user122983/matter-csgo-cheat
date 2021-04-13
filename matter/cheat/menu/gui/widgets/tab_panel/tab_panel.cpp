@@ -10,13 +10,13 @@ tab_panel::tab_panel( ) {
 	
 }
 
-void tab_panel::add_tab( const std::pair< std::string, std::string >& title ) {
+void tab_panel::add_tab( std::pair< std::string, std::string >& title ) {
 
 	m_tabs.emplace_back( title );
 	
 }
 
-std::size_t tab_panel::get_index( ) const {
+std::size_t tab_panel::get_index( ) {
 
 	return m_selected_entry;
 	

@@ -5,13 +5,13 @@
 
 bool math::world_to_screen( const vector_3d& origin, vector_2d& screen ) {
 
-	const auto world_to_screen = m_interfaces.m_engine->get_world_to_screen_matrix( );
-	const auto width = world_to_screen[ 3 ][ 0 ] * origin.x + world_to_screen[ 3 ][ 1 ] * origin.y + world_to_screen[ 3 ][ 2 ] * origin.z + world_to_screen[ 3 ][ 3 ];
+	view_matrix world_to_screen = m_interfaces.m_engine->get_world_to_screen_matrix( );
+	float width = world_to_screen[ 3 ][ 0 ] * origin.x + world_to_screen[ 3 ][ 1 ] * origin.y + world_to_screen[ 3 ][ 2 ] * origin.z + world_to_screen[ 3 ][ 3 ];
 
 	if ( width < 0.01f )
 		return false;
 
-	const auto inverse = 1.0f / width;
+	float inverse = 1.0f / width;
 
 	screen = { ( world_to_screen[ 0 ][ 0 ] * origin.x + world_to_screen[ 0 ][ 1 ] * origin.y + world_to_screen[ 0 ][ 2 ] * origin.z + world_to_screen[ 0 ][ 3 ] ) * inverse, 
 			   ( world_to_screen[ 1 ][ 0 ] * origin.x + world_to_screen[ 1 ][ 1 ] * origin.y + world_to_screen[ 1 ][ 2 ] * origin.z + world_to_screen[ 1 ][ 3 ] ) * inverse };
@@ -22,7 +22,7 @@ bool math::world_to_screen( const vector_3d& origin, vector_2d& screen ) {
 
 }
 
-vector_3d math::vector_transform( const vector_3d& transform, const matrix3x4& matrix ) {
+vector_3d math::vector_transform( vector_3d& transform, matrix3x4& matrix ) {
 
 	return vector_3d (
 
@@ -34,7 +34,7 @@ vector_3d math::vector_transform( const vector_3d& transform, const matrix3x4& m
 
 }
 
-float math::calculate_fov( const q_angle& view_angle, const q_angle& aim_angle ) const {
+float math::calculate_fov( q_angle& view_angle, q_angle& aim_angle ) {
 	
 	vector_3d view, aim;
 
@@ -45,10 +45,10 @@ float math::calculate_fov( const q_angle& view_angle, const q_angle& aim_angle )
 	
 }
 
-q_angle math::calculate_angle( const vector_3d& start, const vector_3d& end ) {
+q_angle math::calculate_angle( vector_3d& start, vector_3d& end ) {
 	
 	q_angle view;
-	const auto delta = end - start;
+	auto delta = end - start;
 	
 	m_mathlib_base.vector_angles( delta, view );
 	

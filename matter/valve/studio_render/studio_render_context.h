@@ -18,13 +18,13 @@ struct studio_render_context {
 
 	}
 
-	auto set_alpha( const float alpha ) {
+	auto set_alpha( float alpha ) {
 
 		m_alpha_mod = alpha;
 
 	}
 
-	auto set_material( material* material, const bool ignore_z = true ) {
+	auto set_material( material* material, bool ignore_z = true ) {
 		
 		if ( material )
 			material->set_material_var_flag( 1 << 15, ignore_z );

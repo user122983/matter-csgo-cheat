@@ -16,9 +16,9 @@ struct box final : widgets {
 
 	box( );
 
-	bool get_state( ) const;
+	bool get_state( );
 	
-	std::size_t get_index( std::size_t index = 0 ) const;
+	std::size_t get_index( std::size_t index = 0 );
 	
 	void set_type( std::size_t type );
 	

@@ -63,7 +63,10 @@ bool modules::get( ) {
 	m_inputsystem_dll = m_pe.get( "inputsystem.dll" );
 	if ( !m_inputsystem_dll.get_module( ) )
 		return false;
-	
+
+	m_filesystem_stdio_dll = m_pe.get( "filesystem_stdio.dll" );
+	if ( !m_filesystem_stdio_dll.get_module( ) )
+		return false;
 	
 	return true;
 
@@ -171,7 +174,7 @@ void modules::get_addresses( ) {
 	m_server_dll.add_address( "CBaseAnimating::DrawServerHitboxes", "E8 ? ? ? ? F6 83 ? ? ? ? ? 0F 84 ? ? ? ? 33 FF", true );
 	m_server_dll.add_address( "UTIL_PlayerByIndex", "85 C9 7E 2A A1 ? ? ? ?" );
 	m_server_dll.add_address( "CCSGOPlayerAnimState::SetUpVelocity", "55 8B EC 83 E4 F8 83 EC 28 56 57 8B 3D ? ? ? ? 8B F1 8B CF" );
-
+	
 }
 
 bool modules::got_addresses( ) {
@@ -209,6 +212,9 @@ bool modules::got_addresses( ) {
 	if ( !m_tier0.valid_addresses( ) )
 		return false;
 
+	if ( !m_filesystem_stdio_dll.valid_addresses( ) )
+		return false;
+	
 	return true;
 
 }

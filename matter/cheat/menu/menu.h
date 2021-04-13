@@ -1,16 +1,6 @@
 #pragma once
 
-#include "gui/widgets/container/container.h"
-#include "gui/widgets/tab_panel/tab_panel.h"
-#include "gui/widgets/checkbox/checkbox.h"
-#include "gui/widgets/slider/slider.h"
-#include "gui/widgets/key_binder/key_binder.h"
-#include "gui/widgets/color_picker/color_picker.h"
-#include "gui/widgets/box/box.h"
-
-#include "../../other/color/color.h"
-
-#include <memory>
+#include "gui/gui.h"
 
 struct legitbot_widgets {
 

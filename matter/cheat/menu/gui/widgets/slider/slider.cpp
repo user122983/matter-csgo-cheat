@@ -12,26 +12,26 @@ slider::slider( ) {
 	m_size = { 178, 7 };
 }
 
-void slider::set_range( const float min, const float max ) {
+void slider::set_range( float min, float max ) {
 
 	m_min = min;
 	m_max = max;
 	
 }
 
-void slider::set_prefix( const std::string_view prefix ) {
+void slider::set_prefix( std::string_view prefix ) {
 
 	m_prefix = prefix;
 	
 }
 
-void slider::set_value( const float value ) {
+void slider::set_value( float value ) {
 
 	m_value = value;
 	
 }
 
-float slider::get_value( ) const {
+float slider::get_value( ) {
 	
 	return m_value;
 	
@@ -41,10 +41,10 @@ void slider::geometry( ) {
 
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
 
-	const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
+	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y - text_size.m_height - 2, m_title, m_menu.m_colors.white );
 
-	auto value_text = std::to_string( static_cast< int >( m_value ) );
+	std::string value_text = std::to_string( static_cast< int >( m_value ) );
 	if ( !m_prefix.empty( ) )
 		value_text = value_text + " " + m_prefix.data( );
 	

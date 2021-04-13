@@ -8,21 +8,21 @@ struct move_data;
 
 struct prediction {
 
-	auto check_moving_ground( base_player* player, const double frametime ) {
+	auto check_moving_ground( base_player* player, double frametime ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, base_player*, double ) >( this, 18 )( this, player, frametime );
+		return m_memory.get_v_func< void( __thiscall* )( void*, base_player*, double ) >( this, 18 )( this, player, frametime );
 
 	}
 
 	auto setup_move( base_player* player, user_cmd* cmd, move_helper* helper, move_data* move ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, base_player*, user_cmd*, move_helper*, move_data* ) >( this, 20 )( this, player, cmd, helper, move );
+		return m_memory.get_v_func< void( __thiscall* )( void*, base_player*, user_cmd*, move_helper*, move_data* ) >( this, 20 )( this, player, cmd, helper, move );
 
 	}
 
 	auto finish_move( base_player* player, user_cmd* cmd, move_data* move ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, base_player*, user_cmd*, move_data* ) >( this, 21 )( this, player, cmd, move );
+		return m_memory.get_v_func< void( __thiscall* )( void*, base_player*, user_cmd*, move_data* ) >( this, 21 )( this, player, cmd, move );
 
 	}
 
@@ -46,7 +46,7 @@ struct prediction {
 
 	static auto run_think( base_player* player, double frametime ) {
 
-		const auto thinktick = player->get_next_think_tick( );
+		int thinktick = player->get_next_think_tick( );
 
 		if ( thinktick <= 0 || thinktick > player->get_tick_base( ) )
 			return;

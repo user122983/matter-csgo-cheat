@@ -75,6 +75,9 @@ bool hooked::setup( ) {
 	// engine_bsp_tree_fn
 	//if ( !m_modules.m_engine_dll.hook_function( "CEngineBSPTree::ListLeavesInBox", &engine_bsp_tree_fn::list_leaves_in_box ) )
 	//	return false;
+
+	// file_system_fn
+	// todo: sig loose_file_allowed
 	
 	return true;
 
@@ -93,5 +96,6 @@ void hooked::unload( ) {
 	m_modules.m_datacache_dll.unload_functions( );
 	m_modules.m_materialsystem_dll.unload_functions( );
 	m_modules.m_tier0.unload_functions( );
-
+	m_modules.m_filesystem_stdio_dll.unload_functions( );
+	
 }

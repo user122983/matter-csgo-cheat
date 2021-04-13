@@ -1,6 +1,10 @@
 #pragma once
 
 #include "widgets/widgets.h"
+#include "widgets/box/box.h"
+#include "widgets/slider/slider.h"
+#include "widgets/tab_panel/tab_panel.h"
+#include "widgets/container/container.h"
 
 struct builder {
 
@@ -12,7 +16,7 @@ struct builder {
 		
 	}
 
-	builder& position( const int x, const int y ) {
+	builder& position( int x, int y ) {
 		
 		m_temp_widget->set_position( x, y );
 
@@ -20,7 +24,7 @@ struct builder {
 		
 	}
 
-	builder& size( const int width, const int height ) {
+	builder& size( int width, int height ) {
 		
 		m_temp_widget->set_size( width, height );
 
@@ -35,7 +39,7 @@ struct builder {
 		return *this;
 	}
 
-	builder& medium( const std::shared_ptr< widgets >& medium, const int page = 0 ) {
+	builder& medium( const std::shared_ptr< widgets >& medium, int page = 0 ) {
 		
 		m_temp_widget->set_medium( medium, page );
 
@@ -43,9 +47,9 @@ struct builder {
 		
 	}
 
-	builder& tabs( const std::vector< std::pair< std::string, std::string > >& tabs ) {
+	builder& tabs( std::vector< std::pair< std::string, std::string > >& tabs ) {
 		
-		for ( const auto& tab : tabs ) {
+		for ( auto& tab : tabs ) {
 			
 			std::reinterpret_pointer_cast< tab_panel >( m_temp_widget )->add_tab( tab );
 			
@@ -55,7 +59,7 @@ struct builder {
 		
 	}
 
-	builder& title( const std::string_view title ) {
+	builder& title( std::string_view title ) {
 
 		m_temp_widget->set_title( title );
 
@@ -63,9 +67,9 @@ struct builder {
 
 	}
 
-	builder& entries( const std::vector< std::string >& entries ) {
+	builder& entries( std::vector< std::string >& entries ) {
 
-		for ( const auto& entry : entries ) {
+		for ( auto& entry : entries ) {
 
 			std::reinterpret_pointer_cast< box >( m_temp_widget )->add_entry( entry );
 			
@@ -75,7 +79,7 @@ struct builder {
 
 	}
 
-	builder& type( const std::size_t type ) {
+	builder& type( std::size_t type ) {
 
 		std::reinterpret_pointer_cast< box >( m_temp_widget )->set_type( type );
 
@@ -83,7 +87,7 @@ struct builder {
 
 	}
 
-	builder& range( const float min, const float max ) {
+	builder& range( float min, float max ) {
 
 		std::reinterpret_pointer_cast< slider >( m_temp_widget )->set_range( min, max );
 
@@ -91,7 +95,7 @@ struct builder {
 
 	}
 
-	builder& prefix( const std::string_view prefix ) {
+	builder& prefix( std::string_view prefix ) {
 
 		std::reinterpret_pointer_cast< slider >( m_temp_widget )->set_prefix( prefix );
 
@@ -109,7 +113,7 @@ struct builder {
 
 	builder& lock_inputs ( const std::vector< std::shared_ptr< widgets > >& widgets ) {
 
-		for ( const auto& widget : widgets ) {
+		for ( auto& widget : widgets ) {
 
 			m_temp_widget->set_lock_input( widget );
 			

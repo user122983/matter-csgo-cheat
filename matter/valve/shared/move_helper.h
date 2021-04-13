@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../other/utils/utils.h"
+#include "../../other/memory/memory.h"
 
 struct move_helper {
 
 	auto process_impacts( ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void* ) >( this, 4 )( this );
+		return m_memory.get_v_func< void( __thiscall* )( void* ) >( this, 4 )( this );
 
 	}
 

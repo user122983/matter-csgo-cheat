@@ -11,13 +11,13 @@ box::box( ) {
 	
 }
 
-bool box::get_state( ) const {
+bool box::get_state( ) {
 
 	return m_is_open;
 	
 }
 
-std::size_t box::get_index( const std::size_t index ) const {
+std::size_t box::get_index( std::size_t index ) {
 
 	if ( m_box_type == box_type_combobox )
 		return m_selected_entry;
@@ -28,20 +28,20 @@ std::size_t box::get_index( const std::size_t index ) const {
 	
 }
 
-void box::set_type( const std::size_t type ) {
+void box::set_type( std::size_t type ) {
 
 	m_box_type = type;
 	
 }
 
-void box::add_entry( const std::string_view name, unsigned int value ) {
+void box::add_entry( std::string_view name, unsigned int value ) {
 
 	m_entries.first.emplace_back( name );
 	m_entries.second.emplace_back( value );
 	
 }
 
-void box::set_value( const std::size_t index, const unsigned int value ) {
+void box::set_value( std::size_t index, unsigned int value ) {
 
 	m_entries.second.at( index ) = value;
 	
@@ -66,17 +66,22 @@ void box::geometry( ) {
 
 		if ( m_is_open ) {
 			
-			const area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i ) * 20 + m_widget_area.m_height, m_widget_area.m_width, 19 };
+			area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i ) * 20 + m_widget_area.m_height, m_widget_area.m_width, 19 };
 			
-			auto text_color = m_menu.m_colors.white;
-			auto color = m_menu.m_colors.dark1;
-			auto font = m_render.m_fonts.verdana;
+			color text_color, color;
+			h_font font;
 			
 			if ( m_box_type == box_type_combobox && m_selected_entry == i || m_box_type == box_type_multibox && m_entries.second.at( i ) == 1 ) {
 
 				text_color = m_menu.m_colors.blue1;
 				font = m_render.m_fonts.verdana;
 				color = m_menu.m_colors.dark2;
+				
+			} else {
+
+				text_color = m_menu.m_colors.white;
+				color = m_menu.m_colors.dark1;
+				font = m_render.m_fonts.verdana;
 				
 			}
 					
@@ -96,8 +101,8 @@ void box::geometry( ) {
 
 		if ( m_box_type == box_type_multibox ) {
 
-			const auto has_reached_end = selected_text.length( ) > 12;
-			const auto is_first_item = selected_text.length( ) == 0;
+			bool has_reached_end = selected_text.length( ) > 12;
+			bool is_first_item = selected_text.length( ) == 0;
 			
 			if ( m_entries.second[ i ] && !has_reached_end ) {
 
@@ -108,7 +113,7 @@ void box::geometry( ) {
 
 			} else if ( has_reached_end && !is_first_item ) {
 
-				const std::string three_dots = " ...";
+				std::string three_dots = " ...";
 				
 				if ( !( selected_text.compare( selected_text.size( ) - three_dots.size( ), three_dots.size( ), three_dots ) == 0 ) )
 					selected_text.append( three_dots );
@@ -127,7 +132,7 @@ void box::geometry( ) {
 	if ( selected_text.empty( ) )
 		selected_text = "None";
 	 
-	const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
+	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + text_size.m_width + 12, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, selected_text, m_menu.m_colors.white, y_centre );
 	
 }

@@ -5,7 +5,7 @@
 
 #include <array>
 
-enum class key_state {
+enum key_state {
 
 	up,
 	toggled,
@@ -17,20 +17,20 @@ struct input {
 
 	bool setup( );
 
-	void unload( ) const;
+	void unload( );
 
 	void think( UINT message, WPARAM w_param, LPARAM l_param );
 
-	bool is_key_toggled( const std::size_t code ) {
+	bool is_key_toggled( std::size_t code ) {
 
-		if ( m_key_states[ code ].m_state != key_state::toggled )
+		if ( m_key_states[ code ].m_state != toggled )
 			return false;
 
 		return m_key_states[ code ].m_framecount == m_interfaces.m_globals->m_framecount;
 
 	}
 
-	bool is_key_toggled( const std::size_t code, bool& item ) {
+	bool is_key_toggled( std::size_t code, bool& item ) {
 
 		if ( is_key_toggled( code ) )
 			item = !item;
@@ -39,64 +39,63 @@ struct input {
 
 	}
 
-	bool is_key_down( const std::size_t code ) {
+	bool is_key_down( std::size_t code ) {
 
-		return m_key_states[ code ].m_state == key_state::down;
-
-	}
-
-	bool is_mouse_down( const std::size_t code ) {
-
-		return m_key_states[ code ].m_state == key_state::toggled;
+		return m_key_states[ code ].m_state == down;
 
 	}
 
-	bool is_mouse_in_bounds( const area area ) const {
+	bool is_mouse_down( std::size_t code ) {
+
+		return m_key_states[ code ].m_state == toggled;
+
+	}
+
+	bool is_mouse_in_bounds( area area ) {
 
 		return m_mouse.x >= area.m_x && m_mouse.y >= area.m_y && m_mouse.x <= area.m_x + area.m_width && m_mouse.y <= area.m_y + area.m_height;
 
 	}
 
-	int get_last_key( ) const {
+	int get_last_key( ) {
 		
 		return m_last_key;
 		
 	}
 	
-	void set_last_key( const int key = -1 ) {
+	void set_last_key( int key = -1 ) {
 		
 		m_last_key = key;
 		
 	}
 
-	int get_mouse_x( ) const {
+	int get_mouse_x( ) {
 		
 		return m_mouse.x;
 		
 	}
 	
-	int get_mouse_y( ) const {
+	int get_mouse_y( ) {
 		
 		return m_mouse.y;
 		
 	}
 
 	bool m_listen_for_last_key;
-	
 
 private:
 
 	static long __stdcall wnd_proc( HWND window, UINT message, WPARAM w_param, LPARAM l_param );
 
-	WNDPROC m_original_wnd_proc = nullptr;
+	WNDPROC m_original_wnd_proc;
 
-	int m_last_key = { };
+	int m_last_key;
 
 	struct {
 
 		int x, y;
 
-	} m_mouse = { };
+	} m_mouse;
 
 	struct key_states {
 
@@ -105,7 +104,7 @@ private:
 
 	};
 
-	std::array< key_states, 256 > m_key_states = { key_state::up };
+	std::array< key_states, 256 > m_key_states = { up };
 
 };
 

@@ -6,7 +6,7 @@ struct checkbox final : widgets {
 
 	checkbox( );
 	
-	bool get_state( ) const;
+	bool get_state( );
 	
 	void geometry( ) override;
 

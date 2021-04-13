@@ -1,11 +1,9 @@
 #pragma once
 
 #include "base_entity.h"
-#include "../../cheat/features/globals.h"
 
 #include "../interfaces/interfaces.h"
 #include "../shared/cs_weapon_parse.h"
-#include "../shared/in_buttons.h"
 
 struct cs_weapon_info {
 
@@ -63,13 +61,13 @@ struct weapon_cs_base : base_entity {
 	
 	auto get_max_speed( ) {
 
-		return m_utils.get_v_func< float( __thiscall* )( void* ) >( this, 441 )( this );
+		return m_memory.get_v_func< float( __thiscall* )( void* ) >( this, 441 )( this );
 
 	}
 
 	auto get_cs_wpn_data( ) {
 
-		return m_utils.get_v_func< cs_weapon_info* ( __thiscall* )( void* ) >( this, 460 )( this ); 
+		return m_memory.get_v_func< cs_weapon_info* ( __thiscall* )( void* ) >( this, 460 )( this ); 
 
 	}
 
@@ -82,11 +80,12 @@ struct weapon_cs_base : base_entity {
 			case weapon_type_shotgun:
 			case weapon_type_sniper:
 			case weapon_type_machinegun:
-				return true;		
+				return true;
 		}
 
 		return false;
 
 	}
+
 
 };

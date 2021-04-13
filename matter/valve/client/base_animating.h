@@ -6,15 +6,15 @@
 
 struct base_animating : base_player {
 
-	auto set_sequence( const int sequence ) {
+	auto set_sequence( int sequence ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, int ) >( this, 218 )( this, sequence );
+		return m_memory.get_v_func< void( __thiscall* )( void*, int ) >( this, 218 )( this, sequence );
 
 	}
 
-	auto frame_advance( const float interval ) {
+	auto frame_advance( float interval ) {
 		 
-		return m_utils.get_v_func< float( __thiscall* )( void*, float ) >( this, 220 )( this, interval );
+		return m_memory.get_v_func< float( __thiscall* )( void*, float ) >( this, 220 )( this, interval );
 
 	}
 	
@@ -26,7 +26,7 @@ struct base_animating : base_player {
 
 	}
 
-	auto get_bone_position( const int bone_id, vector_3d& origin ) {
+	auto get_bone_position( int bone_id, vector_3d& origin ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetBonePosition" ).as< void( __thiscall* )( void*, int, vector_3d* ) >( );
 		
@@ -44,7 +44,7 @@ struct base_animating : base_player {
 
 	}
 
-	auto get_first_sequence_anim_tag( const int sequence, const int desired_tag ) {
+	auto get_first_sequence_anim_tag( int sequence, int desired_tag ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetFirstSequenceAnimTag" ).as< float( __thiscall* )( void*, int, int, int ) >( );
 		
@@ -52,7 +52,7 @@ struct base_animating : base_player {
 
 	}
 	
-	auto get_sequence_activity( const int sequence ) {
+	auto get_sequence_activity( int sequence ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseAnimating::GetSequenceActivity" ).as< int( __thiscall* )( void*, int ) >( );
 		
@@ -108,7 +108,7 @@ struct base_animating : base_player {
 
 		static auto address = m_modules.m_server_dll.get_address( "CBaseAnimating::DrawServerHitboxes" );
 		
-		auto player = util_player_by_index( get_client_networkable( )->get_index( ) );
+		base_player* player = util_player_by_index( get_client_networkable( )->get_index( ) );
 		if ( !player )
 			return;
 

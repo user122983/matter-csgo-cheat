@@ -10,7 +10,7 @@ checkbox::checkbox( ) {
 	m_size = { 8, 8 };
 }
 
-bool checkbox::get_state( ) const {
+bool checkbox::get_state( ) {
 
 	return m_is_checked;
 	
@@ -28,8 +28,8 @@ void checkbox::geometry( ) {
 
 void checkbox::update( ) {
 
-	const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
-	const area text_area = { m_widget_area.m_x + m_size.m_width + 15, m_widget_area.m_y - text_size.m_height / 2, text_size.m_width, text_size.m_height };
+	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
+	area text_area = { m_widget_area.m_x + m_size.m_width + 15, m_widget_area.m_y - text_size.m_height / 2, text_size.m_width, text_size.m_height };
 	
 	if ( m_input.is_key_toggled( VK_LBUTTON ) && ( m_input.is_mouse_in_bounds( m_widget_area ) || m_input.is_mouse_in_bounds( text_area ) ) )
 		m_is_checked = !m_is_checked;

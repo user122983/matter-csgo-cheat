@@ -20,7 +20,7 @@ void container::render() {
 	
 }
 
-void container::add_widget( const std::shared_ptr< widgets >& widget ) {
+void container::add_widget( std::shared_ptr< widgets >& widget ) {
 
 	widget->set_parent_widget( shared_from_this( ) );
 	
@@ -28,7 +28,7 @@ void container::add_widget( const std::shared_ptr< widgets >& widget ) {
 	
 }
 
-bool container::get_state( ) const {
+bool container::get_state( ) {
 	
 	return m_is_open;
 	
@@ -56,12 +56,12 @@ void container::geometry( ) {
 		m_render.draw_line( m_widget_area.m_x, m_widget_area.m_y + m_widget_area.m_height, m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y + m_widget_area.m_height, m_menu.m_colors.dark1 );
 		m_render.draw_line( m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y + m_widget_area.m_height, m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y, m_menu.m_colors.dark1 );
 
-		const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
+		dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
 		m_render.draw_line( m_widget_area.m_x + 32 + text_size.m_width, m_widget_area.m_y, m_widget_area.m_x + m_widget_area.m_width, m_widget_area.m_y, m_menu.m_colors.dark1 );
 		
 	}
 	
-	for ( const auto& widgets : m_widgets ) {
+	for ( auto& widgets : m_widgets ) {
 
 		if ( widgets->is_unlocked( ) ) {
 
@@ -81,7 +81,7 @@ void container::update( ) {
 	if ( m_parent_widget )
 		return;
 	
-	const area movable_area = { m_position.m_x, m_position.m_y, 200, m_size.m_height };
+	area movable_area = { m_position.m_x, m_position.m_y, 200, m_size.m_height };
 	
 	if ( m_input.is_key_toggled( VK_LBUTTON ) && m_input.is_mouse_in_bounds( movable_area ) ) {
 

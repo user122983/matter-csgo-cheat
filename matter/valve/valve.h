@@ -20,5 +20,4 @@
 #include "net_channel.h"
 
 #include "client_unknown.h"
-
 #include "public/public.h"

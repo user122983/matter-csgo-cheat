@@ -16,7 +16,7 @@ struct key_binder final : widgets {
 
 	key_binder( );
 
-	bool get_state( ) const;
+	bool get_state( );
 	
 	void geometry( ) override;
 

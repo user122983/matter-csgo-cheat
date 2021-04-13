@@ -17,11 +17,11 @@ struct cheat {
 
 	static DWORD WINAPI setup( void* parameter );
 
-	static void unload( );
+	void unload( );
 
-	static void iterate_players( const std::function< void( cs_player* ) >& function, int flags = { } );
+	void iterate_players( const std::function< void( cs_player* ) >& function, int flags = { } );
 
-	HWND m_window = { };
+	HWND m_window;
 
 	bool m_debug_mode = false;
 

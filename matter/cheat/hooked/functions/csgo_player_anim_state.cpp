@@ -1,8 +1,8 @@
 #include "../hooked.h"
 
-void __vectorcall hooked::csgo_player_anim_state_fn::update( csgo_player_anim_state* ecx, void* unk0, float z, const float y, float x, void* unk1 ) {
+void __vectorcall hooked::csgo_player_anim_state_fn::update( csgo_player_anim_state* ecx, void* unk0, float z, float y, float x, void* unk1 ) {
 
-	auto player = ecx->m_player;
+	cs_player* player = ecx->m_player;
 	if ( !player || ( !player->is_alive( ) && !player->is_player_ghost( ) ) || !ecx->cache_sequences( ) )
 		return;
 
@@ -20,12 +20,12 @@ void __vectorcall hooked::csgo_player_anim_state_fn::update( csgo_player_anim_st
 
 	if ( ecx->m_weapon != ecx->m_weapon_last || ecx->m_first_run_since_init ) {
 
-		for ( auto i = 0; i < 13; i++ ) {
+		for ( int i = 0; i < 13; i++ ) {
 
-			const auto layer = player->get_anim_overlay( i );
+			animation_layer* layer = player->get_anim_overlay( i );
 			if ( layer ) {
 
-				layer->m_dispatched_studio_hdr = nullptr;
+				layer->m_dispatched_studio_hdr = 0;
 				layer->m_dispatched_src = -1;
 				layer->m_dispatched_dst = -1;
 
@@ -75,21 +75,21 @@ void __vectorcall hooked::csgo_player_anim_state_fn::update( csgo_player_anim_st
 	ecx->m_last_update_time = m_interfaces.m_globals->m_curtime;
 	ecx->m_last_update_frame = m_interfaces.m_globals->m_framecount;
 
-	if ( player == m_globals.m_local_player && m_menu.m_server_hitboxes->get_state( ) )
+	if ( player == m_globals.m_local_player.pointer && m_menu.m_server_hitboxes->get_state( ) )
 		player->draw_server_hitboxes( );
 
 }
 
 void __fastcall hooked::csgo_player_anim_state_fn::modify_eye_position( csgo_player_anim_state* ecx, void* edx, vector_3d& input_eye_pos ) {
 
-	auto player = ecx->m_player;
+	cs_player* player = ecx->m_player;
 	if ( !player )
 		return;
 
 	if ( !ecx->m_landing || ecx->m_anim_duck_amount == 0.f || !player->get_ground_entity( ) )
 		return;
 
-	const auto head_bone = player->lookup_bone( "head_0" );
+	int head_bone = player->lookup_bone( "head_0" );
 	if ( !head_bone )
 		return;
 
@@ -98,7 +98,7 @@ void __fastcall hooked::csgo_player_anim_state_fn::modify_eye_position( csgo_pla
 
 	if ( head_pos.z < input_eye_pos.z ) {
 
-		const auto lerp = m_mathlib.simple_spline_remap_val_clamped( std::fabs( input_eye_pos.z - head_pos.z ), 4.f, 10.f, 0.f, 1.f );
+		float lerp = m_mathlib.simple_spline_remap_val_clamped( std::fabs( input_eye_pos.z - head_pos.z ), 4.f, 10.f, 0.f, 1.f );
 
 		input_eye_pos.z = m_mathlib.lerp( lerp, input_eye_pos.z, head_pos.z );
 
@@ -116,9 +116,9 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	m_interfaces.m_mdl_cache->begin_lock( );
 
-	auto player = ecx->m_player;
+	cs_player* player = ecx->m_player;
 
-	auto abs_velocity = player->get_abs_velocity( );
+	vector_3d abs_velocity = player->get_abs_velocity( );
 
 	if ( abs_velocity.length_sqr( ) > std::powf( 312.f, 2 ) )
 		abs_velocity = abs_velocity.normalized( ) * 312.f;
@@ -139,7 +139,7 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	ecx->m_weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( player->get_active_weapon( ) );
 
-	const auto max_speed_run = ecx->m_weapon ? std::fmaxf( ecx->m_weapon->get_max_speed( ), 0.001f ) : 260.f;
+	float max_speed_run = ecx->m_weapon ? std::fmaxf( ecx->m_weapon->get_max_speed( ), 0.001f ) : 260.f;
 
 	ecx->m_speed_as_portion_of_run_top_speed = std::clamp( ecx->m_velocity_length_xy / max_speed_run, 0.f, 1.f );
 	ecx->m_speed_as_portion_of_walk_top_speed = ecx->m_velocity_length_xy / ( max_speed_run * 0.52f );
@@ -150,8 +150,8 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 	else if ( ecx->m_speed_as_portion_of_walk_top_speed < 0.5f )
 		ecx->m_static_approach_speed = m_mathlib.approach( 80.f, ecx->m_static_approach_speed, ecx->m_last_update_increment * 60.f );
 
-	auto started_moving_this_frame = false;
-	auto stopped_moving_this_frame = false;
+	bool started_moving_this_frame = false;
+	bool stopped_moving_this_frame = false;
 
 	if ( ecx->m_velocity_length_xy > 0.f ) {
 
@@ -172,9 +172,9 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 	ecx->m_foot_yaw_last = ecx->m_foot_yaw;
 	ecx->m_foot_yaw = std::clamp( ecx->m_foot_yaw, -360.f, 360.f );
 
-	const auto eye_foot_delta = m_mathlib_base.angle_diff( ecx->m_eye_yaw, ecx->m_foot_yaw );
+	float eye_foot_delta = m_mathlib_base.angle_diff( ecx->m_eye_yaw, ecx->m_foot_yaw );
 
-	auto aim_matrix_width_range = m_mathlib.lerp( 
+	float aim_matrix_width_range = m_mathlib.lerp( 
 		std::clamp( ecx->m_speed_as_portion_of_walk_top_speed, 0.f, 1.f ), 
 		1.f,
 		m_mathlib.lerp( ecx->m_walk_to_run_transition, 0.8f, 0.5f ) );
@@ -185,8 +185,8 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 			aim_matrix_width_range, 
 			0.5f );
 
-	const auto temp_yaw_max = ecx->m_aim_yaw_max * aim_matrix_width_range;
-	const auto temp_yaw_min = ecx->m_aim_yaw_min * aim_matrix_width_range;
+	float temp_yaw_max = ecx->m_aim_yaw_max * aim_matrix_width_range;
+	float temp_yaw_min = ecx->m_aim_yaw_min * aim_matrix_width_range;
 
 	if ( eye_foot_delta > temp_yaw_max )
 		ecx->m_foot_yaw = ecx->m_eye_yaw - std::fabs( temp_yaw_max );
@@ -199,13 +199,23 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 		ecx->m_foot_yaw = m_mathlib_base.approach_angle( ecx->m_eye_yaw, ecx->m_foot_yaw, ecx->m_last_update_increment * ( 30.f + 20.f * ecx->m_walk_to_run_transition ) );
 
+/*		ecx->m_lower_body_realign_timer = ecx->m_last_update_time + ( 1.1f * 0.2f );
+		player->get_lower_body_yaw_target( ) = ecx->m_eye_yaw;*/
+
 	} else {
 
 		ecx->m_foot_yaw = m_mathlib_base.approach_angle( player->get_lower_body_yaw_target( ), ecx->m_foot_yaw, ecx->m_last_update_increment * 100.f );
 
+/*		if ( ecx->m_last_update_time > ecx->m_lower_body_realign_timer && std::fabsf( m_mathlib_base.angle_diff( ecx->m_foot_yaw, ecx->m_eye_yaw ) ) > 35.f ) {
+
+			ecx->m_lower_body_realign_timer = ecx->m_last_update_time + 1.1f;
+			player->get_lower_body_yaw_target( ) = ecx->m_eye_yaw;
+
+		}*/
+
 	}
 
-	const auto animation_layer_adjust = player->get_anim_overlay( 3 );
+	animation_layer* animation_layer_adjust = player->get_anim_overlay( 3 );
 	if ( animation_layer_adjust && animation_layer_adjust->m_weight > 0.f ) {
 
 		ecx->increment_layer_cycle( 3, false );
@@ -215,7 +225,7 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	if ( ecx->m_velocity_length_xy > 0.f ) {
 
-		auto raw_yaw_ideal = ( std::atan2( -ecx->m_velocity.y, -ecx->m_velocity.x ) * 180 / 3.141592654f );
+		float raw_yaw_ideal = ( std::atan2( -ecx->m_velocity.y, -ecx->m_velocity.x ) * 180 / 3.141f );
 		if ( raw_yaw_ideal < 0.f )
 			raw_yaw_ideal += 360.f;
 
@@ -229,12 +239,12 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 		ecx->m_move_yaw = ecx->m_move_yaw_ideal;
 
-		const auto animation_layer_movement_move = player->get_anim_overlay( 6 );
+		animation_layer* animation_layer_movement_move = player->get_anim_overlay( 6 );
 		if ( animation_layer_movement_move && animation_layer_movement_move->m_sequence != -1.f ) {
 
-			const auto move_sequence = animation_layer_movement_move->m_sequence;
+			int move_sequence = animation_layer_movement_move->m_sequence;
 
-			const auto studio_hdr = player->get_model_ptr( );
+			studio_hdr* studio_hdr = player->get_model_ptr( );
 			if ( studio_hdr && studio_hdr->seqdesc( move_sequence ).numanimtags > 0 ) {
 
 				if ( std::fabsf( m_mathlib_base.angle_diff( ecx->m_move_yaw, 180.f ) ) <= 22.5f )
@@ -260,19 +270,19 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	} else {
 
-		const auto animation_layer_movement_strafechange = player->get_anim_overlay( 7 );
+		animation_layer* animation_layer_movement_strafechange = player->get_anim_overlay( 7 );
 		if ( animation_layer_movement_strafechange && animation_layer_movement_strafechange->m_weight >= 1.f ) {
 
 			ecx->m_move_yaw = ecx->m_move_yaw_ideal;
 
 		} else {
 
-			const auto move_weight = m_mathlib.lerp( 
+			float move_weight = m_mathlib.lerp( 
 				ecx->m_anim_duck_amount,
 				std::clamp( ecx->m_speed_as_portion_of_walk_top_speed, 0.f, 1.f ), 
 				std::clamp( ecx->m_speed_as_portion_of_crouch_top_speed, 0.f, 1.f ) );
 
-			const auto ratio = m_mathlib_base.bias( move_weight, 0.18f ) + 0.1f;
+			float ratio = m_mathlib_base.bias( move_weight, 0.18f ) + 0.1f;
 
 			ecx->m_move_yaw = m_mathlib_base.angle_normalize( ecx->m_move_yaw + ( ecx->m_move_yaw_current_to_ideal * ratio ) );
 
@@ -282,7 +292,7 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	ecx->m_pose_param_mappings[ 4 ].set_value( player, ecx->m_move_yaw );
 
-	auto aim_yaw = m_mathlib_base.angle_diff( ecx->m_eye_yaw, ecx->m_foot_yaw );
+	float aim_yaw = m_mathlib_base.angle_diff( ecx->m_eye_yaw, ecx->m_foot_yaw );
 	if ( aim_yaw >= 0.f && ecx->m_aim_yaw_max != 0.f )
 		aim_yaw = ( aim_yaw / ecx->m_aim_yaw_max ) * 60.f;
 	else if ( ecx->m_aim_yaw_min != 0.f )
@@ -290,7 +300,7 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	ecx->m_pose_param_mappings[ 6 ].set_value( player, aim_yaw );
 
-	auto pitch = m_mathlib_base.angle_diff( ecx->m_eye_pitch, 0.f );
+	float pitch = m_mathlib_base.angle_diff( ecx->m_eye_pitch, 0.f );
 	if ( pitch > 0.f )
 		pitch = ( pitch / ecx->m_aim_pitch_max ) * 90.f;
 	else

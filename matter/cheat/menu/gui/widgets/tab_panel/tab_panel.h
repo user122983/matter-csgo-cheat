@@ -8,9 +8,9 @@ struct tab_panel final : widgets {
 
 	tab_panel( );
 	
-	void add_tab( const std::pair< std::string, std::string >& title );
+	void add_tab( std::pair< std::string, std::string >& title );
 	
-	std::size_t get_index( ) const;
+	std::size_t get_index( );
 	
 	void geometry( ) override;
 

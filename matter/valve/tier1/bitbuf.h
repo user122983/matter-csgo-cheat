@@ -1,6 +1,6 @@
 #pragma once
 
-inline int bit_byte( const int bits ) {
+inline int bit_byte( int bits ) {
 
 	return ( bits + 7 ) >> 3;
 
@@ -8,7 +8,7 @@ inline int bit_byte( const int bits ) {
 
 struct bf_write {
 
-	void start_writing( void* data, int bytes, const int start_bit = 0, const int bits = -1 ) {
+	void start_writing( void* data, int bytes, int start_bit = 0, int bits = -1 ) {
 
 		bytes &= ~3;
 
@@ -25,13 +25,13 @@ struct bf_write {
 
 	}
 
-	unsigned char* get_data( ) const {
+	unsigned char* get_data( ) {
 
 		return m_data;
 
 	}
 
-	int get_num_bytes_written( ) const {
+	int get_num_bytes_written( ) {
 
 		return bit_byte( m_cur_bit );
 

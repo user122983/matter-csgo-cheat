@@ -4,25 +4,25 @@
 #include "key_binder/key_binder.h"
 #include "tab_panel/tab_panel.h"
 
-void widgets::set_title( const std::string_view title ) {
+void widgets::set_title( std::string_view title ) {
 
 	m_title = title.data( );
 	
 }
 
-void widgets::set_position( const int x, const int y ) {
+void widgets::set_position( int x, int y ) {
 
 	m_position = { x, y };
 	
 }
 
-void widgets::set_size( const int width, const int height ) {
+void widgets::set_size( int width, int height ) {
 
 	m_size = { width, height };
 	
 }
 
-dimension widgets::get_size( ) const {
+dimension widgets::get_size( ) {
 	
 	return { m_size.m_width, m_size.m_height };
 	
@@ -34,7 +34,7 @@ void widgets::set_parent_widget( const std::shared_ptr< widgets >& parent )  {
 	
 }
 
-point widgets::get_abs_position( ) const {
+point widgets::get_abs_position( ) {
 
 	if ( !m_parent_widget )
 		return m_position;
@@ -43,14 +43,14 @@ point widgets::get_abs_position( ) const {
 	
 }
 
-void widgets::set_medium( const std::shared_ptr< widgets >& medium, const std::size_t page ) {
+void widgets::set_medium( const std::shared_ptr< widgets >& medium, std::size_t page ) {
 
 	m_medium_widget = medium;
 	m_page = page;
 	
 }
 
-bool widgets::is_unlocked( ) const {
+bool widgets::is_unlocked( ) {
 
 	if ( !m_medium_widget || m_page < 0 )
 		return true;
@@ -66,7 +66,7 @@ bool widgets::is_unlocked( ) const {
 
 }
 
-int widgets::get_type( ) const {
+int widgets::get_type( ) {
 	
 	return m_type;
 	
@@ -78,12 +78,12 @@ void widgets::set_lock_input( const std::shared_ptr< widgets >& widget ) {
 
 }
 
-bool widgets::is_input_unlocked( ) const {
+bool widgets::is_input_unlocked( ) {
 
 	if ( m_lock_input_widget.empty( ) )
 		return true;
 
-	for ( const auto& widgets : m_lock_input_widget ) {
+	for ( auto& widgets : m_lock_input_widget ) {
 		
 		switch ( widgets->m_type ) {
 			case widget_type_box:

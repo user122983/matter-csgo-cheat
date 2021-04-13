@@ -11,7 +11,7 @@ struct address {
 
 	}
 
-	address( const std::size_t address) : m_address{ address } {
+	address( std::size_t address ) : m_address{ address } {
 
 
 
@@ -23,13 +23,13 @@ struct address {
 
 	}
 
-	operator std::size_t( ) const {
+	operator std::size_t( ) {
 
 		return m_address;
 
 	}
 
-	operator void* () const {
+	operator void* ( ) {
 
 		return reinterpret_cast< void* >( m_address );
 
@@ -60,19 +60,19 @@ struct address {
 
 	}
 
-	template< typename t = address > t at( const std::size_t offset ) {
+	template< typename t = address > t at( std::size_t offset ) {
 
 		return m_address ? *( t* )( m_address + offset ) : t( );
 
 	}
 
-	template< typename t = address > t add( const std::size_t offset ) {
+	template< typename t = address > t add( std::size_t offset ) {
 
 		return m_address ? ( t )( m_address + offset ) : t( );
 
 	}
 
-	template< typename t = address > t sub( const std::size_t offset ) {
+	template< typename t = address > t sub( std::size_t offset ) {
 
 		return m_address ? ( t )( m_address - offset ) : t( );
 
@@ -83,11 +83,11 @@ struct address {
 		if ( !m_address )
 			return t( );
 
-		auto object = m_address;
+		std::size_t object = m_address;
 
-		while (dereferences--)
-			if (object)
-				object = *reinterpret_cast<std::size_t*>(object);
+		while ( dereferences-- )
+			if ( object )
+				object = *reinterpret_cast< std::size_t* >( object );
 
 		return ( t )object;
 
@@ -102,14 +102,14 @@ struct address {
 
 	}
 
-	template< typename t = address > t relative( const std::size_t offset = 0x1 ) {
+	template< typename t = address > t relative( std::size_t offset = 0x1 ) {
 
 		if ( !m_address )
 			return t( );
 
-		const auto new_address = m_address + offset;
+		std::size_t new_address = m_address + offset;
 
-		const auto relative_offset = *reinterpret_cast< std::int32_t* >( new_address );
+		std::int32_t relative_offset = *reinterpret_cast< std::int32_t* >( new_address );
 
 		if ( !relative_offset )
 			return t( );

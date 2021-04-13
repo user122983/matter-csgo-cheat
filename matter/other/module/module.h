@@ -1,13 +1,13 @@
 #pragma once
 
+#include "../memory/address.h"
+#include "../hash/hash.h"
+
 #include <Windows.h>
 #include <cstddef>
 #include <cstdint>
 #include <string>
 #include <unordered_map>
-
-#include "../memory/address.h"
-#include "../hash/hash.h"
 
 struct module_info {
 
@@ -15,7 +15,7 @@ struct module_info {
 
 	module_info( std::size_t loaded_module );
 
-	std::size_t get_module( ) const {
+	std::size_t get_module( ) {
 		
 		return m_loaded_module;
 		
@@ -32,18 +32,18 @@ protected:
 
 };
 
-struct pattern : public module_info {
+struct pattern : module_info {
 
 	pattern( ) = default;
 
-	pattern( const std::size_t loaded_module ) : module_info( loaded_module ) { };
+	pattern( std::size_t loaded_module ) : module_info( loaded_module ) { };
 
-	address find( std::string_view pattern ) const;
+	address find( std::string_view pattern );
 
 private:
 
 	static std::size_t build_byte_array( const char* pattern, int* bytes );
-	address search_byte_array( int* bytes, std::size_t size ) const;
+	address search_byte_array( int* bytes, std::size_t size );
 
 };
 
@@ -53,7 +53,7 @@ struct detour {
 
 	virtual void unload_functions( ) = 0;
 
-	template< typename t > t get( const std::string_view name ) {
+	template< typename t > t get( std::string_view name ) {
 
 		return ( t )m_originals[ m_hash.get( name ) ];
 		
@@ -69,15 +69,15 @@ struct loaded_module : pattern, detour {
 
 	loaded_module( ) = default;
 
-	loaded_module( const std::size_t loaded_module ) : pattern( loaded_module ) { };
+	loaded_module( std::size_t loaded_module ) : pattern( loaded_module ) { };
 
 	bool add_address( std::string_view name, std::string_view pattern, bool relative = false );
 
-	bool hook_function( std::string_view name, void* custom_function );
+	bool hook_function( std::string_view name, void* custom_function ) override;
 
-	void unload_functions( );
+	void unload_functions( ) override;
 
-	address get_address( const std::string_view name ) {
+	address get_address( std::string_view name ) {
 		
 		return m_addresses[ m_hash.get( name ) ];
 		

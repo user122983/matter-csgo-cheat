@@ -10,7 +10,6 @@ bool console::setup( const std::string_view name ) {
 		return false;
 
 	freopen_s( reinterpret_cast< _iobuf** >( stdout ), "CONOUT$", "w", stdout );
-	freopen_s( reinterpret_cast< _iobuf** >( stderr ), "CONOUT$", "w", stderr );
 
 	m_handle = GetStdHandle( STD_OUTPUT_HANDLE );
 
@@ -20,8 +19,10 @@ bool console::setup( const std::string_view name ) {
 
 void console::unload( ) {
 
+	if ( !m_cheat.m_debug_mode )
+		return;
+	
 	fclose( static_cast< _iobuf* >( stdout ) );
-	fclose( static_cast< _iobuf* >( stderr ) );
 
 	FreeConsole( );
 

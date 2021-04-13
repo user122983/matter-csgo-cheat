@@ -18,6 +18,7 @@ struct modules {
 	loaded_module m_materialsystem_dll;
 	loaded_module m_tier0;
 	loaded_module m_inputsystem_dll;
+	loaded_module m_filesystem_stdio_dll;
 
 private:
 

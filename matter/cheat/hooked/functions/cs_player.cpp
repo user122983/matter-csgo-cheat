@@ -26,10 +26,10 @@ void __fastcall hooked::cs_player_fn::update_client_side_animation( cs_player* e
 
 	if ( ecx->is_local_player( ) ) {
 
-		auto weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( ecx->get_active_weapon( ) );
+		weapon_cs_base* weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( ecx->get_active_weapon( ) );
 		if ( weapon ) {
 
-			auto view_model = ecx->get_view_model( weapon->get_view_model_index( ) );
+			base_view_model* view_model = ecx->get_view_model( weapon->get_view_model_index( ) );
 			if ( view_model )
 				view_model->update_all_viewmodel_addons( );
 

@@ -3,7 +3,7 @@
 #include "../console/console.h"
 #include "../../valve/modules/modules.h"
 
-module_info::module_info( const std::size_t loaded_module ) {
+module_info::module_info( std::size_t loaded_module ) {
 
 	m_loaded_module = loaded_module;
 	m_bitmap = reinterpret_cast< std::uint8_t* >( m_loaded_module );
@@ -14,15 +14,15 @@ module_info::module_info( const std::size_t loaded_module ) {
 
 }
 
-address pattern::find( const std::string_view pattern ) const {
+address pattern::find( std::string_view pattern ) {
 
 	// returns: the address of the pattern in the module
 
 	// size of byte array never exceeds n/2 
 	// so n/2 can be used such that the array is never resized
-	auto* bytes = new int[ pattern.size( ) / 2 ];
+	int* bytes = new int[ pattern.size( ) / 2 ];
 
-	const auto result = search_byte_array( bytes, build_byte_array( pattern.data( ), bytes ) );
+	address  result = search_byte_array( bytes, build_byte_array( pattern.data( ), bytes ) );
 
 	delete[ ] bytes;
 
@@ -42,7 +42,7 @@ std::size_t pattern::build_byte_array( const char* pattern, int* bytes ) {
 
 	std::size_t count = 0;
 
-	auto char_to_int = [ ]( const char input ) -> int {
+	auto char_to_int = [ ]( char input ) -> int {
 
 		if ( input >= '0' && input <= '9' )
 			return input - '0';
@@ -75,7 +75,7 @@ std::size_t pattern::build_byte_array( const char* pattern, int* bytes ) {
 
 }
 
-address pattern::search_byte_array( int* bytes, const std::size_t size ) const {
+address pattern::search_byte_array( int* bytes, std::size_t size ) {
 
 	// returns: the address of the byte array in the module
 
@@ -83,7 +83,7 @@ address pattern::search_byte_array( int* bytes, const std::size_t size ) const {
 
 	for ( std::size_t i = 0; i < m_size - size; i++ ) {
 
-		auto found = true;
+		bool found = true;
 		for ( std::size_t j = 0; j < size; j++ ) {
 
 			found = m_bitmap[ i + j ] == bytes[ j ] || bytes[ j ] == -1;
@@ -104,9 +104,9 @@ address pattern::search_byte_array( int* bytes, const std::size_t size ) const {
 
 }
 
-bool loaded_module::add_address( const std::string_view name, const std::string_view pattern, const bool relative ) {
+bool loaded_module::add_address( std::string_view name, std::string_view pattern, bool relative ) {
 
-	auto address = find( pattern );
+	address address = find( pattern );
 	if ( !address )
 		return false;
 
@@ -124,9 +124,9 @@ bool loaded_module::add_address( const std::string_view name, const std::string_
 
 }
 
-bool loaded_module::hook_function( const std::string_view name, void* custom_function ) {
+bool loaded_module::hook_function( std::string_view name, void* custom_function ) {
 
-	const auto hash = m_hash.get( name );
+	std::size_t hash = m_hash.get( name );
 
 	void* function = m_addresses[ hash ];
 	if ( !function )

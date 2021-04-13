@@ -11,7 +11,7 @@ key_binder::key_binder( ) {
 	
 }
 
-bool key_binder::get_state( ) const {
+bool key_binder::get_state( ) {
 	
 	return m_is_getting_key || m_is_getting_type;
 	
@@ -19,14 +19,14 @@ bool key_binder::get_state( ) const {
 
 void key_binder::geometry( ) {
 
-	const auto text = "[ " + m_status + " ]";
-	const auto text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( text.begin( ), text.end( ) ) );
+	std::string text = "[ " + m_status + " ]";
+	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( text.begin( ), text.end( ) ) );
 	
 	m_widget_area = { get_abs_position( ).m_x - text_size.m_width, get_abs_position( ).m_y, text_size.m_width, text_size.m_height };
 	
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y, text, m_menu.m_colors.white );
 
-	const auto m_none_available = m_selected_key ? 0 : 1;
+	int m_none_available = m_selected_key ? 0 : 1;
 	m_type_dropdown.m_height = m_none_available ? 42 : 62;
 	
 	if ( m_is_getting_type ) {
@@ -35,7 +35,7 @@ void key_binder::geometry( ) {
 		
 		for ( std::size_t i = m_none_available; i < key_binder_types.size( ); i++ ) {
 
-			const area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i + ( m_none_available ? 0 : 1 ) ) * 20 - 7, m_type_dropdown.m_width, 20 };
+			area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i + ( m_none_available ? 0 : 1 ) ) * 20 - 7, m_type_dropdown.m_width, 20 };
 
 			m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + 4, key_binder_types[ i ].data( ), m_selected_type == i ? m_menu.m_colors.blue1 : m_menu.m_colors.white );
 
@@ -87,8 +87,6 @@ void key_binder::update( ) {
 			m_status = m_virtual_key_codes[ m_input.get_last_key( ) ];
 			m_is_getting_key = m_input.m_listen_for_last_key = false;
 			m_selected_key = m_input.get_last_key( );
-
-			// if more selection types get added this will have to change
 			
 			if ( m_selected_type != 2 )
 				m_selected_type = 1;

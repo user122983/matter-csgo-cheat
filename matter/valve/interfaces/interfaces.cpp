@@ -18,7 +18,7 @@ bool interfaces::setup( ) {
 	if ( !m_debug_overlay )
 		return false;
 
-	m_globals = m_utils.get_v_func( m_client, 11 ).add( 0xa ).get< global_vars_base* >( 2 );
+	m_globals = m_memory.get_v_func( m_client, 11 ).add( 0xa ).get< global_vars_base* >( 2 );
 	if ( !m_globals )
 		return false;
 
@@ -46,7 +46,7 @@ bool interfaces::setup( ) {
 
 	m_console.log( "found pointer g_pNetGraphPanel -> 0x%x", m_net_graph_panel );
 
-	m_client_state = m_utils.get_v_func( m_engine, 12 ).add( 0x10 ).get< client_state* >( 2 );
+	m_client_state = m_memory.get_v_func( m_engine, 12 ).add( 0x10 ).get< client_state* >( 2 );
 	if ( !m_client_state )
 		return false;
 
@@ -72,6 +72,10 @@ bool interfaces::setup( ) {
 
 	m_console.log( "found pointer g_pMoveData -> 0x%x", m_move_data );
 
+	m_file_system = get< file_system* >( m_modules.m_filesystem_stdio_dll, "VFileSystem" );
+	if ( !m_file_system )
+		return false;
+	
 	return true;
 
 }

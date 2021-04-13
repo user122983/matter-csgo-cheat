@@ -126,33 +126,33 @@ struct base_player : base_combat_character {
 
 	}
 
-	auto create_move( const float input_sample_time, user_cmd* cmd ) {
+	auto create_move( float input_sample_time, user_cmd* cmd ) {
 
-		return m_utils.get_v_func< bool( __thiscall* )( void*, float, user_cmd* ) >( this, 288 )( this, input_sample_time, cmd );
+		return m_memory.get_v_func< bool( __thiscall* )( void*, float, user_cmd* ) >( this, 288 )( this, input_sample_time, cmd );
 
 	}
 
 	auto pre_think( ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void* ) >( this, 317 )( this );
+		return m_memory.get_v_func< void( __thiscall* )( void* ) >( this, 317 )( this );
 
 	}
 
 	auto post_think( ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void* ) >( this, 318 )( this );
+		return m_memory.get_v_func< void( __thiscall* )( void* ) >( this, 318 )( this );
 
 	}
 
-	auto select_item( const char* str, const int sub_type ) {
+	auto select_item( const char* str, int sub_type ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, const char*, int ) >( this, 329 )( this, str, sub_type );
+		return m_memory.get_v_func< void( __thiscall* )( void*, const char*, int ) >( this, 329 )( this, str, sub_type );
 
 	}
 
 	auto set_local_view_angles( const q_angle& view_angles ) {
 
-		return m_utils.get_v_func< void( __thiscall* )( void*, const q_angle& ) >( this, 372 )( this, view_angles );
+		return m_memory.get_v_func< void( __thiscall* )( void*, const q_angle& ) >( this, 372 )( this, view_angles );
 
 	}
 
@@ -164,7 +164,7 @@ struct base_player : base_combat_character {
 
 	}
 
-	auto get_view_model( const int index ) {
+	auto get_view_model( int index ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BasePlayer::GetViewModel" ).as< base_view_model* ( __thiscall* )( void*, int ) >( );
 
@@ -172,7 +172,7 @@ struct base_player : base_combat_character {
 
 	}
 
-	static auto util_player_by_index( const int entindex ) {
+	auto util_player_by_index( int entindex ) {
 
 		static auto function = m_modules.m_server_dll.get_address( "UTIL_PlayerByIndex" ).as< base_player* ( __thiscall* )( int ) >( );
 
@@ -180,12 +180,12 @@ struct base_player : base_combat_character {
 
 	}
 
-	auto update_button_state( const int user_cmd_button_mask ) {
+	auto update_button_state( int user_cmd_button_mask ) {
 
 		get_button_last( ) = get_buttons( );
 
 		get_buttons( ) = user_cmd_button_mask;
-		const auto buttons_changed = get_button_last( ) ^ get_buttons( );
+		int buttons_changed = get_button_last( ) ^ get_buttons( );
 
 		get_button_pressed( ) = buttons_changed & get_buttons( );
 		get_button_released( ) = buttons_changed & ( ~get_buttons( ) );

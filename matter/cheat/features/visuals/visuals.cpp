@@ -17,7 +17,7 @@ void visuals::run( ) {
 	
 	m_cheat.iterate_players( [ this, &order ]( cs_player* player ) mutable -> void {
 
-		order.emplace_back( std::make_pair( player, ( player->get_client_renderable( )->get_render_origin( ) - m_globals.m_view_origin ).length( ) ) );
+		order.emplace_back( std::make_pair( player, ( player->get_client_renderable( )->get_render_origin( ) - m_globals.m_local_player.view_origin ).length( ) ) );
 				
 	}, iterate_dormant );
 	
@@ -27,7 +27,7 @@ void visuals::run( ) {
 
 	} );
 
-	for ( const auto& [ player, distance ] : order ) {
+	for ( auto& [ player, distance ] : order ) {
 
 		m_player = {
 
@@ -37,11 +37,11 @@ void visuals::run( ) {
 
 		};
 		
-		m_weapon.pointer = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
-		if ( !m_weapon.pointer )
+		m_globals.m_weapon.pointer = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
+		if ( !m_globals.m_weapon.pointer )
 			continue;;
 
-		m_weapon.info = m_weapon.pointer->get_cs_wpn_data( );
+		m_weapon.info = m_globals.m_weapon.pointer->get_cs_wpn_data( );
 		if ( !m_weapon.info )
 			continue;
 		
@@ -69,7 +69,7 @@ void visuals::run( ) {
 	
 }
 
-void visuals::draw_box( ) const {
+void visuals::draw_box( ) {
 
 	if ( !m_menu.m_esp_widgets[ enemy ].m_box->get_state( ) )
 		return;
@@ -82,12 +82,12 @@ void visuals::draw_box( ) const {
 
 void visuals::draw_health( ) {
 
-	const auto health = m_player.pointer->get_health( );
-	const auto scalar = static_cast< int >( 2.55 * health );
+	int health = m_player.pointer->get_health( );
+	int scalar = static_cast< int >( 2.55 * health );
 
 	m_render.draw_filled_rect( m_box.left - 7, m_box.top - 1, 4, m_box.height + 2, color( 0,0,0, m_alpha[ m_player.index - 1 ] ), 0 );
 	
-	const auto height = health * m_box.height / 100;
+	int height = health * m_box.height / 100;
 	m_render.draw_filled_rect( m_box.left - 6, m_box.bottom - height, 2, height, m_player.is_dormant ? m_player.m_colors.white : color( 255 - scalar, scalar, 0, m_alpha[ m_player.index - 1 ] ), 0 );
 	
 	if ( health == 100 )
@@ -97,7 +97,7 @@ void visuals::draw_health( ) {
 
 }
 
-void visuals::draw_name( ) const {
+void visuals::draw_name( ) {
 
 	player_info info;
 	if ( !m_interfaces.m_engine->get_player_info( m_player.index, &info ) )
@@ -107,34 +107,34 @@ void visuals::draw_name( ) const {
 	
 }
 
-void visuals::draw_weapon( ) const {
+void visuals::draw_weapon( ) {
 
-	auto weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
+	weapon_cs_base* weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
 	if ( !weapon )
 		return;
 
-	const auto weapon_info = weapon->get_cs_wpn_data( );
+	cs_weapon_info* weapon_info = weapon->get_cs_wpn_data( );
 	if ( !weapon_info )
 		return;
 
-	const std::wstring weapon_name = m_interfaces.m_localize->find( weapon_info->m_hud_name );
+	std::wstring weapon_name = m_interfaces.m_localize->find( weapon_info->m_hud_name );
 
 	m_render.draw_text( m_render.m_fonts.smallest_pixel_7, m_box.left + m_box.width / 2, m_box.bottom + 6, weapon_name, m_player.m_colors.white, x_centre );
 	
 }
 
-void visuals::draw_ammo( ) const {
+void visuals::draw_ammo( ) {
 	
-	const auto ammo = m_weapon.pointer->get_ammo( );
-	const auto max_ammo = m_weapon.info->m_max_clip1;
+	int ammo = m_globals.m_weapon.pointer->get_ammo( );
+	int max_ammo = m_weapon.info->m_max_clip1;
 	
-	auto scalar = static_cast< float >( ammo ) / static_cast< float >( max_ammo );
+	float scalar = static_cast< float >( ammo ) / static_cast< float >( max_ammo );
 
-	const auto animation_layer_weapon_action = m_player.pointer->get_anim_overlay( 1 );
+	animation_layer* animation_layer_weapon_action = m_player.pointer->get_anim_overlay( 1 );
 	if ( !animation_layer_weapon_action )
 		return;
 
-	const auto activity = m_player.pointer->get_sequence_activity( animation_layer_weapon_action->m_sequence );
+	int activity = m_player.pointer->get_sequence_activity( animation_layer_weapon_action->m_sequence );
 	if ( activity == 967 && animation_layer_weapon_action->m_weight != 0.f )
 		scalar = animation_layer_weapon_action->m_cycle;
 
@@ -157,13 +157,11 @@ void visuals::draw_flags( ) {
 	if ( m_player.pointer->has_defuser( ) )
 		flags.emplace_back( "kit", m_player.m_colors.white );
 
-	// is this retarded?
-
-	const auto last_place_name = std::string( m_player.pointer->get_last_place_name( ) );
+	std::string last_place_name = std::string( m_player.pointer->get_last_place_name( ) );
 	 
 	if ( !last_place_name.empty( ) )  {
 
-		const auto last_place_name_wstring = std::wstring( m_interfaces.m_localize->find( last_place_name.data( ) ) );		
+		std::wstring last_place_name_wstring = std::wstring( m_interfaces.m_localize->find( last_place_name.data( ) ) );		
 		flags.emplace_back( std::string( last_place_name_wstring.begin( ), last_place_name_wstring.end( ) ), m_player.m_colors.white );
 		
 	}	
@@ -176,7 +174,7 @@ void visuals::draw_flags( ) {
 	if ( m_player.pointer->is_activity_active( activity_reload ) )
 		flags.emplace_back( "reload", m_player.m_colors.blue );
 
-	if ( m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
+	if ( m_globals.m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
 		flags.emplace_back( "shot", m_player.m_colors.blue );
 	
 	if ( m_player.pointer->get_flash_duration( ) )
@@ -196,7 +194,7 @@ void visuals::draw_flags( ) {
 	
 	for ( std::size_t i = 0; i < flags.size( ); ++i ) {
 
-		const auto& [ first, second ] = flags[ i ];
+		auto& [ first, second ] = flags[ i ];
 		m_render.draw_text( m_render.m_fonts.smallest_pixel_7, m_box.right + 3, m_box.top - 3 + i * 9, first, second );
 		
 	}
@@ -224,9 +222,9 @@ void visuals::dormant_esp( ) {
 
 void visuals::calculate_alpha( ) {
 
-	const auto delta_time = m_interfaces.m_globals->m_curtime - m_player.pointer->get_simulation_time( );
+	float delta_time = m_interfaces.m_globals->m_curtime - m_player.pointer->get_simulation_time( );
 	
-	const auto opacity = delta_time > 4.f ? m_easing.in_cubic( 0.65 - std::clamp( delta_time - 4.f, 0.f, 0.65f ) ) : 0.65;
+	float opacity = delta_time > 4.f ? m_easing.in_cubic( 0.65 - std::clamp( delta_time - 4.f, 0.f, 0.65f ) ) : 0.7f;
 
 	m_alpha[ m_player.index - 1 ] = static_cast< int >( 255 * opacity );	
 		
@@ -234,8 +232,8 @@ void visuals::calculate_alpha( ) {
 
 bool visuals::calculate_box( ) {
 
-	const auto max = m_player.pointer->get_obb_max( );
-	const auto min = m_player.pointer->get_obb_min( );
+	vector_3d max = m_player.pointer->get_obb_max( );
+	vector_3d min = m_player.pointer->get_obb_min( );
 	
 	std::array< vector_3d, 8 > points = {
 		
@@ -250,9 +248,9 @@ bool visuals::calculate_box( ) {
 		
 	};
 
-	const auto transformed = m_player.pointer->get_coordinate_frame( );
+	matrix3x4 transformed = m_player.pointer->get_coordinate_frame( );
 
-	auto left = INT_MAX, top = INT_MAX, right = INT_MIN, bottom = INT_MIN;
+	int left = INT_MAX, top = INT_MAX, right = INT_MIN, bottom = INT_MIN;
 
 	std::array< vector_2d, 8 > screen;
 
@@ -261,8 +259,8 @@ bool visuals::calculate_box( ) {
 		if ( !m_math.world_to_screen( m_math.vector_transform( points.at( i ), transformed ), screen.at( i ) ) )
 			return false;
 
-		const auto x = static_cast< int >( screen.at( i ).x );
-		const auto y = static_cast< int >( screen.at( i ).y );
+		int x = static_cast< int >( screen.at( i ).x );
+		int y = static_cast< int >( screen.at( i ).y );
 
 		left = min( left, x ), top = min( top, y ), right = max( right, x ), bottom = max( bottom, y );
 		

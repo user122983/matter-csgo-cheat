@@ -14,10 +14,10 @@ void __fastcall hooked::prediction_fn::run_command( prediction* ecx, void* edx, 
 
 	if ( cmd->m_weapon_select != 0 ) {
 
-		auto weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( cmd->m_weapon_select );
+		weapon_cs_base* weapon = m_interfaces.m_entity_list->get< weapon_cs_base* >( cmd->m_weapon_select );
 		if ( weapon ) {
 
-			const auto weapon_info = weapon->get_cs_wpn_data( );
+			cs_weapon_info* weapon_info = weapon->get_cs_wpn_data( );
 			if ( weapon_info )
 				player->select_item( weapon_info->m_weapon_name, cmd->m_weapon_sub_type );
 

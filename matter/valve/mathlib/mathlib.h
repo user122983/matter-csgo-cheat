@@ -8,36 +8,36 @@
 
 struct mathlib {
 	
-	static float simple_spline( const float value ) {
+	static float simple_spline( float value ) {
 
-		const auto squared_value = value * value;
+		float squared_value = value * value;
 
 		return ( 3 * squared_value - 2 * squared_value * value );
 
 	}
 
-	float simple_spline_remap_val_clamped( const float val, const float a, const float b, float c, float d ) const {
+	float simple_spline_remap_val_clamped( float val, float a, float b, float c, float d ) {
 
 		if ( a == b )
 			return val >= b ? d : c;
 
-		auto clamped_value = ( val - a ) / ( b - a );
+		float clamped_value = ( val - a ) / ( b - a );
 		clamped_value = std::clamp( clamped_value, 0.f, 1.f );
 		return c + ( d - c ) * simple_spline( clamped_value );
 
 	}
 
-	static float lerp( const float percent, const float a, const float b ) {
+	float lerp( float percent, float a, float b ) {
 
 		return a + ( b - a ) * percent;
 
 	}
 
-	static vector_3d approach( const vector_3d target, vector_3d value, const float speed ) {
+	vector_3d approach( vector_3d target, vector_3d value, float speed ) {
 
-		const auto diff = ( target - value );
+		vector_3d diff = ( target - value );
 
-		const auto delta = diff.length( );
+		float delta = diff.length( );
 		if ( delta > speed )
 			value += diff.normalized( ) * speed;
 		else if ( delta < -speed )
@@ -49,9 +49,9 @@ struct mathlib {
 
 	}
 
-	static float approach( const float target, float value, const float speed ) {
+	float approach( float target, float value, float speed ) {
 
-		const auto delta = target - value;
+		float delta = target - value;
 
 		if ( delta > speed )
 			value += speed;

@@ -58,37 +58,17 @@ private:
 
 	struct {
 
-		float next_update;
+		float next_update = -1.f;
 
-	} m_lby = { };
+	} m_lby;
 	
-	struct {
-
-		cs_player* pointer;
-
-		csgo_player_anim_state* anim_state;
-
-	} m_local_player = { };
-
-	struct {
-
-		weapon_cs_base* pointer;
-
-		cs_weapon_info* info;
-
-		short item_definition_index;
-
-		bool is_gun;
-
-	} m_weapon = { };
-
 	struct {
 
 		cs_player* pointer;
 
 		int index;
 
-	} m_player = { };
+	} m_player;
 
 	legitbot_widgets m_settings;
 	

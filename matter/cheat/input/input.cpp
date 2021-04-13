@@ -12,7 +12,7 @@ bool input::setup( ) {
 
 }
 
-void input::unload( ) const {
+void input::unload( ) {
 
 	if ( !m_original_wnd_proc )
 		return;
@@ -23,7 +23,7 @@ void input::unload( ) const {
 	
 }
 
-void input::think( const UINT message, const WPARAM w_param, const LPARAM l_param ) {
+void input::think( UINT message, WPARAM w_param, LPARAM l_param ) {
 
 	if ( message == WM_MOUSEMOVE )
 		m_mouse = { GET_X_LPARAM( l_param ), GET_Y_LPARAM( l_param ) };
@@ -35,33 +35,33 @@ void input::think( const UINT message, const WPARAM w_param, const LPARAM l_para
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 			key = w_param;
-			state = key_state::down;
+			state = down;
 			break;
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
 			key = w_param;
-			state = key_state::up;
+			state = up;
 			break;
 		case WM_LBUTTONDOWN:
 		case WM_LBUTTONUP:
 		case WM_LBUTTONDBLCLK:
 			key = VK_LBUTTON;
-			state = message == WM_LBUTTONUP ? key_state::up : key_state::down;
+			state = message == WM_LBUTTONUP ? up : down;
 			break;
 		case WM_RBUTTONDOWN:
 		case WM_RBUTTONUP:
 		case WM_RBUTTONDBLCLK:
 			key = VK_RBUTTON;
-			state = message == WM_RBUTTONUP ? key_state::up : key_state::down;
+			state = message == WM_RBUTTONUP ? up : down;
 			break;
 		default:
 			return;
 	}
 
-	if ( m_key_states[ key ].m_state == key_state::up && state == key_state::down ) {
+	if ( m_key_states[ key ].m_state == up && state == down ) {
 
 		m_key_states[ key ].m_framecount = m_interfaces.m_globals->m_framecount + 1;
-		m_key_states[ key ].m_state = key_state::toggled;
+		m_key_states[ key ].m_state = toggled;
 
 		if ( m_listen_for_last_key )
 			m_last_key = key;
@@ -74,7 +74,7 @@ void input::think( const UINT message, const WPARAM w_param, const LPARAM l_para
 
 }
 
-long __stdcall input::wnd_proc( const HWND window, const UINT message, const WPARAM w_param, const LPARAM l_param ) {
+long __stdcall input::wnd_proc( HWND window, UINT message, WPARAM w_param, LPARAM l_param ) {
 
 	m_input.think( message, w_param, l_param );
 

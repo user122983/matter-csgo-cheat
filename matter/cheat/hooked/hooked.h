@@ -76,7 +76,7 @@ private:
 
 	struct studio_render_fn {
 
-		static void __fastcall draw_model( studio_render_context* ecx, void* edx, void* results, const draw_model_info& info, void* bone_to_world, float* flex_weights, float* flex_delayed_rates, const vector_3d& origin, int flags );
+		static void __fastcall draw_model( studio_render_context* ecx, void* edx, void* results, draw_model_info& info, void* bone_to_world, float* flex_weights, float* flex_delayed_rates, vector_3d& origin, int flags );
 
 	};
 
@@ -94,7 +94,7 @@ private:
 
 	struct client_state_fn {
 
-		static void __fastcall check_file_crcs_with_server(void* ecx, void* edx);
+		static void __fastcall check_file_crcs_with_server( void* ecx, void* edx );
 
 	};
 
@@ -102,6 +102,12 @@ private:
 		
 		static int __fastcall list_leaves_in_box( void* ecx, void* edx, vector_3d& min, vector_3d& max, unsigned short* list, int list_max );
 
+	};
+
+	struct file_system_fn {
+
+		static bool __fastcall loose_files_allowed( void* ecx, void* edx );
+		
 	};
 
 };

@@ -6,8 +6,15 @@ BOOL APIENTRY DllMain( const HMODULE module_handle, const DWORD call_reason, LPV
 
 		DisableThreadLibraryCalls( module_handle );
 
-		return m_utils.create_thread( m_cheat.setup, module_handle );
+		HANDLE handle = CreateThread( nullptr, 0, m_cheat.setup, module_handle, 0, nullptr );
 
+		if ( !handle )
+			return false;
+
+		CloseHandle( handle );
+
+		return TRUE;
+		
 	} else if ( call_reason == DLL_PROCESS_DETACH ) {
 
 		m_cheat.unload( );

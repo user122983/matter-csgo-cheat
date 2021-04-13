@@ -245,7 +245,7 @@ struct cs_player : base_animating {
 
 		vector_3d eye_pos;
 		
-		m_utils.get_v_func< void ( __thiscall* )( void*, vector_3d& ) >( this, 168 )( this, eye_pos );
+		m_memory.get_v_func< void ( __thiscall* )( void*, vector_3d& ) >( this, 168 )( this, eye_pos );
 
 		return eye_pos;
 
@@ -253,7 +253,7 @@ struct cs_player : base_animating {
 	
 	auto eye_angles( ) {
 
-		return m_utils.get_v_func< q_angle& ( __thiscall* )( void* ) >( this, 169 )( this );
+		return m_memory.get_v_func< q_angle& ( __thiscall* )( void* ) >( this, 169 )( this );
 
 	}
 	

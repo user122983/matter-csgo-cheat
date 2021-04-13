@@ -5,7 +5,7 @@
 
 struct hash {
 
-	std::size_t get( std::string_view string ) const;
+	std::size_t get( std::string_view string );
 
 private:
 

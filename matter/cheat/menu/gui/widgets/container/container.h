@@ -11,9 +11,9 @@ struct container final : widgets {
 	
 	void render( );
 	
-	void add_widget( const std::shared_ptr< widgets >& widget );
+	void add_widget( std::shared_ptr< widgets >& widget );
 	
-	bool get_state( ) const;
+	bool get_state( );
 	
 	void geometry( ) override;
 	
@@ -23,6 +23,6 @@ private:
 
 	bool m_is_open = true, m_move_menu = false;
 	std::vector< std::shared_ptr< widgets > > m_widgets;
-	POINT m_cursor_delta = { };
+	POINT m_cursor_delta;
 	
 };

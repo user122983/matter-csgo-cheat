@@ -1,16 +1,15 @@
 #pragma once
 
 #include <cmath>
-#include <cfloat>
 
 struct vector_3d {
 
 	vector_3d( ) : x{ }, y{ }, z{ } { }
 
-	vector_3d( const float x, const float y, const float z ) : x{ x }, y{ y }, z{ z } { }
+	vector_3d( float x, float y, float z ) : x{ x }, y{ y }, z{ z } { }
 
 	vector_3d( const float* array ) : x( array[ 0 ] ), y( array[ 1 ] ), z( array[ 2 ] ) { }
-
+	
 	vector_3d& operator+=( const vector_3d& v ) {
 
 		x += v.x;
@@ -51,7 +50,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d& operator+=( const float fl ) {
+	vector_3d& operator+=( float fl ) {
 
 		x += fl;
 		y += fl;
@@ -61,7 +60,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d& operator-=( const float fl ) {
+	vector_3d& operator-=( float fl ) {
 
 		x -= fl;
 		y -= fl;
@@ -71,8 +70,7 @@ struct vector_3d {
 
 	}
 
-
-	vector_3d& operator*=( const float fl ) {
+	vector_3d& operator*=( float fl ) {
 
 		x *= fl;
 		y *= fl;
@@ -82,7 +80,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d& operator/=( const float fl ) {
+	vector_3d& operator/=( float fl ) {
 
 		x /= fl;
 		y /= fl;
@@ -92,7 +90,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator+( const vector_3d& v ) const {
+	vector_3d operator+( const vector_3d& v ) {
 
 		vector_3d result;
 
@@ -104,7 +102,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator-( const vector_3d& v ) const {
+	vector_3d operator-( const vector_3d& v ) {
 
 		vector_3d delta;
 
@@ -116,7 +114,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator*( const vector_3d& v ) const {
+	vector_3d operator*( const vector_3d& v ) {
 
 		vector_3d result;
 
@@ -128,7 +126,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator/( const vector_3d& v ) const {
+	vector_3d operator/( const vector_3d& v ) {
 
 		vector_3d result;
 
@@ -140,7 +138,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator+( const float fl ) const {
+	vector_3d operator+( float fl ) {
 
 		return {
 
@@ -152,7 +150,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator-( const float fl ) const {
+	vector_3d operator-( float fl ) {
 
 		return {
 
@@ -164,7 +162,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator*( const float fl ) const {
+	vector_3d operator*( float fl ) {
 
 		return {
 
@@ -176,7 +174,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator/( const float fl ) const {
+	vector_3d operator/( float fl ) {
 
 		return {
 
@@ -188,27 +186,27 @@ struct vector_3d {
 
 	}
 
-	float length( ) const {
+	float length( ) {
 
 		return std::sqrtf( std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 ) );
 
 	}
 
-	float length_sqr( ) const {
+	float length_2d( ) {
+
+		return std::sqrtf( this->x * this->x + this->y * this->y );
+
+	}
+	
+	float length_sqr( ) {
 
 		return std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 );
 
 	}
 
-	float length_2d( ) const {
+	float vector_normalize( vector_3d& v ) {
 
-		return std::sqrtf( this->x * this->x + this->y * this->y );
-
-	}
-
-	float vector_normalize( vector_3d& v ) const {
-
-		auto radius = std::sqrtf( std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 ) );
+		float radius = std::sqrtf( std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 ) );
 		radius = 1.f / ( radius + FLT_EPSILON );
 
 		v *= radius;
@@ -217,9 +215,9 @@ struct vector_3d {
 
 	}
 
-	vector_3d normalized( ) const {
+	vector_3d normalized( ) {
 
-		auto v = *this;
+		vector_3d v = *this;
 		vector_normalize( v );
 		return v;
 
@@ -231,12 +229,12 @@ struct vector_3d {
 
 	}
 
-	bool is_valid( ) const {
-		
-		return std::isfinite( this->x ) && std::isfinite( this->y ) && std::isfinite( this->z );
-		
-	}
+	bool is_valid( ) {
 
+		return std::isfinite( this->x ) && std::isfinite( this->y ) && std::isfinite( this->z );
+
+	}
+	
 	float x, y, z;
 
 };

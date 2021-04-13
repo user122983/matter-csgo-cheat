@@ -6,20 +6,22 @@
 #include "render/render.h"
 #include "menu/menu.h"
 
+#include <thread>
+
 DWORD WINAPI cheat::setup( void* parameter ) {
 
-	const auto handle = static_cast< HMODULE >( parameter );
+	HMODULE handle = static_cast< HMODULE >( parameter );
 
 	m_console.setup( "cheat" );
 
 	while ( !( m_cheat.m_window = FindWindowA( "Valve001", nullptr ) ) )
-		m_utils.sleep( 100 );
+		std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
 
 	if ( !m_pe.setup( ) || !m_modules.setup( ) || !m_interfaces.setup( ) || !m_netvars.setup( ) || !m_menu.setup( ) || !m_input.setup( ) || !m_render.setup( ) || !m_hooked.setup( ) )
 		FreeLibraryAndExitThread( handle , EXIT_FAILURE );
 
 	while ( !m_input.is_key_down( VK_DELETE ) )
-		m_utils.sleep( 100 );
+		std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
 
 	FreeLibraryAndExitThread( handle, EXIT_SUCCESS );
 
@@ -37,9 +39,9 @@ void cheat::unload( ) {
 
 }
 
-void cheat::iterate_players( const std::function< void( cs_player* ) >& function, const int flags ) {
+void cheat::iterate_players( const std::function< void( cs_player* ) >& function, int flags ) {
 
-	if ( !m_globals.m_local_player )
+	if ( !m_globals.m_local_player.pointer )
 		return;
 
 	for ( auto i = 1; i <= m_interfaces.m_globals->m_max_clients; i++ ) {
@@ -48,7 +50,7 @@ void cheat::iterate_players( const std::function< void( cs_player* ) >& function
 		if ( !player )
 			continue;
 
-		if ( player == m_globals.m_local_player )
+		if ( player == m_globals.m_local_player.pointer )
 			continue;
 		
 		if ( !( flags & iterate_dead ) )
@@ -60,7 +62,7 @@ void cheat::iterate_players( const std::function< void( cs_player* ) >& function
 				continue;
 
 		if ( !( flags & iterate_teammates ) )
-			if ( player->get_team( ) == m_globals.m_local_player->get_team( ) )
+			if ( player->get_team( ) == m_globals.m_local_player.pointer->get_team( ) )
 				continue;
 
 		function( player );

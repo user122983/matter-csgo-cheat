@@ -4,7 +4,7 @@
 
 struct mathlib_base {
 	
-	static float anglemod( float a ) {
+	float anglemod( float a ) {
 
 		a = ( 360.f / 65536 ) * ( static_cast< int >(a * (65536.f / 360.f)) & 65535 );
 
@@ -12,7 +12,7 @@ struct mathlib_base {
 
 	}
 
-	static float angle_normalize( float angle ) {
+	float angle_normalize( float angle ) {
 
 		angle = std::fmodf( angle, 360.f );
 
@@ -26,12 +26,12 @@ struct mathlib_base {
 
 	}
 
-	static float approach_angle( float target, float value, float speed ) {
+	float approach_angle( float target, float value, float speed ) {
 
 		target = anglemod( target );
 		value = anglemod( value );
 
-		auto delta = target - value;
+		float delta = target - value;
 
 		if ( speed < 0 )
 			speed = -speed;
@@ -52,9 +52,9 @@ struct mathlib_base {
 		
 	}
 
-	static float angle_diff( const float dest, const float source ) {
+	float angle_diff( float dest, float source ) {
 
-		auto delta = std::fmodf( dest - source, 360.f );
+		float delta = std::fmodf( dest - source, 360.f );
 
 		if ( dest > source ) {
 
@@ -72,10 +72,10 @@ struct mathlib_base {
 
 	}
 
-	float bias( const float x, const float bias_amt ) const {
+	float bias( float x, float bias_amt ) {
 
-		static float last_amt = -1;
-		static float last_exponent = 0;
+		static float last_amt = -1.f;
+		static float last_exponent = 0.f;
 
 		if ( last_amt != bias_amt ) 
 			last_exponent = std::log( bias_amt ) * -1.4427f;
@@ -84,23 +84,23 @@ struct mathlib_base {
 
 	}
 
-	static float deg_to_rad( const float deg ) {
+	float deg_to_rad( float deg ) {
 
 		return ( deg * ( 3.141f / 180.f ) );
 
 	}
 
-	static float rad_to_deg( const float rad ) {
+	float rad_to_deg( float rad ) {
 
 		return ( rad * ( 180.f / 3.141f ) );
 
 	}
 
-	void angle_vectors( const q_angle& angles, vector_3d* forward, vector_3d* right, vector_3d* up ) const {
+	void angle_vectors( q_angle& angles, vector_3d* forward, vector_3d* right, vector_3d* up ) {
 
-		const auto cos_y = std::cos( deg_to_rad( angles.y ) ), sin_y = std::sin( deg_to_rad( angles.y ) );
-		const auto cos_x = std::cos( deg_to_rad( angles.x ) ), sin_x = std::sin( deg_to_rad( angles.x ) );
-		const auto cos_z = std::cos( deg_to_rad( angles.z ) ), sin_z = std::sin( deg_to_rad( angles.z ) );
+		float cos_y = std::cos( deg_to_rad( angles.y ) ), sin_y = std::sin( deg_to_rad( angles.y ) );
+		float cos_x = std::cos( deg_to_rad( angles.x ) ), sin_x = std::sin( deg_to_rad( angles.x ) );
+		float cos_z = std::cos( deg_to_rad( angles.z ) ), sin_z = std::sin( deg_to_rad( angles.z ) );
 
 		if ( forward ) {
 
@@ -128,12 +128,12 @@ struct mathlib_base {
 
 	}
 
-	void angle_vectors( const q_angle& angles, vector_3d* forward ) const	{
+	void angle_vectors( q_angle& angles, vector_3d* forward )	{
 
-		const auto sin_x = sin( deg_to_rad( angles.x ) );
-		const auto sin_y = sin( deg_to_rad( angles.y ) );
-		const auto cos_x = cos( deg_to_rad( angles.x ) );
-		const auto cos_y = cos( deg_to_rad( angles.y ) );
+		float sin_x = sin( deg_to_rad( angles.x ) );
+		float sin_y = sin( deg_to_rad( angles.y ) );
+		float cos_x = cos( deg_to_rad( angles.x ) );
+		float cos_y = cos( deg_to_rad( angles.y ) );
 
 		forward->x = cos_x * cos_y;
 		forward->y = cos_x * sin_y;
@@ -141,7 +141,7 @@ struct mathlib_base {
 		
 	}
 
-	static void vector_angles( const vector_3d& forward, q_angle& view ) {
+	void vector_angles( vector_3d& forward, q_angle& view ) {
 
 		float pitch, yaw;
 

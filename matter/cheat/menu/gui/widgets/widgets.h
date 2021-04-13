@@ -16,21 +16,21 @@ struct widgets : std::enable_shared_from_this< widgets > {
 	
 	void set_size( int width, int height );
 	
-	dimension get_size( ) const;
+	dimension get_size( );
 	
 	void set_parent_widget( const std::shared_ptr< widgets >& parent );
 	
-	point get_abs_position( ) const;
+	point get_abs_position( );
 	
 	void set_medium( const std::shared_ptr< widgets >& medium, std::size_t page );
 	
-	bool is_unlocked( ) const;
+	bool is_unlocked( );
 	
-	int get_type( ) const;
+	int get_type( );
 	
 	void set_lock_input( const std::shared_ptr< widgets >& widget );
 	
-	bool is_input_unlocked( ) const;
+	bool is_input_unlocked( );
 
 protected:
 	
@@ -39,9 +39,9 @@ protected:
 	virtual void update( ) = 0;
 
 	std::string_view m_title;
-	point m_position = { };
-	dimension m_size = { };
-	area m_widget_area = { };
+	point m_position;
+	dimension m_size;
+	area m_widget_area;
 	std::shared_ptr< widgets > m_parent_widget, m_medium_widget;
 	std::vector< std::shared_ptr< widgets > >m_lock_input_widget;
 	std::size_t m_page, m_type;

@@ -15,12 +15,9 @@
 #include "../engine/client.h"
 #include "../tier0/mem_alloc.h"
 #include "../shared/game_movement.h"
+#include "../public/file_system.h"
 
-#include "../../other/hash/hash.h"
-#include "../../other/pe/pe.h"
 #include "../../other/console/console.h"
-
-#include <string>
 
 struct interfaces {
 
@@ -42,23 +39,23 @@ struct interfaces {
 	mem_alloc* m_mem_alloc;
 	game_movement* m_game_movement;
 	move_data* m_move_data;
-	
+	file_system* m_file_system;
 
 private:
 
-	template< class t > static t get( module_info the_module, const std::string_view interface_name ) {
+	template< class t > t get( module_info the_module, std::string_view interface_name ) {
 		
-		static auto fn_hash = m_hash.get( "CreateInterface" );
+		static std::size_t fn_hash = m_hash.get( "CreateInterface" );
 
-		const auto create_interface = m_pe.export_fn( the_module.get_module( ), fn_hash );
+		std::size_t create_interface = m_pe.export_fn( the_module.get_module( ), fn_hash );
 		if ( !create_interface )
 			return t( );
 
-		auto create_interface_fn = address( create_interface ).add( 0x4 ).relative( );
+		address create_interface_fn = address( create_interface ).add( 0x4 ).relative( );
 		if ( !create_interface_fn )
 			return t( );
 
-		auto interface_node = create_interface_fn.add( 0x6 ).get< interface_reg* >( 2 );
+		interface_reg* interface_node = create_interface_fn.add( 0x6 ).get< interface_reg* >( 2 );
 
 		while ( interface_node != nullptr ) {
 
@@ -66,7 +63,7 @@ private:
 
 			if ( !name.compare( 0u, interface_name.length( ), interface_name )  && std::atoi( interface_node->m_name + interface_name.length( ) ) > 0 ) {
 
-				auto interface_address = interface_node->m_create_fn( );
+				void* interface_address = interface_node->m_create_fn( );
 				if ( !interface_address )
 					return t( );
 

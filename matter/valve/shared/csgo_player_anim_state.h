@@ -23,7 +23,7 @@ struct animstate_pose_param_cache {
 
 	}
 
-	void set_value( cs_player* player, const float value ) {
+	void set_value( cs_player* player, float value ) {
 
 		if ( !m_initialized )
 			init( player, m_name );
@@ -44,7 +44,7 @@ struct animstate_pose_param_cache {
 
 struct csgo_player_anim_state {
 
-	auto update( const float y, const float x ) {
+	auto update( float y, float x ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::Update" ).as< void( __vectorcall* )( void*, void*, float, float, float, void* ) >( );
 		
@@ -130,7 +130,7 @@ struct csgo_player_anim_state {
 
 	}
 
-	auto increment_layer_cycle( const int layer_index, const bool allow_loop ) {
+	auto increment_layer_cycle( int layer_index, bool allow_loop ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::IncrementLayerCycle" ).as< void( __thiscall* )( void*, int, bool ) >( );
 		
@@ -138,7 +138,7 @@ struct csgo_player_anim_state {
 
 	}
 
-	auto increment_layer_weight( const int layer_index ) {
+	auto increment_layer_weight( int layer_index ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "CCSGOPlayerAnimState::IncrementLayerWeight" ).as< void( __thiscall* )( void*, int ) >( );
 		

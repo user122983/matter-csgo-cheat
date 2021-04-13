@@ -18,15 +18,15 @@ struct visuals {
 
 private:
 	
-	void draw_box( ) const;
+	void draw_box( );
 
 	void draw_health( );
 
-	void draw_name( ) const;
+	void draw_name( );
 
-	void draw_weapon( ) const;
+	void draw_weapon( );
 
-	void draw_ammo( ) const;
+	void draw_ammo( );
 
 	void draw_flags( );
 
@@ -40,7 +40,7 @@ private:
 
 		int left, top, right, bottom, width, height;
 
-	} m_box = { };
+	} m_box;
 
 	struct {
 
@@ -54,9 +54,9 @@ private:
 
 			color white, black, blue, green, red, alpha;
 			
-		} m_colors = { };
+		} m_colors;
 
-	} m_player = { };
+	} m_player;
 
 	struct {
 
@@ -64,9 +64,9 @@ private:
 
 		cs_weapon_info* info;
 		
-	} m_weapon = { };
+	} m_weapon;
 	
-	std::array< int, 64 > m_alpha = { };
+	std::array< int, 64 > m_alpha;
 
 };
 
