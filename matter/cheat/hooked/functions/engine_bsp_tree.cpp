@@ -6,7 +6,7 @@ int __fastcall hooked::engine_bsp_tree_fn::list_leaves_in_box( void* ecx, void* 
 
 	static auto o_list_leaves_in_box = m_modules.m_engine_dll.get< decltype( &list_leaves_in_box ) >( "CEngineBSPTree::ListLeavesInBox" );
 
-	static auto insert_into_tree_call_list_leaves_in_box = m_modules.m_client_dll.get_address( "CClientLeafSystem::InsertIntoTree" ).add( 0x5 ).as< std::uintptr_t >( );
+	static std::uintptr_t insert_into_tree_call_list_leaves_in_box = m_modules.m_client_dll.get_address( "CClientLeafSystem::InsertIntoTree" ).add( 0x5 ).as< std::uintptr_t >( );
 	
 	if ( reinterpret_cast< std::uintptr_t >( _ReturnAddress( ) ) != insert_into_tree_call_list_leaves_in_box )
 		return o_list_leaves_in_box( ecx, edx, min, max, list, list_max );
@@ -24,7 +24,7 @@ int __fastcall hooked::engine_bsp_tree_fn::list_leaves_in_box( void* ecx, void* 
 		return o_list_leaves_in_box( ecx, edx, min, max, list, list_max );
 
 	info->m_flags &= ~0x100;
-	info->m_render_in_fast_reflection |= 0xC0;
+	info->m_render_in_fast_reflection |= 0x40;
 
 	constexpr float max_coord_flat = 16384.f;
 	constexpr float min_coord_flat = -16384.f;

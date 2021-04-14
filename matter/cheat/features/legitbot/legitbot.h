@@ -55,10 +55,12 @@ private:
 	void fakelag( );
 
 	int m_fakelag_value = 0;
-
+	
 	struct {
 
-		float next_update = -1.f;
+		bool force_update;
+		
+		float next_update;
 
 	} m_lby;
 	

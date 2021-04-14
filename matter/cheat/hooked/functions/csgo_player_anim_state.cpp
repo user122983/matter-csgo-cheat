@@ -167,7 +167,11 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	}
 
-	// add server code
+	if ( !ecx->m_adjust_started && stopped_moving_this_frame && ecx->m_on_ground && !ecx->m_on_ladder && !ecx->m_landing && ecx->m_stutter_step < 50 ) {
+
+		
+		
+	}
 
 	ecx->m_foot_yaw_last = ecx->m_foot_yaw;
 	ecx->m_foot_yaw = std::clamp( ecx->m_foot_yaw, -360.f, 360.f );
@@ -199,14 +203,14 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 		ecx->m_foot_yaw = m_mathlib_base.approach_angle( ecx->m_eye_yaw, ecx->m_foot_yaw, ecx->m_last_update_increment * ( 30.f + 20.f * ecx->m_walk_to_run_transition ) );
 
-/*		ecx->m_lower_body_realign_timer = ecx->m_last_update_time + ( 1.1f * 0.2f );
+		/*ecx->m_lower_body_realign_timer = ecx->m_last_update_time + ( 1.1f * 0.2f );
 		player->get_lower_body_yaw_target( ) = ecx->m_eye_yaw;*/
-
+		
 	} else {
 
 		ecx->m_foot_yaw = m_mathlib_base.approach_angle( player->get_lower_body_yaw_target( ), ecx->m_foot_yaw, ecx->m_last_update_increment * 100.f );
 
-/*		if ( ecx->m_last_update_time > ecx->m_lower_body_realign_timer && std::fabsf( m_mathlib_base.angle_diff( ecx->m_foot_yaw, ecx->m_eye_yaw ) ) > 35.f ) {
+		/*if ( ecx->m_last_update_time > ecx->m_lower_body_realign_timer && std::fabsf( m_mathlib_base.angle_diff( ecx->m_foot_yaw, ecx->m_eye_yaw ) ) > 35.f ) {
 
 			ecx->m_lower_body_realign_timer = ecx->m_last_update_time + 1.1f;
 			player->get_lower_body_yaw_target( ) = ecx->m_eye_yaw;
@@ -223,6 +227,8 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_velocity( csgo_player_
 
 	}
 
+	// add server code
+	
 	if ( ecx->m_velocity_length_xy > 0.f ) {
 
 		float raw_yaw_ideal = ( std::atan2( -ecx->m_velocity.y, -ecx->m_velocity.x ) * 180 / 3.141f );
@@ -318,7 +324,7 @@ void __fastcall hooked::csgo_player_anim_state_fn::set_up_movement( csgo_player_
 
 	static auto o_set_up_movement = m_modules.m_client_dll.get< decltype( &set_up_movement ) >( "CCSGOPlayerAnimState::SetUpMovement" );
 
-	// to do
+	// todo
 
 	return o_set_up_movement( ecx, edx );
 }

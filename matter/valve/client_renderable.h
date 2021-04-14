@@ -6,13 +6,13 @@ struct client_renderable {
 
 	auto get_client_unknown( ) {
 
-		return m_memory.get_v_func< client_unknown* ( __thiscall* )( void* ) >( this, 0 )( this );
+		return m_memory.get_v_func< client_unknown*( __thiscall* )( void* ) >( this, 0 )( this );
 
 	}
 	
 	auto& get_render_origin( ) {
 
-		return m_memory.get_v_func< vector_3d& ( __thiscall* )( void* ) >( this, 1 )( this );
+		return m_memory.get_v_func< vector_3d&( __thiscall* )( void* ) >( this, 1 )( this );
 
 	}
 

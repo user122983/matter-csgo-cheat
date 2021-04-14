@@ -77,7 +77,8 @@ bool hooked::setup( ) {
 	//	return false;
 
 	// file_system_fn
-	// todo: sig loose_file_allowed
+	if ( !m_modules.m_engine_dll.hook_function( "CanLoadThirdPartyFiles", &file_system_fn::can_load_third_party_files ))
+		return false;
 	
 	return true;
 

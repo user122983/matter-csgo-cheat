@@ -1,7 +1,7 @@
 #include "../hooked.h"
 
-bool __fastcall hooked::file_system_fn::loose_files_allowed( void* ecx, void* edx ) {
+bool __fastcall hooked::file_system_fn::can_load_third_party_files( void* ecx, void* edx ) {
 	
-	return false;
+	return true;
 	
 }

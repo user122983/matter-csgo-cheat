@@ -208,7 +208,8 @@ struct csgo_player_anim_state {
 	int m_animstate_version;
 
 	// custom members
-	
+
+	bool m_adjust_started;
 	float m_lower_body_realign_timer;
 
 };
