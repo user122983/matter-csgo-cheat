@@ -107,7 +107,7 @@ private:
 	struct file_system_fn {
 
 		static bool __fastcall can_load_third_party_files( void* ecx, void* edx );
-		
+
 	};
 
 };

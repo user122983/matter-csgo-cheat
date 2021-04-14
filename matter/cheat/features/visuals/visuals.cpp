@@ -203,10 +203,34 @@ void visuals::draw_flags( ) {
 
 void visuals::dormant_esp( ) {
 
+	// bruh we be crashing
+	
+/*	static utl_vector< sound_info > sound_list;
+
+	sound_list.remove_all( );
+	m_interfaces.m_engine_sound->get_active_sounds( sound_list );
+
+	for ( int i = 0; i < sound_list.count( ); i++ ) {
+
+		auto& sound_element = sound_list.element( i );
+		
+		if ( sound_element.m_sound_source < 1 || sound_element.m_sound_source > 64 )
+			continue;
+		
+		cs_player* player = m_interfaces.m_entity_list->get< cs_player* >( sound_list.element( i ).m_sound_source );
+
+		if ( !player || !player->is_alive( ) || !player->get_client_networkable( )->is_dormant( ) )
+			continue;
+
+		if ( sound_element.m_origin )
+			m_console.log( "%f, %f, %f", sound_list.element( i ).m_origin->x, sound_list.element( i ).m_origin->y, sound_list.element( i ).m_origin->z );
+		
+	}*/
+	
 	if ( m_player.is_dormant ) {
 
 		m_player.m_colors.white = m_player.m_colors.blue = m_player.m_colors.green = m_player.m_colors.red = color( 255, 255, 255, m_alpha[ m_player.index - 1 ] );
-	
+		
 	} else {
 
 		m_player.m_colors.white = color( 255, 255, 255, m_alpha[ m_player.index - 1 ] );

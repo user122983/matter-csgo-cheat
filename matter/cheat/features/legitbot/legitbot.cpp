@@ -6,6 +6,7 @@
  *
  *	key binder activation
  *
+ *	fucking auto pistol with desync on shot lol
  *	burst mode and revolver fucked
  *  small sway on normal desync when going crouched
  *  when switching desync type ANIMATION_LAYER_ADJUST (try disabling it)
@@ -14,7 +15,7 @@
 
 void legitbot::run( ) {
 
-	if ( !m_globals.m_local_player.pointer || !m_globals.m_local_player.pointer->is_alive( ) || !m_globals.m_game.cs_game_rules_captured )
+	if ( !m_globals.m_local_player.pointer || !m_globals.m_local_player.pointer->is_alive( ) || !m_globals.m_game.cs_game_rules_captured || m_interfaces.m_cs_game_rules_proxy->is_freeze_period( ) || m_globals.m_local_player.pointer->get_flags( ) & fl_frozen )
 		return;
 
 	if ( m_menu.m_weapon_widgets[ weapon_default ].m_enabled->get_state( ) ) {
@@ -186,25 +187,6 @@ void legitbot::antiaim( ) {
 		
 	}
 
-	// todo: this is broken debug
-	
-	// make lby update when re-spawn
-	
-	static float spawn_time;
-
-	if ( spawn_time != m_globals.m_local_player.pointer->get_spawn_time( ) ) {
-
-		spawn_time = m_globals.m_local_player.pointer->get_spawn_time( );
-
-		m_lby.force_update = true;
-		
-	}
-
-	// this check can be on the top
-	
-	if ( m_interfaces.m_cs_game_rules_proxy->is_freeze_period( ) || m_globals.m_local_player.pointer->get_flags( ) & fl_frozen )
-		return;
-
 	static float desync_side = 1.f;
 
 	// todo: use wnd_proc and key from key binder
@@ -252,11 +234,15 @@ void legitbot::antiaim( ) {
 		m_last_desync_type = desync_normal;
 
 	} else if ( m_menu.m_antiaim_desync->get_index( ) == desync_extended ) {
-		
-		if ( m_last_desync_type != desync_extended || m_lby.force_update ) {
-			
+
+		static float spawn_time;
+
+		if ( spawn_time != m_globals.m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended ) {
+
+			spawn_time = m_globals.m_local_player.pointer->get_spawn_time( );
+
 			micromovement_desync( 120.f );
-			
+
 		}
 		
 		if ( m_globals.m_local_player.anim_state->m_velocity_length_xy > 0.1 ) {
@@ -266,7 +252,7 @@ void legitbot::antiaim( ) {
 		} else if ( m_globals.m_server.time >= m_lby.next_update || m_lby.force_update ) {
 
 			m_lby.force_update = false;
-
+			
 			m_lby.next_update = m_globals.m_server.time + 1.1f;
 
 		}

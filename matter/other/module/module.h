@@ -42,20 +42,21 @@ struct pattern : module_info {
 
 private:
 
-	static std::size_t build_byte_array( const char* pattern, int* bytes );
+	std::size_t build_byte_array( const char* pattern, int* bytes );
+
 	address search_byte_array( int* bytes, std::size_t size );
 
 };
 
 struct detour {
 
-	virtual bool hook_function( std::string_view name, void* custom_function ) = 0;
+	virtual bool hook_function( std::string_view name, void* custom_function, void* hooked_function = nullptr ) = 0;
 
 	virtual void unload_functions( ) = 0;
 
 	template< typename t > t get( std::string_view name ) {
 
-		return ( t )m_originals[ m_hash.get( name ) ];
+		return static_cast< t >( m_originals[ m_hash.get( name ) ] );
 		
 	}
 
@@ -73,7 +74,7 @@ struct loaded_module : pattern, detour {
 
 	bool add_address( std::string_view name, std::string_view pattern, bool relative = false );
 
-	bool hook_function( std::string_view name, void* custom_function ) override;
+	bool hook_function( std::string_view name, void* custom_function, void* hooked_function = nullptr ) override;
 
 	void unload_functions( ) override;
 
@@ -88,5 +89,7 @@ struct loaded_module : pattern, detour {
 private:
 
 	std::unordered_map< std::size_t, address > m_addresses;
+	
+	std::unordered_map< std::size_t, void* > m_functions;
 
 };

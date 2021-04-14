@@ -4,3 +4,4 @@
 #include "vgui_baseui.h"
 #include "client.h"
 #include "clockdriftmgr.h"
+#include "engine_sound.h"

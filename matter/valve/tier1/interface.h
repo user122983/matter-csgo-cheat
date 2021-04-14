@@ -1,6 +1,6 @@
 #pragma once
 
-using instantiate_interface_fn = void* ( __cdecl* )( );
+using instantiate_interface_fn = void*( __cdecl* )( );
 
 struct interface_reg {
 	

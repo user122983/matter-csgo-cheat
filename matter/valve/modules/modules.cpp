@@ -64,8 +64,8 @@ bool modules::get( ) {
 	if ( !m_inputsystem_dll.get_module( ) )
 		return false;
 
-	m_filesystem_stdio_dll = m_pe.get( "filesystem_stdio.dll" );
-	if ( !m_filesystem_stdio_dll.get_module( ) )
+	m_filesystem_studio_dll = m_pe.get( "filesystem_stdio.dll" );
+	if ( !m_filesystem_studio_dll.get_module( ) )
 		return false;
 	
 	return true;
@@ -97,6 +97,7 @@ void modules::get_addresses( ) {
 	m_client_dll.add_address( "C_BaseEntity::CalcAbsoluteVelocity", "E8 ? ? ? ? 83 7B 30 00", true );
 	m_client_dll.add_address( "C_BaseEntity::PhysicsRunThink", "E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? F3 0F 10 86 ? ? ? ?", true );
 	m_client_dll.add_address( "C_BaseEntity::CheckHasThinkFunction", "E8 ? ? ? ? EB 11 8B 86 ? ? ? ?", true );
+	m_client_dll.add_address( "C_BaseEntity::SetAbsOrigin", "55 8B EC 83 E4 F8 51 53 56 57 8B F1" );
 
 	m_client_dll.add_address( "C_BasePlayer->m_LastCmd", "8D 8E ? ? ? ? 89 5C 24 3C" );
 	m_client_dll.add_address( "C_BasePlayer->m_afButtonForced", "8B 86 ? ? ? ? 09 47 30" );
@@ -149,7 +150,7 @@ void modules::get_addresses( ) {
 
 	m_client_dll.add_address( "CClientLeafSystem::InsertIntoTree", "56 52 FF 50 18" );
 
-	m_engine_dll.add_address( "CanLoadThirdPartyFiles", "E8 ? ? ? ? 8B 17 83 C4 14", true );
+	m_client_dll.add_address( "CBaseEntity::EmitSound", "55 8B EC 83 EC 4C 53 8B D9 8B" );
 
 	m_engine_dll.add_address( "CEngineVGui::Paint", "55 8B EC 83 EC 40 53 8B D9 8B 0D ? ? ? ? 89 5D F8" );
 
@@ -214,7 +215,7 @@ bool modules::got_addresses( ) {
 	if ( !m_tier0.valid_addresses( ) )
 		return false;
 
-	if ( !m_filesystem_stdio_dll.valid_addresses( ) )
+	if ( !m_filesystem_studio_dll.valid_addresses( ) )
 		return false;
 	
 	return true;

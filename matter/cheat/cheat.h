@@ -23,7 +23,7 @@ struct cheat {
 
 	HWND m_window;
 
-	bool m_debug_mode = false;
+	bool m_debug_mode = true;
 
 };
 

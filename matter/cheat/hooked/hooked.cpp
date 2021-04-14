@@ -72,14 +72,14 @@ bool hooked::setup( ) {
 	if ( !m_modules.m_engine_dll.hook_function( "CClientState::CheckFileCRCsWithServer", &client_state_fn::check_file_crcs_with_server ) )
 		return false;
 
-	// engine_bsp_tree_fn
-	//if ( !m_modules.m_engine_dll.hook_function( "CEngineBSPTree::ListLeavesInBox", &engine_bsp_tree_fn::list_leaves_in_box ) )
-	//	return false;
+/*	// engine_bsp_tree_fn
+	if ( !m_modules.m_engine_dll.hook_function( "CEngineBSPTree::ListLeavesInBox", &engine_bsp_tree_fn::list_leaves_in_box ) )
+		return false;
 
 	// file_system_fn
-	if ( !m_modules.m_engine_dll.hook_function( "CanLoadThirdPartyFiles", &file_system_fn::can_load_third_party_files ))
-		return false;
-	
+	if ( !m_modules.m_engine_dll.hook_function( "IFileSystem::CanLoadThirdPartyFiles", &file_system_fn::can_load_third_party_files, m_memory.get_v_func( m_interfaces.m_file_system, 128 ) ) )
+		return false;*/
+
 	return true;
 
 }
@@ -97,6 +97,6 @@ void hooked::unload( ) {
 	m_modules.m_datacache_dll.unload_functions( );
 	m_modules.m_materialsystem_dll.unload_functions( );
 	m_modules.m_tier0.unload_functions( );
-	m_modules.m_filesystem_stdio_dll.unload_functions( );
+	m_modules.m_filesystem_studio_dll.unload_functions( );
 	
 }
