@@ -26,11 +26,10 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 		m_globals.m_weapon.is_gun = m_globals.m_weapon.pointer->is_gun( );
 		
 	}
-
-	m_globals.m_server.time = m_interfaces.m_globals->m_interval_per_tick * m_interfaces.m_client_state->m_clockdriftmgr.m_servertick;
 	
 	stack stack( _AddressOfReturnAddress( ) );
 
+	m_globals.m_server.time = m_interfaces.m_globals->m_interval_per_tick * m_interfaces.m_client_state->m_clockdriftmgr.m_servertick;
 	m_globals.m_server.send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	
 	q_angle old_view_angles = m_globals.m_local_player.cmd->m_view_angles;

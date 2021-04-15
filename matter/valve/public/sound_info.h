@@ -13,5 +13,10 @@ struct sound_info {
 	int	m_pitch;
 	vector_3d* m_origin;
 	vector_3d* m_direction;
+	bool m_update_positions;
+	bool m_is_sentence;
+	bool m_dry_mix;
+	bool m_speaker;
+	bool m_from_server;
 	
 };

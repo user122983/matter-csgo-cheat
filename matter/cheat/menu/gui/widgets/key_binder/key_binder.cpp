@@ -24,7 +24,7 @@ void key_binder::geometry( ) {
 	
 	m_widget_area = { get_abs_position( ).m_x - text_size.m_width, get_abs_position( ).m_y, text_size.m_width, text_size.m_height };
 	
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y, text, m_menu.m_colors.white );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y, text, m_menu.m_colors.white2 );
 
 	int m_none_available = m_selected_key ? 0 : 1;
 	m_type_dropdown.m_height = m_none_available ? 42 : 62;

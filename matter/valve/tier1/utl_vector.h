@@ -37,5 +37,6 @@ protected:
 
 	a m_memory;
 	int m_size;
+	t* m_elements;
 	
 };

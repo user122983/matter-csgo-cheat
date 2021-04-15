@@ -234,6 +234,12 @@ struct vector_3d {
 		return std::isfinite( this->x ) && std::isfinite( this->y ) && std::isfinite( this->z );
 
 	}
+
+	bool is_zero( ) {
+
+		return ( std::fpclassify( this->x ) == FP_ZERO && std::fpclassify( this->y ) == FP_ZERO && std::fpclassify( this->z ) == FP_ZERO );
+		
+	}
 	
 	float x, y, z;
 

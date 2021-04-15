@@ -58,7 +58,7 @@ private:
 	
 	struct {
 
-		bool force_update = true;
+		bool force_update;
 		
 		float next_update;
 

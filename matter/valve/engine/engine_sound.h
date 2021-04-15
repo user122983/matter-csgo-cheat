@@ -7,7 +7,7 @@ struct engine_sound {
 
 	auto get_active_sounds( utl_vector< sound_info >& sound_list ) {
 
-		return m_memory.get_v_func< void( __thiscall* )( void*, utl_vector< sound_info >& ) >( this, 19 )( this, sound_list );
+		m_memory.get_v_func< void( __thiscall* )( void*, utl_vector< sound_info >& ) >( this, 19 )( this, sound_list );
 
 	}
 	

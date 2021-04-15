@@ -4,9 +4,6 @@
 #include "../hash/hash.h"
 
 #include <Windows.h>
-#include <cstddef>
-#include <cstdint>
-#include <string>
 #include <unordered_map>
 
 struct module_info {
@@ -80,7 +77,7 @@ struct loaded_module : pattern, detour {
 
 	address get_address( std::string_view name ) {
 		
-		return m_addresses[ m_hash.get( name ) ];
+		return m_hooked_functions[ m_hash.get( name ) ];
 		
 	}
 
@@ -88,8 +85,6 @@ struct loaded_module : pattern, detour {
 
 private:
 
-	std::unordered_map< std::size_t, address > m_addresses;
+	std::unordered_map< std::size_t, address > m_hooked_functions;
 	
-	std::unordered_map< std::size_t, void* > m_functions;
-
 };

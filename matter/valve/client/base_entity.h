@@ -133,7 +133,7 @@ struct base_entity {
 
 	auto set_abs_origin( const vector_3d& origin ) {
 
-		static auto function = m_modules.m_client_dll.get_address("C_BaseEntity::SetAbsOrigin" ).as< void( __thiscall* ) ( void*, const vector_3d& ) >( );
+		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::SetAbsOrigin" ).as< void( __thiscall* ) ( void*, const vector_3d& ) >( );
 
 		return function( this, origin );
 

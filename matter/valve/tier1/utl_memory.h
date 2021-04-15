@@ -12,5 +12,7 @@ struct utl_memory {
 protected:
 
 	t* m_memory;
+	int m_allocation_count;
+	int m_grow_size;
 	
 };

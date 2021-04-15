@@ -31,11 +31,13 @@ private:
 	void draw_flags( );
 
 	void dormant_esp( );
+
+	void initialize_colors( );
 	
 	void calculate_alpha( );
 
 	bool calculate_box( );
-	
+
 	struct {
 
 		int left, top, right, bottom, width, height;
@@ -67,8 +69,6 @@ private:
 	} m_weapon;
 	
 	std::array< int, 64 > m_alpha;
-
-	std::array< vector_3d, 64 > m_dormant_origin;
 
 };
 

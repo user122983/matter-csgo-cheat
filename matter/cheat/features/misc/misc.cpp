@@ -3,8 +3,6 @@
 #include "../globals.h"
 #include "../../cheat.h"
 
-#include <algorithm>
-
 void misc::movement_fix( q_angle& angle ) {
 
 	if ( !m_globals.m_local_player.pointer->is_alive( ) )

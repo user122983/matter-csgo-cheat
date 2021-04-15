@@ -44,13 +44,8 @@ void legitbot::run( ) {
 
 void legitbot::aimbot( ) {
 
-	if ( !m_globals.m_weapon.is_gun )  {
-
-		m_player.pointer = nullptr;
-		
+	if ( !m_globals.m_weapon.is_gun )		
 		return;
-		
-	}
 		
 	int weapon_id = 0;
 	if ( m_menu.m_weapon_widgets[ weapon_scout ].m_enabled->get_state( ) && m_globals.m_weapon.item_definition_index == weapon_id_ssg08 )
@@ -201,7 +196,7 @@ void legitbot::antiaim( ) {
 		
 	};
 	
-	auto micromovement_desync = [ desync_on_shot ]( const float yaw ) mutable  {
+	auto micromovement_desync = [ desync_on_shot ]( float yaw ) mutable  {
 
 		if ( m_globals.m_local_player.cmd->m_buttons & ( in_move_left | in_move_right ) )
 			return;
