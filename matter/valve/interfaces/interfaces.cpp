@@ -72,14 +72,18 @@ bool interfaces::setup( ) {
 
 	m_console.log( "found pointer g_pMoveData -> 0x%x", m_move_data );
 
-	m_file_system = get< file_system* >( m_modules.m_filesystem_studio_dll, "VFileSystem" );
+	m_file_system = get< file_system* >( m_modules.m_filesystem_stdio_dll, "VFileSystem" );
 	if ( !m_file_system )
 		return false;
 
 	m_engine_sound = get< engine_sound* >( m_modules.m_engine_dll, "IEngineSoundClient" );
 	if ( !m_engine_sound )
 		return false;
-	
+
+	m_prediction = get< prediction* >( m_modules.m_client_dll, "VClientPrediction" );
+	if ( !m_prediction )
+		return false;
+
 	return true;
 
 }

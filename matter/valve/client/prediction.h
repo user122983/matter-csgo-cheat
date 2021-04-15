@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../shared/user_cmd.h"
+#include "../client/client.h"
 
-struct base_player;
-struct move_helper;
-struct move_data;
+#include "../shared/move_helper.h"
+#include "../shared/user_cmd.h"
 
 struct prediction {
 

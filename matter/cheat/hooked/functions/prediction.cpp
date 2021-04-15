@@ -1,7 +1,7 @@
 #include "../hooked.h"
 
 void __fastcall hooked::prediction_fn::run_command( prediction* ecx, void* edx, base_player* player, user_cmd* cmd, move_helper* move_helper ) {
-
+	
 	ecx->start_command( player, cmd );
 
 	m_interfaces.m_globals->m_curtime = player->get_tick_base( ) * m_interfaces.m_globals->m_interval_per_tick;

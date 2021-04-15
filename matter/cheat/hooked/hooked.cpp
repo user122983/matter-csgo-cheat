@@ -97,6 +97,6 @@ void hooked::unload( ) {
 	m_modules.m_datacache_dll.unload_functions( );
 	m_modules.m_materialsystem_dll.unload_functions( );
 	m_modules.m_tier0.unload_functions( );
-	m_modules.m_filesystem_studio_dll.unload_functions( );
+	m_modules.m_filesystem_stdio_dll.unload_functions( );
 	
 }

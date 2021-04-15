@@ -8,11 +8,11 @@ struct weapon_cs_base;
 
 struct globals {
 
+	user_cmd* cmd;
+
 	struct {
 
 		cs_player* pointer;
-
-		user_cmd* cmd;
 
 		vector_3d view_origin;
 		
@@ -20,9 +20,8 @@ struct globals {
 		
 		csgo_player_anim_state* anim_state;
 
-
 	} m_local_player;
-
+	
 	struct {
 
 		weapon_cs_base* pointer;
@@ -43,9 +42,9 @@ struct globals {
 	
 	struct {
 
-		bool* send_packet = nullptr;
+		bool* send_packet;
 		
-		float time = 0.f;
+		float time;
 	
 	} m_server;
 

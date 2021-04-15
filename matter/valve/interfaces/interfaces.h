@@ -17,6 +17,7 @@
 #include "../shared/game_movement.h"
 #include "../public/file_system.h"
 #include "../engine/engine_sound.h"
+#include "../client/prediction.h"
 
 #include "../../other/console/console.h"
 
@@ -42,6 +43,7 @@ struct interfaces {
 	move_data* m_move_data;
 	file_system* m_file_system;
 	engine_sound* m_engine_sound;
+	prediction* m_prediction;
 
 private:
 

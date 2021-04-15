@@ -55,6 +55,7 @@ struct base_entity {
 	auto get_move_type( ) {
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::uintptr_t > ( this ) + static_cast< std::uintptr_t >( 0x25C ) );
+		
 	}
 
 	auto& get_origin( ) {
@@ -81,7 +82,7 @@ struct base_entity {
 
 	}
 
-	auto calculate_absolute_velocity( ) {
+	auto calc_absolute_velocity( ) {
 
 		static auto function = m_modules.m_client_dll.get_address( "C_BaseEntity::CalcAbsoluteVelocity" ).as< void( __thiscall* )( void* ) >( );
 		
@@ -93,7 +94,7 @@ struct base_entity {
 
 		static auto offset = m_modules.m_client_dll.get_address( "C_BaseEntity->m_vecAbsVelocity" ).add( 0x4 ).to< std::size_t >( );
 		
-		calculate_absolute_velocity( );
+		calc_absolute_velocity( );
 
 		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
 

@@ -64,8 +64,8 @@ bool modules::get( ) {
 	if ( !m_inputsystem_dll.get_module( ) )
 		return false;
 
-	m_filesystem_studio_dll = m_pe.get( "filesystem_stdio.dll" );
-	if ( !m_filesystem_studio_dll.get_module( ) )
+	m_filesystem_stdio_dll = m_pe.get( "filesystem_stdio.dll" );
+	if ( !m_filesystem_stdio_dll.get_module( ) )
 		return false;
 	
 	return true;
@@ -78,6 +78,8 @@ void modules::get_addresses( ) {
 	
 	m_client_dll.add_address( "g_pNetGraphPanel", "89 1D ? ? ? ? 8B C3" );
 	m_client_dll.add_address( "g_pMoveData", "FF 35 ? ? ? ? 56 85 DB" );
+	
+	m_client_dll.add_address( "IMoveHelper", "8B 0D ? ? ? ? 8B 45 ? 51 8B D4 89 02 8B 01" );
 
 	m_client_dll.add_address( "C_BaseAnimating::LookupBone", "E8 ? ? ? ? 89 44 24 5C", true );
 	m_client_dll.add_address( "C_BaseAnimating::GetBonePosition", "E8 ? ? ? ? 8D 14 24", true );
@@ -215,7 +217,7 @@ bool modules::got_addresses( ) {
 	if ( !m_tier0.valid_addresses( ) )
 		return false;
 
-	if ( !m_filesystem_studio_dll.valid_addresses( ) )
+	if ( !m_filesystem_stdio_dll.valid_addresses( ) )
 		return false;
 	
 	return true;

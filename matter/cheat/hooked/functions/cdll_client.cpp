@@ -6,7 +6,7 @@ void __fastcall hooked::cdll_client_fn::level_shutdown( void* ecx, void* edx ) {
 
 	m_globals.m_local_player.pointer = nullptr;
 
-	m_globals.m_local_player.cmd = nullptr;
+	m_globals.cmd = nullptr;
 
 	o_level_shutdown( ecx, edx );
 
