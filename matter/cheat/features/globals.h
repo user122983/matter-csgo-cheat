@@ -9,7 +9,7 @@ struct weapon_cs_base;
 struct globals {
 
 	user_cmd* cmd;
-
+	
 	struct {
 
 		cs_player* pointer;
@@ -26,6 +26,8 @@ struct globals {
 
 		weapon_cs_base* pointer;
 
+		base_combat_character* base_combat_pointer;
+		
 		cs_weapon_info* info;
 
 		short item_definition_index;

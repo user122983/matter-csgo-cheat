@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../client/client.h"
+#include "../shared/game_movement.h"
 
 #include "../shared/move_helper.h"
 #include "../shared/user_cmd.h"

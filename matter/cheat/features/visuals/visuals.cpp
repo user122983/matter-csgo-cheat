@@ -66,7 +66,6 @@ void visuals::run( ) {
 
 		draw_flags( );
 
-
 	}
 	
 }
@@ -215,7 +214,7 @@ void visuals::dormant_esp( ) {
 
 		auto& sound_element = sound_list.element( i );
 
-		if ( sound_element.m_sound_source < 1 || sound_element.m_sound_source > 64 )
+		if ( sound_element.m_sound_source < 1 || sound_element.m_sound_source > 64 || sound_element.m_channel != 4 )
 			continue;
 
 		cs_player* player = m_interfaces.m_entity_list->get< cs_player* >( sound_list.element( i ).m_sound_source );
