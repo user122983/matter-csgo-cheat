@@ -32,11 +32,11 @@ private:
 
 	void dormant_esp( );
 
-	void initialize_colors( );
+	void init_colors( );
 	
-	void calculate_alpha( );
+	void calc_alpha( );
 
-	bool calculate_box( );
+	bool calc_box( );
 
 	struct {
 

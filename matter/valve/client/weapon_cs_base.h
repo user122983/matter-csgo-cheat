@@ -7,14 +7,15 @@
 
 struct cs_weapon_info {
 
-	char pad0[ 0x14 ];
+	char _pad0[ 0x14 ];
 	int m_max_clip1;
-	char pad1[ 0x70 ]; 
+	char _pad1[ 0x70 ]; 
 	const char* m_hud_name; 
 	const char* m_weapon_name; 
 	char _pad2[ 0x38 ]; 
 	int m_weapon_type; 
-
+	char _pad3[ 0x40 ];
+	float m_range;
 };
 
 struct weapon_cs_base : base_entity {
@@ -89,19 +90,19 @@ struct weapon_cs_base : base_entity {
 
 	auto can_shoot( ) {
 
-		if ( !m_globals.m_weapon.is_gun || this->get_ammo( ) <= 0 || m_globals.m_weapon.base_combat_pointer->get_next_attack( ) > m_globals.m_server.time )
+		if ( !m_globals.m_weapon.is_gun || this->get_ammo( ) <= 0 || m_globals.m_local_player.pointer->get_next_attack( ) > m_globals.m_server.time )
 			return false;
 
 		if ( ( m_globals.m_weapon.item_definition_index == weapon_id_famas || m_globals.m_weapon.item_definition_index == weapon_id_glock ) &&
 			this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
 			return true;
-
+		
 		if ( m_globals.m_weapon.base_combat_pointer->get_next_primary_attack( ) > m_globals.m_server.time )
 			return false;
 
 		if ( m_globals.m_weapon.item_definition_index == weapon_id_revolver && this->get_postpone_fire_ready_time( ) > m_globals.m_server.time )
 			return false;
-
+		
 		return true;
 		
 	}

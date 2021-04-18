@@ -102,7 +102,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator-( const vector_3d& v ) {
+	vector_3d operator-( const vector_3d& v ) const {
 
 		vector_3d delta;
 
@@ -126,7 +126,7 @@ struct vector_3d {
 
 	}
 
-	vector_3d operator/( const vector_3d& v ) {
+	vector_3d operator/( vector_3d& v ) {
 
 		vector_3d result;
 
@@ -207,7 +207,7 @@ struct vector_3d {
 	float vector_normalize( vector_3d& v ) {
 
 		float radius = std::sqrtf( std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 ) );
-		radius = 1.f / ( radius + FLT_EPSILON );
+		radius = 1.f / ( radius + 1.192092896e-07F );
 
 		v *= radius;
 

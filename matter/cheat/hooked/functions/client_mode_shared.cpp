@@ -28,6 +28,8 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 		m_globals.m_weapon.is_gun = m_globals.m_weapon.pointer->is_gun( );
 		
 	}
+
+	m_globals.m_weapon.recoil_scale = m_interfaces.m_convar->find_var( "weapon_recoil_scale" )->get_float( );
 	
 	stack stack( _AddressOfReturnAddress( ) );
 	

@@ -18,6 +18,8 @@
 #include "../public/file_system.h"
 #include "../engine/engine_sound.h"
 #include "../client/prediction.h"
+#include "../tier1/convar.h"
+#include "../engine/engine_trace.h"
 
 #include "../../other/console/console.h"
 
@@ -44,6 +46,8 @@ struct interfaces {
 	file_system* m_file_system;
 	engine_sound* m_engine_sound;
 	prediction* m_prediction;
+	convar* m_convar;
+	engine_trace* m_engine_trace;
 
 private:
 

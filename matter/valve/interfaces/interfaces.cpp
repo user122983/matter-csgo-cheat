@@ -14,6 +14,10 @@ bool interfaces::setup( ) {
 	if ( !m_entity_list )
 		return false;
 
+	m_engine_trace = get< engine_trace* >( m_modules.m_engine_dll, "EngineTraceClient" );
+	if ( !m_engine_trace )
+		return false;
+
 	m_debug_overlay = get< debug_overlay* >( m_modules.m_engine_dll, "VDebugOverlay" );
 	if ( !m_debug_overlay )
 		return false;
@@ -82,6 +86,10 @@ bool interfaces::setup( ) {
 
 	m_prediction = get< prediction* >( m_modules.m_client_dll, "VClientPrediction" );
 	if ( !m_prediction )
+		return false;
+
+	m_convar = get< convar* >( m_modules.m_vstdlib_dll, "VEngineCvar" );
+	if ( !m_convar )
 		return false;
 
 	return true;

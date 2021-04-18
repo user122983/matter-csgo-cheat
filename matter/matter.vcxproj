@@ -215,6 +215,7 @@
     <ClInclude Include="valve\engine\debug_overlay.h" />
     <ClInclude Include="valve\engine\engine.h" />
     <ClInclude Include="valve\engine\engine_sound.h" />
+    <ClInclude Include="valve\engine\engine_trace.h" />
     <ClInclude Include="valve\engine\vgui_baseui.h" />
     <ClInclude Include="valve\engine_vgui.h" />
     <ClInclude Include="valve\global_vars_base.h" />
@@ -225,13 +226,18 @@
     <ClInclude Include="valve\mathlib\mathlib.h" />
     <ClInclude Include="valve\mathlib\mathlib_base.h" />
     <ClInclude Include="valve\mathlib\matrix.h" />
+    <ClInclude Include="valve\mathlib\vector.h" />
     <ClInclude Include="valve\modules\modules.h" />
     <ClInclude Include="valve\netvars\netvars.h" />
     <ClInclude Include="valve\net_channel.h" />
+    <ClInclude Include="valve\public\bspflags.h" />
+    <ClInclude Include="valve\public\cmodel.h" />
     <ClInclude Include="valve\public\const.h" />
     <ClInclude Include="valve\public\file_system.h" />
+    <ClInclude Include="valve\public\game_trace.h" />
     <ClInclude Include="valve\public\public.h" />
     <ClInclude Include="valve\public\sound_info.h" />
+    <ClInclude Include="valve\public\trace.h" />
     <ClInclude Include="valve\shared\base_view_model.h" />
     <ClInclude Include="valve\shared\csgo_player_anim_state.h" />
     <ClInclude Include="valve\shared\cs_gamerules.h" />
@@ -246,6 +252,7 @@
     <ClInclude Include="valve\studio_render\studio_render_context.h" />
     <ClInclude Include="valve\tier0\tier0.h" />
     <ClInclude Include="valve\tier1\bitbuf.h" />
+    <ClInclude Include="valve\tier1\convar.h" />
     <ClInclude Include="valve\tier1\interface.h" />
     <ClInclude Include="valve\tier1\localize.h" />
     <ClInclude Include="valve\tier0\mem_alloc.h" />

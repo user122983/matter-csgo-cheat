@@ -67,6 +67,10 @@ bool modules::get( ) {
 	m_filesystem_stdio_dll = m_pe.get( "filesystem_stdio.dll" );
 	if ( !m_filesystem_stdio_dll.get_module( ) )
 		return false;
+
+	m_vstdlib_dll = m_pe.get( "vstdlib.dll" );
+	if ( !m_vstdlib_dll.get_module( ) )
+		return false;
 	
 	return true;
 
@@ -218,6 +222,9 @@ bool modules::got_addresses( ) {
 		return false;
 
 	if ( !m_filesystem_stdio_dll.valid_addresses( ) )
+		return false;
+
+	if ( !m_vstdlib_dll.valid_addresses( ) )
 		return false;
 	
 	return true;

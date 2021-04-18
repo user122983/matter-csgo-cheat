@@ -34,6 +34,8 @@ struct globals {
 
 		bool is_gun;
 
+		float recoil_scale;
+
 	} m_weapon;
 	
 	struct {

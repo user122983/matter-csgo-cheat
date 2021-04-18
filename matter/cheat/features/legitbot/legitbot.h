@@ -45,14 +45,18 @@ struct legitbot {
 	void run( );
 
 private:
-
+	
 	void aimbot( );
 
 	void rcs( );
+
+	void triggerbot( );
 	
 	void antiaim( );
 
 	void fakelag( );
+	
+	void init_settings( );
 
 	int m_fakelag_value = 0;
 	

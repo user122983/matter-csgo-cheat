@@ -1,5 +1,7 @@
 #include "legitbot.h"
+
 #include "../globals.h"
+
 #include "../../cheat.h"
 
 /*  todo:
@@ -17,12 +19,19 @@
 
 void legitbot::run( ) {
 
-	if ( !m_globals.m_local_player.pointer || !m_globals.m_local_player.pointer->is_alive( ) || !m_globals.m_game.cs_game_rules_captured )
+	if ( !m_globals.m_local_player.pointer || !m_globals.m_local_player.pointer->is_alive( ) || !m_globals.m_game.cs_game_rules_captured ) {
+
+		m_player.pointer = nullptr;
+
 		return;
+		
+	}
 	
 	if ( m_interfaces.m_cs_game_rules_proxy->is_freeze_period( ) || m_globals.m_local_player.pointer->get_flags( ) & fl_frozen )
 		return;
 
+	init_settings( );
+	
 	if ( m_menu.m_weapon_widgets[ weapon_default ].m_enabled->get_state( ) ) {
 		
 		aimbot( );
@@ -30,6 +39,8 @@ void legitbot::run( ) {
 		rcs( );
 		
 	}
+
+	triggerbot( );
 	
 	if ( !m_menu.m_antiaim_enabled->get_state( ) )
 		return;
@@ -40,24 +51,10 @@ void legitbot::run( ) {
 
 }
 
-void legitbot::aimbot( ) {
+void legitbot::aimbot() {
 
-	if ( !m_globals.m_weapon.is_gun )		
+	if ( !m_globals.m_weapon.is_gun )
 		return;
-		
-	int weapon_id = weapon_default;
-	if ( m_menu.m_weapon_widgets[ weapon_scout ].m_enabled->get_state( ) && m_globals.m_weapon.item_definition_index == weapon_id_ssg08 )
-		weapon_id = weapon_scout;
-	else if ( m_menu.m_weapon_widgets[ weapon_awp ].m_enabled->get_state( ) && m_globals.m_weapon.item_definition_index == weapon_id_awp )
-		weapon_id = weapon_awp;
-	else if ( m_menu.m_weapon_widgets[ weapon_pistol ].m_enabled->get_state( ) && m_globals.m_weapon.info->m_weapon_type == weapon_type_pistol )
-		weapon_id = weapon_pistol;
-	else if ( m_menu.m_weapon_widgets[ weapon_heavy ].m_enabled->get_state( ) && m_globals.m_weapon.info->m_weapon_type == weapon_type_shotgun || m_globals.m_weapon.info->m_weapon_type == weapon_type_machinegun )
-		weapon_id = weapon_heavy;
-	else if ( m_menu.m_weapon_widgets[ weapon_rifles ].m_enabled->get_state( ) && m_globals.m_weapon.info->m_weapon_type == weapon_type_rifle )
-		weapon_id = weapon_rifles;
-
-	m_settings = m_menu.m_weapon_widgets[ weapon_id ];
 
 	if ( !m_settings.m_fov->get_value( ) ) {
 
@@ -67,32 +64,47 @@ void legitbot::aimbot( ) {
 
 	}
 
-	auto calculate_player_angle = [ ]( cs_player* player, q_angle& angle ) {
-
-		// todo: use input from settings for getting aim bone
-		
-		const auto head_bone = player->lookup_bone( "head_0" );
-		if ( !head_bone )
-			return;
-
-		vector_3d head_pos;
-		player->get_bone_position( head_bone, head_pos );
+	auto calc_player_angle = [ this ]( cs_player* player, q_angle& angle, vector_3d aim_pos ) {
 
 		vector_3d eye_pos = m_globals.m_local_player.pointer->get_eye_pos( );
-		angle = m_math.calculate_angle(eye_pos, head_pos );
-		
+		angle = m_math.calc_angle( eye_pos, aim_pos );
+
+		angle = angle - m_globals.m_local_player.pointer->get_aim_punch_angle( ) * m_globals.m_weapon.recoil_scale;
+
+	};
+
+	// todo: put this somewhere else
+	
+	auto is_visible = [ this ] ( cs_player* player, const vector_3d end_pos ) {
+
+		vector_3d start = m_globals.m_local_player.pointer->get_eye_pos( );
+
+		ray ray;
+		ray.init( start, end_pos );
+
+		trace_filter filter;
+		filter.m_skip = m_globals.m_local_player.pointer;
+
+		game_trace trace;
+		m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
+
+		return trace.m_fraction > 0.97f || trace.m_hit_entity == player;
+
 	};
 	
 	float fov = 0.f, best_fov = FLT_MAX;
+	
+	m_cheat.iterate_players( [ this, fov, best_fov, calc_player_angle, is_visible ]( cs_player* player ) mutable -> void {
 
-	m_cheat.iterate_players( [ this, fov, best_fov, calculate_player_angle ]( cs_player* player ) mutable -> void {
-
+		vector_3d aim_pos;
+		player->get_bone_position( 8 - m_settings.m_target->get_index( ), aim_pos );
+		
 		q_angle angle;
-		calculate_player_angle( player, angle );
-
-		fov = m_math.calculate_fov( m_globals.cmd->m_view_angles, angle );
-
-		if ( std::isnan( fov ) || fov < best_fov && fov < m_settings.m_fov->get_value( ) ) {
+		calc_player_angle( player, angle, aim_pos );
+		
+		fov = m_math.calc_fov( m_globals.cmd->m_view_angles, angle );
+				
+		if ( std::isnan( fov ) || fov < best_fov && fov < m_settings.m_fov->get_value( ) && is_visible( player, aim_pos ) ) {
 
 			m_player.pointer = player;
 			best_fov = fov;
@@ -118,13 +130,19 @@ void legitbot::aimbot( ) {
 	
 	// todo: get values from loop
 	
+	vector_3d aim_pos;
+	m_player.pointer->get_bone_position( 8 - m_settings.m_target->get_index( ), aim_pos );
+	
 	q_angle angle;
-	calculate_player_angle( m_player.pointer, angle );
+	calc_player_angle( m_player.pointer, angle, aim_pos );
 
+	if ( !is_visible( m_player.pointer, aim_pos ) )
+		return;
+	
 	angle.normalize( );
 	angle.clamp( );
 	
-	fov = m_math.calculate_fov( m_globals.cmd->m_view_angles, angle );
+	fov = m_math.calc_fov( m_globals.cmd->m_view_angles, angle );
 	
 	if ( fov > m_settings.m_fov->get_value( ) )  {
 
@@ -135,7 +153,7 @@ void legitbot::aimbot( ) {
 	}
 	
 	if ( m_settings.m_smooth->get_value( ) ) {
-
+		
 		q_angle delta = angle - m_globals.cmd->m_view_angles;
 		angle = m_globals.cmd->m_view_angles + delta / m_settings.m_smooth->get_value( );
 		
@@ -163,9 +181,46 @@ void legitbot::rcs( ) {
 	if ( m_settings.m_rcs_y->get_value( ) )
 		punch_angle.y *= m_settings.m_rcs_y->get_value( ) / 10;
 
-	m_interfaces.m_engine->set_view_angles( m_globals.cmd->m_view_angles += old_punch_angle - punch_angle );
+	m_globals.cmd->m_view_angles = m_globals.cmd->m_view_angles += old_punch_angle - punch_angle;
 
 	old_punch_angle = punch_angle;
+}
+
+void legitbot::triggerbot( ) {
+
+	if ( !m_settings.m_triggerbot_enabled->get_state( ) )
+		return;
+
+	q_angle view = m_globals.cmd->m_view_angles;
+	view += m_globals.m_local_player.pointer->get_aim_punch_angle( ) * m_globals.m_weapon.recoil_scale;
+
+	vector_3d forward;
+	m_mathlib_base.angle_vectors( view, &forward );
+
+	vector_3d start = m_globals.m_local_player.pointer->get_eye_pos( );
+
+	// maybe range is fucked
+	
+	forward *= m_globals.m_weapon.info->m_range;
+	vector_3d end = start + forward;
+
+	ray ray;
+	ray.init( start, end );
+
+	trace_filter filter;
+	filter.m_skip = m_globals.m_local_player.pointer;
+
+	game_trace trace;
+	m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
+
+	cs_player* player = trace.m_hit_entity;
+
+	if ( !player )
+		return;
+
+	if ( m_globals.m_weapon.pointer->can_shoot( ) )
+		m_globals.cmd->m_buttons |= in_attack;
+	
 }
 
 void legitbot::antiaim( ) {
@@ -201,10 +256,12 @@ void legitbot::antiaim( ) {
 	
 	if ( GetAsyncKeyState( 0x46 ) & 0x01 )
 		desync_side = -desync_side;
-	
-	auto desync_on_shot = [ ]( ) {
+
+	bool is_shooting = m_globals.m_weapon.pointer->can_shoot( ) && ( m_globals.cmd->m_buttons & in_attack || m_globals.m_weapon.item_definition_index == weapon_id_revolver && m_globals.cmd->m_buttons & in_attack2 );
+
+	auto desync_on_shot = [ is_shooting ]( ) {
 		
-		if ( m_globals.m_weapon.pointer->can_shoot( ) && m_globals.cmd->m_buttons & ( in_attack | in_attack2 ) )
+		if ( is_shooting )
 			m_globals.cmd->m_buttons &= ~( in_attack | in_attack2 );
 		
 	};
@@ -335,5 +392,23 @@ void legitbot::fakelag( ) {
 	
 	m_fakelag_value = ( m_interfaces.m_cs_game_rules_proxy->is_valve_server( ) && m_fakelag_value > 6 ) ? std::clamp( m_fakelag_value, 0, 6 ) : m_fakelag_value;
 	*m_globals.m_server.send_packet = m_interfaces.m_client_state->m_choked_commands >= m_fakelag_value;
+	
+}
+
+void legitbot::init_settings( ) {
+
+	int weapon_id = weapon_default;
+	if (m_menu.m_weapon_widgets[ weapon_scout ].m_enabled->get_state() && m_globals.m_weapon.item_definition_index == weapon_id_ssg08 )
+		weapon_id = weapon_scout;
+	else if ( m_menu.m_weapon_widgets[ weapon_awp ].m_enabled->get_state() && m_globals.m_weapon.item_definition_index == weapon_id_awp )
+		weapon_id = weapon_awp;
+	else if ( m_menu.m_weapon_widgets[ weapon_pistol ].m_enabled->get_state( ) && m_globals.m_weapon.info->m_weapon_type == weapon_type_pistol )
+		weapon_id = weapon_pistol;
+	else if ( m_menu.m_weapon_widgets[ weapon_heavy ].m_enabled->get_state( ) && m_globals.m_weapon.info->m_weapon_type == weapon_type_shotgun || m_globals.m_weapon.info->m_weapon_type == weapon_type_machinegun )
+		weapon_id = weapon_heavy;
+	else if ( m_menu.m_weapon_widgets[ weapon_rifles ].m_enabled->get_state( ) && m_globals.m_weapon.info->m_weapon_type == weapon_type_rifle )
+		weapon_id = weapon_rifles;
+
+	m_settings = m_menu.m_weapon_widgets[ weapon_id ];
 	
 }

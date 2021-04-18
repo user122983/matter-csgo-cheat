@@ -1,6 +1,7 @@
 #pragma once
 
 #include "base_animating.h"
+
 #include "../mathlib/matrix.h"
 
 enum activity {
@@ -161,7 +162,7 @@ struct cs_player : base_animating {
 
 	auto is_activity_active( int checked_activity ) {
 
-		const auto animation_layer_weapon_action = this->get_anim_overlay( checked_activity == activity_plant ? 8 : 1 );
+		animation_layer* animation_layer_weapon_action = this->get_anim_overlay( checked_activity == activity_plant ? 8 : 1 );
 		if ( animation_layer_weapon_action ) {
 
 			const auto activity = this->get_sequence_activity( animation_layer_weapon_action->m_sequence );

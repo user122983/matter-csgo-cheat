@@ -2,7 +2,13 @@
 
 struct matrix3x4 {
 
-	const float* operator[ ]( const int index ) const {
+	matrix3x4( ) {
+
+		
+		
+	}
+	
+	const float* operator[ ]( int index ) const {
 
 		return data[ index ];
 
@@ -14,7 +20,7 @@ struct matrix3x4 {
 
 struct view_matrix {
 
-	const float* operator[ ]( const int index ) const {
+	const float* operator[ ]( int index ) const {
 
 		return data[ index ];
 

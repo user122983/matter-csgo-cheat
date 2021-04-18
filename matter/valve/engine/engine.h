@@ -5,3 +5,4 @@
 #include "client.h"
 #include "clockdriftmgr.h"
 #include "engine_sound.h"
+#include "engine_trace.h"

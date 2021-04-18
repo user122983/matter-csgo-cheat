@@ -12,9 +12,9 @@ struct math {
 
 	vector_3d vector_transform( vector_3d& transform, matrix3x4& matrix );
 
-	float calculate_fov( q_angle& view_angle, q_angle& aim_angle );
+	float calc_fov( q_angle& view_angle, q_angle& aim_angle );
 
-	q_angle calculate_angle( vector_3d& start, vector_3d& end );
+	q_angle calc_angle( vector_3d& start, vector_3d& end );
 
 };
 

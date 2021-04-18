@@ -47,12 +47,12 @@ void visuals::run( ) {
 		if ( !m_weapon.info )
 			continue;
 		
-		if ( !calculate_box( ) )
+		if ( !calc_box( ) )
 			continue;
 
-		calculate_alpha( );
+		calc_alpha( );
 
-		initialize_colors( );
+		init_colors( );
 
 		draw_box( );
 
@@ -236,7 +236,7 @@ void visuals::dormant_esp( ) {
 	
 }
 
-void visuals::initialize_colors( ) {
+void visuals::init_colors( ) {
 
 	if ( m_player.is_dormant ) {
 		
@@ -255,7 +255,7 @@ void visuals::initialize_colors( ) {
 	
 }
 
-void visuals::calculate_alpha( ) {
+void visuals::calc_alpha( ) {
 
 	float delta_time = m_interfaces.m_globals->m_curtime - m_player.pointer->get_simulation_time( );
 	
@@ -265,7 +265,7 @@ void visuals::calculate_alpha( ) {
 		
 }
 
-bool visuals::calculate_box( ) {
+bool visuals::calc_box( ) {
 
 	vector_3d max = m_player.pointer->get_obb_max( );
 	vector_3d min = m_player.pointer->get_obb_min( );
