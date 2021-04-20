@@ -29,7 +29,7 @@ void visuals::run( ) {
 
 	} );
 
-	for ( auto& [ player, distance ] : order ) {
+	for ( const auto& [ player, distance ] : order ) {
 
 		m_player = {
 
@@ -212,7 +212,7 @@ void visuals::dormant_esp( ) {
 	static int sound_guid[ 64 ];
 	for ( int i = 0; i < sound_list.count( ); i++ ) {
 
-		auto& sound_element = sound_list.element( i );
+		sound_info& sound_element = sound_list.element( i );
 
 		if ( sound_element.m_sound_source < 1 || sound_element.m_sound_source > 64 || sound_element.m_channel != 4 )
 			continue;
@@ -222,7 +222,7 @@ void visuals::dormant_esp( ) {
 		if ( !player || !player->get_client_networkable( )->is_dormant( ) )
 			continue;
 
-		// execute on every new sound
+		// execute on every new footstep sound
 
 		if ( sound_guid[ sound_element.m_sound_source ] < sound_element.m_guid && sound_element.m_origin && !sound_element.m_origin->is_zero( ) ) {
 

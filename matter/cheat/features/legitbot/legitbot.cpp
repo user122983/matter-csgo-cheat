@@ -8,6 +8,8 @@
  *
  *	key binder activation
  *
+ *	fix desync when go triggerbot
+ *
  *	fucking auto pistol with desync on shot lol
  *	burst mode and revolver fucked
  *	e peek fucked
@@ -88,7 +90,7 @@ void legitbot::aimbot() {
 		game_trace trace;
 		m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
 
-		return trace.m_fraction > 0.97f || trace.m_hit_entity == player;
+		return /*trace.m_fraction > 0.97f ||*/ trace.m_hit_entity == player;
 
 	};
 	
@@ -199,8 +201,6 @@ void legitbot::triggerbot( ) {
 
 	vector_3d start = m_globals.m_local_player.pointer->get_eye_pos( );
 
-	// maybe range is fucked
-	
 	forward *= m_globals.m_weapon.info->m_range;
 	vector_3d end = start + forward;
 
@@ -227,7 +227,7 @@ void legitbot::antiaim( ) {
 
 	if ( m_globals.cmd->m_buttons & in_use || m_globals.m_local_player.pointer->get_move_type( ) == move_type_ladder || m_globals.m_local_player.pointer->get_move_type( ) == move_type_noclip )
 		return;
-	
+
 	if ( m_globals.m_weapon.info->m_weapon_type == weapon_type_grenade ) {
 
 		base_cs_grenade* grenade = reinterpret_cast< base_cs_grenade* >( m_globals.m_weapon.pointer );
@@ -251,18 +251,18 @@ void legitbot::antiaim( ) {
 		return;
 		
 	}
-
+	
 	static float desync_side = 1.f;
 	
 	if ( GetAsyncKeyState( 0x46 ) & 0x01 )
 		desync_side = -desync_side;
+	
+	auto desync_on_shot = [ ]( ) {
 
-	bool is_shooting = m_globals.m_weapon.pointer->can_shoot( ) && ( m_globals.cmd->m_buttons & in_attack || m_globals.m_weapon.item_definition_index == weapon_id_revolver && m_globals.cmd->m_buttons & in_attack2 );
-
-	auto desync_on_shot = [ is_shooting ]( ) {
+		if ( !m_globals.m_weapon.is_gun /*m_globals.m_weapon.item_definition_index == weapon_id_revolver*/ )
+			return;
 		
-		if ( is_shooting )
-			m_globals.cmd->m_buttons &= ~( in_attack | in_attack2 );
+		m_globals.cmd->m_buttons &= ~( in_attack | in_attack2 );
 		
 	};
 	
@@ -353,8 +353,10 @@ void legitbot::antiaim( ) {
 
 }
 
+// return on shot fakelag - research
+
 void legitbot::fakelag( ) {
-	
+
 	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none )  {
 
 		m_fakelag_value = 0;

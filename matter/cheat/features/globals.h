@@ -9,6 +9,8 @@ struct weapon_cs_base;
 struct globals {
 
 	user_cmd* cmd;
+
+	float test;
 	
 	struct {
 

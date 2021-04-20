@@ -83,7 +83,7 @@ bool widgets::is_input_unlocked( ) {
 	if ( m_lock_input_widget.empty( ) )
 		return true;
 
-	for ( auto& widgets : m_lock_input_widget ) {
+	for ( const auto& widgets : m_lock_input_widget ) {
 		
 		switch ( widgets->m_type ) {
 			case widget_type_box:

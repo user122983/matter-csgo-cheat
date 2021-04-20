@@ -61,7 +61,7 @@ void container::geometry( ) {
 		
 	}
 	
-	for ( auto& widgets : m_widgets ) {
+	for ( const auto& widgets : m_widgets ) {
 
 		if ( widgets->is_unlocked( ) ) {
 
