@@ -21,6 +21,7 @@ struct trace_filter : filter {
 	int get_trace_type( ) override {
 		
 		return 0;
+		
 	}
 	
 	void* m_skip;

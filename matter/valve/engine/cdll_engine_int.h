@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../mathlib/matrix.h"
-#include "../other/memory/memory.h"
-#include "../other/math/q_angle.h"
+
+#include "../../other/memory/memory.h"
+#include "../../other/math/q_angle.h"
 
 struct client_class;
 struct bf_write;

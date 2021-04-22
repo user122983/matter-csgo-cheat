@@ -7,3 +7,4 @@
 #include "user_cmd.h"
 #include "move_helper.h"
 #include "game_movement.h"
+#include "cs_gamerules.h"

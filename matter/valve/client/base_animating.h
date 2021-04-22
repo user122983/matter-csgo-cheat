@@ -2,7 +2,7 @@
 
 #include "base_player.h"
 
-#include "../studio.h"
+#include "../public/studio.h"
 
 struct base_animating : base_player {
 

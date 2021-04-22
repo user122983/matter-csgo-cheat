@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../client_class.h"
+#include "../public/client_class.h"
 
-#include <cstddef>
 #include <unordered_map>
 #include <fstream>
 

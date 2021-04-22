@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cdll_engine_int.h"
 #include "debug_overlay.h"
 #include "vgui_baseui.h"
 #include "client.h"

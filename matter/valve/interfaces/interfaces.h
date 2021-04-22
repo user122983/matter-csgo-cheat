@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../cdll_int.h"
+#include "../engine/cdll_engine_int.h"
 #include "../vgui/surface.h"
-#include "../client_entity_list.h"
+#include "../public/client_entity_list.h"
 #include "../engine/debug_overlay.h"
-#include "../global_vars_base.h"
+#include "../public/global_vars_base.h"
 #include "../tier1/interface.h"
 #include "../tier1/localize.h"
 #include "../data_cache/mdl_cache.h"

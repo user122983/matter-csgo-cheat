@@ -1,7 +1,6 @@
 #include "legitbot.h"
 
 #include "../globals.h"
-
 #include "../../cheat.h"
 
 /*  todo:
@@ -115,7 +114,7 @@ void legitbot::aimbot() {
 		
 	}, m_settings.m_friendly_fire->get_state( ) ? iterate_teammates : 0 );
 
-	if ( !m_player.pointer || !m_player.pointer->is_alive( ) || m_player.pointer->get_client_networkable()->is_dormant( ) ) {
+	if ( !m_player.pointer || !m_player.pointer->is_alive( ) || m_player.pointer->get_client_networkable( )->is_dormant( ) ) {
 
 		m_player.pointer = nullptr;
 
@@ -330,6 +329,7 @@ void legitbot::antiaim( ) {
 			
 			m_globals.cmd->m_view_angles.y += 120.f * desync_side;
 
+			
 		} else {
 
 			if ( !m_fakelag_value )
@@ -352,8 +352,6 @@ void legitbot::antiaim( ) {
 	m_globals.cmd->m_buttons &= ~( in_forward | in_back | in_move_right | in_move_left );
 
 }
-
-// return on shot fakelag - research
 
 void legitbot::fakelag( ) {
 
@@ -378,7 +376,9 @@ void legitbot::fakelag( ) {
 		
 	}	
 
-	if ( !m_fakelag_value )
+	// do not fakelag on shot
+	
+	if ( !m_fakelag_value || m_globals.m_local_player.pointer->get_shots_fired( ) > 0 )
 		return;
 
 	switch ( m_menu.m_antiaim_fakelag_type->get_index( ) ) {
@@ -391,7 +391,7 @@ void legitbot::fakelag( ) {
 		default: 
 			break;
 	}
-	
+
 	m_fakelag_value = ( m_interfaces.m_cs_game_rules_proxy->is_valve_server( ) && m_fakelag_value > 6 ) ? std::clamp( m_fakelag_value, 0, 6 ) : m_fakelag_value;
 	*m_globals.m_server.send_packet = m_interfaces.m_client_state->m_choked_commands >= m_fakelag_value;
 	

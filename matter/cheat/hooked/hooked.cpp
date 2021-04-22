@@ -80,6 +80,11 @@ bool hooked::setup( ) {
 	if ( !m_modules.m_engine_dll.hook_function( "IFileSystem::CanLoadThirdPartyFiles", &file_system_fn::can_load_third_party_files, m_memory.get_v_func( m_interfaces.m_file_system, 128 ) ) )
 		return false;
 
+	// sys_engine_fn
+	static convar* engine_no_focus_sleep = m_interfaces.m_convar->find_var( "engine_no_focus_sleep" );
+	if ( !m_modules.m_engine_dll.hook_function( "engine_no_focus_sleep", &sys_engine_fn::engine_no_focus_sleep, m_memory.get_v_func( engine_no_focus_sleep, 11 ) ) )
+		return false;
+
 	return true;
 
 }

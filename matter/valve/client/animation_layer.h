@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../studio.h"
+#include "../public/studio.h"
 
 struct animation_layer {
 

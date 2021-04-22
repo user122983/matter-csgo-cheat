@@ -188,7 +188,7 @@
     <ClInclude Include="other\module\module.h" />
     <ClInclude Include="other\other.h" />
     <ClInclude Include="other\pe\pe.h" />
-    <ClInclude Include="valve\cdll_int.h" />
+    <ClInclude Include="valve\engine\cdll_engine_int.h" />
     <ClInclude Include="valve\client\animation_layer.h" />
     <ClInclude Include="valve\client\base_animating.h" />
     <ClInclude Include="valve\client\base_combat_character.h" />
@@ -201,15 +201,15 @@
     <ClInclude Include="valve\client\net_graph_panel.h" />
     <ClInclude Include="valve\client\prediction.h" />
     <ClInclude Include="valve\client\weapon_cs_base.h" />
-    <ClInclude Include="valve\client_class.h" />
-    <ClInclude Include="valve\client_entity_list.h" />
-    <ClInclude Include="valve\client_networkable.h" />
-    <ClInclude Include="valve\client_renderable.h" />
-    <ClInclude Include="valve\client_unknown.h" />
+    <ClInclude Include="valve\public\client_class.h" />
+    <ClInclude Include="valve\public\client_entity_list.h" />
+    <ClInclude Include="valve\public\client_networkable.h" />
+    <ClInclude Include="valve\public\client_renderable.h" />
+    <ClInclude Include="valve\public\client_unknown.h" />
     <ClInclude Include="valve\data_cache\data_cache.h" />
     <ClInclude Include="valve\data_cache\mdl_cache.h" />
-    <ClInclude Include="valve\dt_common.h" />
-    <ClInclude Include="valve\dt_recv.h" />
+    <ClInclude Include="valve\public\dt_common.h" />
+    <ClInclude Include="valve\public\dt_recv.h" />
     <ClInclude Include="valve\engine\client.h" />
     <ClInclude Include="valve\engine\clockdriftmgr.h" />
     <ClInclude Include="valve\engine\debug_overlay.h" />
@@ -217,8 +217,8 @@
     <ClInclude Include="valve\engine\engine_sound.h" />
     <ClInclude Include="valve\engine\engine_trace.h" />
     <ClInclude Include="valve\engine\vgui_baseui.h" />
-    <ClInclude Include="valve\engine_vgui.h" />
-    <ClInclude Include="valve\global_vars_base.h" />
+    <ClInclude Include="valve\public\engine_vgui.h" />
+    <ClInclude Include="valve\public\global_vars_base.h" />
     <ClInclude Include="valve\input_system\input_system.h" />
     <ClInclude Include="valve\interfaces\interfaces.h" />
     <ClInclude Include="valve\material_system\material.h" />
@@ -229,7 +229,7 @@
     <ClInclude Include="valve\mathlib\vector.h" />
     <ClInclude Include="valve\modules\modules.h" />
     <ClInclude Include="valve\netvars\netvars.h" />
-    <ClInclude Include="valve\net_channel.h" />
+    <ClInclude Include="valve\public\net_channel.h" />
     <ClInclude Include="valve\public\bspflags.h" />
     <ClInclude Include="valve\public\cmodel.h" />
     <ClInclude Include="valve\public\const.h" />
@@ -247,7 +247,7 @@
     <ClInclude Include="valve\shared\move_helper.h" />
     <ClInclude Include="valve\shared\shared.h" />
     <ClInclude Include="valve\shared\user_cmd.h" />
-    <ClInclude Include="valve\studio.h" />
+    <ClInclude Include="valve\public\studio.h" />
     <ClInclude Include="valve\studio_render\studio_render.h" />
     <ClInclude Include="valve\studio_render\studio_render_context.h" />
     <ClInclude Include="valve\tier0\tier0.h" />
@@ -262,7 +262,7 @@
     <ClInclude Include="valve\valve.h" />
     <ClInclude Include="valve\vgui\surface.h" />
     <ClInclude Include="valve\vgui\vgui.h" />
-    <ClInclude Include="valve\view_shared.h" />
+    <ClInclude Include="valve\public\view_shared.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cheat\dllmain.cpp" />
@@ -282,6 +282,7 @@
     <ClCompile Include="cheat\hooked\functions\prediction.cpp" />
     <ClCompile Include="cheat\hooked\functions\scheme_manager.cpp" />
     <ClCompile Include="cheat\hooked\functions\studio_render.cpp" />
+    <ClCompile Include="cheat\hooked\functions\sys_engine.cpp" />
     <ClCompile Include="cheat\hooked\functions\vgui_baseui.cpp" />
     <ClCompile Include="cheat\hooked\functions\weapon_cs_base.cpp" />
     <ClCompile Include="cheat\hooked\hooked.cpp" />

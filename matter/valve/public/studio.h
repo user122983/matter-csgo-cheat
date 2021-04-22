@@ -1,6 +1,6 @@
 #pragma once
 
-#include "modules/modules.h"
+#include "../modules/modules.h"
 
 struct mstudioseqdesc {
 

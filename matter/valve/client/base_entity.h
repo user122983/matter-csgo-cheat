@@ -3,10 +3,8 @@
 #include "animation_layer.h"
 
 #include "../shared/user_cmd.h"
-
-#include "../client_networkable.h"
-#include "../client_renderable.h"
-
+#include "../public/client_networkable.h"
+#include "../public/client_renderable.h"
 #include "../netvars/netvars.h"
 
 #include "../../other/hash/hash.h"

@@ -110,6 +110,12 @@ private:
 
 	};
 
+	struct sys_engine_fn {
+
+		static int __fastcall engine_no_focus_sleep( void* ecx, void* edx );
+		
+	};
+
 };
 
 inline hooked m_hooked;
