@@ -1,8 +1,6 @@
 #include "visuals.h"
 
-#include "../globals.h"
-#include "../legitbot/legitbot.h"
-
+#include "../../menu/menu.h"
 #include "../../render/render.h"
 
 /* todo:
@@ -41,7 +39,7 @@ void visuals::run( ) {
 		
 		m_globals.m_weapon.pointer = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
 		if ( !m_globals.m_weapon.pointer )
-			continue;;
+			continue;
 
 		m_weapon.info = m_globals.m_weapon.pointer->get_cs_wpn_data( );
 		if ( !m_weapon.info )
@@ -204,6 +202,8 @@ void visuals::draw_flags( ) {
 
 void visuals::dormant_esp( ) {
 
+	// todo: reset on round_start
+	
 	static utl_vector< sound_info > sound_list;
 
 	sound_list.remove_all( );

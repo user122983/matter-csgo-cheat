@@ -86,7 +86,7 @@ bool hooked::setup( ) {
 		return false;
 
 	return true;
-
+	 
 }
 
 void hooked::unload( ) {

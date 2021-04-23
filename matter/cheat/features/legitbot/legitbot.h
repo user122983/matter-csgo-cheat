@@ -29,6 +29,12 @@ enum fakelag_trigger {
 
 };
 
+enum accuracy {
+
+	accuracy_faststop
+
+};
+
 enum weapons {
 
 	weapon_default,
@@ -49,6 +55,8 @@ private:
 	void aimbot( );
 
 	void rcs( );
+
+	void autostop( );
 
 	void triggerbot( );
 	

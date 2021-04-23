@@ -9,7 +9,7 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 	// initialize globals
 	
 	m_globals.m_local_player.pointer = m_interfaces.m_entity_list->get< cs_player* >( m_interfaces.m_engine->get_local_player( ) );
-	m_globals.cmd = cmd;
+	m_globals.m_cmd = cmd;
 	
 	if ( !cmd || !cmd->m_command_number )
 		return o_create_move( ecx, edx, input_sample_time, cmd );
@@ -36,14 +36,14 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 	m_globals.m_server.time = m_interfaces.m_globals->m_interval_per_tick * static_cast< float >( m_interfaces.m_client_state->m_clockdriftmgr.m_servertick );
 	m_globals.m_server.send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	
-	q_angle old_view_angles = m_globals.cmd->m_view_angles;
+	q_angle old_view_angles = m_globals.m_cmd->m_view_angles;
 
 	m_legitbot.run( );
 				
 	m_misc.movement_fix( old_view_angles );
 
-	m_globals.cmd->m_view_angles.normalize( );
-	m_globals.cmd->m_view_angles.clamp( );
+	m_globals.m_cmd->m_view_angles.normalize( );
+	m_globals.m_cmd->m_view_angles.clamp( );
 	
 	return false;
 

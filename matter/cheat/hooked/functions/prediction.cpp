@@ -24,8 +24,6 @@ void __fastcall hooked::prediction_fn::run_command( prediction* ecx, void* edx, 
 		}
 
 	}
-
-	// no vehicles around here
 	
 	if ( cmd->m_impulse )
 		player->get_impulse( ) = cmd->m_impulse;
@@ -41,8 +39,6 @@ void __fastcall hooked::prediction_fn::run_command( prediction* ecx, void* edx, 
 	ecx->run_think( player, m_interfaces.m_globals->m_interval_per_tick );
 
 	ecx->setup_move( player, cmd, move_helper, m_interfaces.m_move_data );
-
-	// still no vehicles ;?
 
 	m_interfaces.m_game_movement->process_movement( player, m_interfaces.m_move_data );
 

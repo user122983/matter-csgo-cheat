@@ -4,7 +4,6 @@
 
 #include "../shared/cs_weapon_parse.h"
 #include "../../cheat/features/globals.h"
-#include "../../other/console/console.h"
 
 struct cs_weapon_info {
 
@@ -88,25 +87,25 @@ struct weapon_cs_base : base_entity {
 		return false;
 
 	}
-
-	// this shit is fucked
 	
 	auto can_shoot( ) {
 
-		if ( !m_globals.m_weapon.is_gun || this->get_ammo( ) <= 0 || m_globals.m_local_player.pointer->get_next_attack( ) > m_globals.m_server.time )
+		return true;
+		
+		/* if ( !m_globals.m_weapon.is_gun || this->get_ammo( ) <= 0 || m_globals.m_local_player.pointer->get_next_attack( ) > m_globals.m_server.time )
 			return false;
-
+		
 		if ( ( m_globals.m_weapon.item_definition_index == weapon_id_famas || m_globals.m_weapon.item_definition_index == weapon_id_glock ) &&
 			this->is_burst_mode( ) && this->get_burst_shots_remaining( ) > 0 )
 			return true;
 		
-/*		if ( m_globals.m_weapon.base_combat_pointer->get_next_primary_attack( ) > m_globals.test )
-			return false;*/
-		
+		if ( m_globals.m_weapon.base_combat_pointer->get_next_primary_attack( ) > m_globals.test )
+			return false;
+			
 		if ( m_globals.m_weapon.item_definition_index == weapon_id_revolver && this->get_postpone_fire_ready_time( ) > m_globals.m_server.time )
 			return false;
 		
-		return true;
+		return true;*/
 		
 	}
 

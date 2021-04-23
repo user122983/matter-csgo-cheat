@@ -102,7 +102,7 @@ struct csgo_player_anim_state {
 
 	auto set_up_flashed_reaction( ) {
 
-		// to do
+		// todo
 
 	}
 

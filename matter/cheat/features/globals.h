@@ -7,10 +7,8 @@ struct cs_weapon_info;
 struct weapon_cs_base;
 
 struct globals {
-
-	user_cmd* cmd;
-
-	float test;
+	
+	user_cmd* m_cmd;
 	
 	struct {
 

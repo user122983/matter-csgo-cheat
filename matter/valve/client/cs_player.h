@@ -2,7 +2,13 @@
 
 #include "base_animating.h"
 
+#include "../engine/engine_trace.h"
 #include "../mathlib/matrix.h"
+#include "../public/cmodel.h"
+#include "../public/game_trace.h"
+#include "../engine/engine_trace.h"
+#include "../interfaces/interfaces.h"
+#include "../public/bspflags.h"
 
 enum activity {
 
@@ -177,6 +183,8 @@ struct cs_player : base_animating {
 				case activity_plant:
 					checked_activity = 978;
 					break;
+				default: 
+					break;
 			}
 			
 			if ( activity == checked_activity && animation_layer_weapon_action->m_weight != 0.f )
@@ -265,5 +273,25 @@ struct cs_player : base_animating {
 		return function( this );
 
 	}
+
+	// todo: put this somewhere else
+	
+/*	auto is_visible( cs_player* player, const vector_3d end_pos ) {
+
+		vector_3d start = this->get_eye_pos( );
+
+		ray ray;
+		ray.init( start, end_pos );
+
+		trace_filter filter;
+		filter.m_skip = this;
+
+		game_trace trace;
+
+		m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
+
+		return trace.m_hit_entity == player;
+
+	}*/
 	
 };

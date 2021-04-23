@@ -7,12 +7,12 @@ struct filter {
 
 	virtual bool should_hit_entity( void* player, int contents_mask ) = 0;
 	virtual int get_trace_type( ) = 0;
-	
+
 };
 
 struct trace_filter : filter {
 
-	bool should_hit_entity( void* player, int contents_mask) override {
+	bool should_hit_entity( void* player, int contents_mask ) override {
 
 		return !( player == m_skip );
 		

@@ -174,6 +174,12 @@ struct q_angle {
 
 	}
 
+	bool is_zero( ) {
+
+		return ( std::fpclassify( this->x ) == FP_ZERO && std::fpclassify( this->y ) == FP_ZERO && std::fpclassify( this->z ) == FP_ZERO );
+
+	}
+
 	float x, y, z;
 
 };
