@@ -58,7 +58,7 @@ void legitbot::aimbot() {
 	if ( !m_globals.m_weapon.is_gun )
 		return;
 
-	if ( !static_cast< int >( m_settings.m_fov->get_value( ) ) ) {
+	if ( !m_settings.m_fov->get_value( ) ) {
 
 		m_player.pointer = nullptr;
 
@@ -181,8 +181,6 @@ void legitbot::rcs( ) {
 	static q_angle old_punch_angle;
 
 	m_interfaces.m_engine->set_view_angles( m_globals.m_cmd->m_view_angles += old_punch_angle - punch_angle );
-
-	//m_globals.m_cmd->m_view_angles += old_punch_angle - punch_angle;
 	
 	old_punch_angle = punch_angle;
 }
@@ -209,7 +207,7 @@ void legitbot::autostop( ) {
 
 		vector_3d direction;
 		m_mathlib_base.angle_vectors( angle, &direction );
-
+		
 		vector_3d stop = direction * -speed;
 
 		m_globals.m_cmd->m_forward_move = stop.x;
