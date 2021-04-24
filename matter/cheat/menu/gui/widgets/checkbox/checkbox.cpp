@@ -8,6 +8,8 @@ checkbox::checkbox( ) {
 
 	m_type = widget_type_checkbox;
 	m_size = { 8, 8 };
+	m_is_checked = false;
+	
 }
 
 bool checkbox::get_state( ) {

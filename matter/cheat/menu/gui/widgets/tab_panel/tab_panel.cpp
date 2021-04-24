@@ -7,6 +7,8 @@
 tab_panel::tab_panel( ) {
 
 	m_type = widget_type_tab_panel;
+	m_entry_spacing = 40;
+	m_selected_entry = 0;
 	
 }
 

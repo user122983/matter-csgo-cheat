@@ -8,12 +8,33 @@
 key_binder::key_binder( ) {
 
 	m_type = widget_type_key_binder;
+	m_status = "none";
+	m_type_dropdown = { 50, 42 };
+	m_is_getting_key = false;
+	m_is_getting_type = false;
 	
 }
 
 bool key_binder::get_state( ) {
 	
 	return m_is_getting_key || m_is_getting_type;
+	
+}
+
+bool key_binder::get_key_state( ) {
+	
+	switch ( m_selected_type ) {
+		case key_binder_none:
+			return false;
+		case key_binder_hold:
+			if ( m_selected_key == 1 || m_selected_key == 2 )
+				return m_input.is_mouse_down( m_selected_key );
+			return m_input.is_key_down( m_selected_key );
+		case key_binder_toggle:
+			return m_input.is_key_toggled( m_selected_key );
+		default:
+			return false;
+	}
 	
 }
 

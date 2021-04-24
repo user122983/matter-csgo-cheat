@@ -1,19 +1,24 @@
 #pragma once
 
+#include <cassert>
+
+struct cs_player;
 struct ray;
 struct game_trace;
 
 struct filter {
 
-	virtual bool should_hit_entity( void* player, int contents_mask ) = 0;
+	virtual bool should_hit_entity( cs_player* player, int contents_mask ) = 0;
 	virtual int get_trace_type( ) = 0;
 
 };
 
 struct trace_filter : filter {
 
-	bool should_hit_entity( void* player, int contents_mask ) override {
+	bool should_hit_entity( cs_player* player, int contents_mask ) override {
 
+		assert( m_skip );
+			
 		return !( player == m_skip );
 		
 	}

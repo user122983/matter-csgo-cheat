@@ -7,6 +7,8 @@
 container::container( ) {
 
 	m_type = widget_type_container;
+	m_is_open = true;
+	m_move_menu = false;
 	
 }
 
@@ -94,7 +96,7 @@ void container::update( ) {
 	if ( m_move_menu )
 		m_position = { m_input.get_mouse_x( ) - m_cursor_delta.x, m_input.get_mouse_y( ) - m_cursor_delta.y };
 	
-	if ( GetAsyncKeyState( 1 ) == 0 )
+	if ( !m_input.is_mouse_down( 1 ) )
         m_move_menu = false;
 
 	

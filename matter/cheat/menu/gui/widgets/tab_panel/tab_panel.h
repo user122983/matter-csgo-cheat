@@ -18,8 +18,8 @@ struct tab_panel final : widgets {
 
 private:
 
-	std::uint16_t m_entry_spacing = 40;
-	std::size_t m_selected_entry = 0;
+	std::uint16_t m_entry_spacing;
+	std::size_t m_selected_entry;
 	std::vector< std::pair< std::string, std::string > > m_tabs;
 
 };

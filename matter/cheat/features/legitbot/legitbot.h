@@ -31,7 +31,7 @@ enum fakelag_trigger {
 
 enum accuracy {
 
-	accuracy_faststop
+	accuracy_faststop,
 
 };
 
@@ -56,7 +56,7 @@ private:
 
 	void rcs( );
 
-	void autostop( );
+	void accuracy( );
 
 	void triggerbot( );
 	
@@ -66,7 +66,9 @@ private:
 	
 	void init_settings( );
 
-	int m_fakelag_value = 0;
+	int m_fakelag_value;
+
+	q_angle m_punch_angle;
 	
 	struct {
 

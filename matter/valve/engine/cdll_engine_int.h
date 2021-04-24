@@ -38,9 +38,9 @@ struct engine_client {
 
 	}
 
-	auto set_view_angles( q_angle& view_angle ) {
+	auto set_view_angles( const q_angle& view_angle ) {
 
-		m_memory.get_v_func< void( __thiscall* )( void*, q_angle& ) >(this, 19 )( this, view_angle );
+		m_memory.get_v_func< void( __thiscall* )( void*, const q_angle& ) >(this, 19 )( this, view_angle );
 
 	}
 

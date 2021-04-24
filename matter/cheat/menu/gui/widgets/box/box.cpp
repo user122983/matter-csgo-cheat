@@ -8,6 +8,8 @@ box::box( ) {
 
 	m_type = widget_type_box;
 	m_size = { 178, 18 };
+	m_is_open = false;
+	m_selected_entry = 0;
 	
 }
 
@@ -19,12 +21,14 @@ bool box::get_state( ) {
 
 std::size_t box::get_index( std::size_t index ) {
 
-	if ( m_box_type == box_type_combobox )
-		return m_selected_entry;
-	else if ( m_box_type == box_type_multibox )
-		return m_entries.second.at( index );
-
-	return -1;
+	switch ( m_box_type ) {
+		case box_type_combobox:
+			return m_selected_entry;
+		case box_type_multibox:
+			return m_entries.second.at( index );
+		default:
+			return -1;
+	}
 	
 }
 

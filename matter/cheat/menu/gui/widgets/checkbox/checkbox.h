@@ -14,6 +14,6 @@ struct checkbox final : widgets {
 
 private:
 
-	bool m_is_checked = false;
+	bool m_is_checked;
 
 };

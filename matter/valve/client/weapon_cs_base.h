@@ -82,6 +82,8 @@ struct weapon_cs_base : base_entity {
 			case weapon_type_sniper:
 			case weapon_type_machinegun:
 				return true;
+			default: 
+				break;
 		}
 
 		return false;

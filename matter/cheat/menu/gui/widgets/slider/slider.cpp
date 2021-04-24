@@ -10,6 +10,11 @@ slider::slider( ) {
 	 
 	m_type = widget_type_slider;
 	m_size = { 178, 7 };
+	m_moving_slider = false;
+	m_min = 0.f;
+	m_max = 0.f;
+	m_value = 0.f;
+	
 }
 
 void slider::set_range( float min, float max ) {
@@ -63,7 +68,7 @@ void slider::update( ) {
 	if ( m_moving_slider )
 		m_value = std::clamp( static_cast< float >( m_input.get_mouse_x( ) - m_widget_area.m_x ) / m_widget_area.m_width * m_max, m_min, m_max );
 	
-	if ( GetAsyncKeyState( 1 ) == 0 )
+	if ( !m_input.is_mouse_down( VK_LBUTTON ) )
 		m_moving_slider = false;
 	
 }

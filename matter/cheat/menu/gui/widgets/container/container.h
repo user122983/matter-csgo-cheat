@@ -21,7 +21,7 @@ struct container final : widgets {
 	
 private:
 
-	bool m_is_open = true, m_move_menu = false;
+	bool m_is_open, m_move_menu;
 	std::vector< std::shared_ptr< widgets > > m_widgets;
 	POINT m_cursor_delta;
 	

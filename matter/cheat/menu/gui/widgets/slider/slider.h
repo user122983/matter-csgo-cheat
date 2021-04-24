@@ -20,8 +20,8 @@ struct slider final : widgets {
 
 private:
 
-	bool m_moving_slider = false;
-	float m_value = 0.f, m_min = 0.f, m_max = 0.f;
+	bool m_moving_slider;
+	float m_value, m_min, m_max;
 	std::string_view m_prefix;
 	
 };

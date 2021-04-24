@@ -32,8 +32,8 @@ struct box final : widgets {
 	 
 private:
 
-	bool m_is_open = false;
-	std::size_t m_box_type = box_type_null, m_selected_entry = 0;
+	bool m_is_open;
+	std::size_t m_box_type, m_selected_entry;
 	std::pair< std::vector< std::string >, std::vector< std::size_t > > m_entries;
 	
 };

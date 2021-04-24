@@ -176,7 +176,7 @@ void visuals::draw_flags( ) {
 	if ( m_globals.m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
 		flags.emplace_back( "shot", m_player.m_colors.blue );
 	
-	if ( m_player.pointer->get_flash_duration( ) )
+	if ( m_player.pointer->get_flash_duration( ) > 0.f )
 		flags.emplace_back( "flash", m_player.m_colors.blue );
 
 	if ( m_player.pointer->is_activity_active( activity_plant ) )

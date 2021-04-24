@@ -100,6 +100,7 @@ private:
 	struct key_states {
 
 		key_state m_state;
+		
 		int m_framecount;
 
 	};

@@ -12,10 +12,11 @@ struct convar {
 
 	auto get_float( )  {
 
-		// xor the value
+		// re-xor the value
 		
 		std::uint32_t xored = *reinterpret_cast< std::uint32_t* >( &m_parent->m_float_value ) ^ reinterpret_cast< std::uint32_t >( this );
 		return *reinterpret_cast< float* >( &xored );
+		
 	}
 
 	char _pad0[ 0x4 ];
