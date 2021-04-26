@@ -192,7 +192,7 @@ struct vector_3d {
 
 	}
 
-	float length_2d( ) {
+	float length_2d( ) const {
 
 		return std::sqrtf( this->x * this->x + this->y * this->y );
 

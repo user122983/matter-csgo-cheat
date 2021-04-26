@@ -1,22 +1,9 @@
 #include "legitbot.h"
 
 #include "../../cheat.h"
+#include "../../menu/menu.h"
 #include "../../input/input.h"
-
-/*  todo:
- *
- *	key binder activation
- *
- *	fix desync when go triggerbot
- *
- *	fucking auto pistol with desync on shot lol
- *	burst mode and revolver fucked
- *	e peek fucked
- *	
- *  small sway on normal desync when going crouched
- *  when switching desync type ANIMATION_LAYER_ADJUST (try disabling it)
- *
- */
+#include "../../hooked/hooked.h"
 
 void legitbot::run( ) {
 	
@@ -53,8 +40,10 @@ void legitbot::aimbot( ) {
 
 	if ( !m_globals.m_weapon.is_gun || !m_settings.m_fov->get_value( ) )
 		return;
+
+	// move to cs_player struct
 	
-	auto is_visible = [ this ]( cs_player* player, const vector_3d end_pos ) {
+	auto is_visible = [ ]( cs_player* player, const vector_3d end_pos ) {
 
 		vector_3d start = m_globals.m_local_player.pointer->get_eye_pos( );
 
@@ -62,7 +51,7 @@ void legitbot::aimbot( ) {
 		ray.init( start, end_pos );
 
 		trace_filter filter;
-		filter.m_skip = m_globals.m_local_player.pointer;
+		filter.init( m_globals.m_local_player.pointer, 2 );
 
 		game_trace trace;
 		m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
@@ -71,7 +60,7 @@ void legitbot::aimbot( ) {
 
 	};
 
-	// todo: cleanup these values
+	// cleanup these values
 	
 	q_angle best_angle;
 	
@@ -83,14 +72,10 @@ void legitbot::aimbot( ) {
 
 		vector_3d bone_pos;
 		player->get_bone_position( 8 - m_settings.m_target->get_index( ), bone_pos );
+				
+		q_angle angle = m_math.calc_angle( m_globals.m_local_player.pointer->get_eye_pos( ), bone_pos ) - m_globals.m_local_player.pointer->get_aim_punch_angle( ) * m_globals.m_weapon.recoil_scale;
 		
-		q_angle angle = m_math.calc_angle( m_globals.m_local_player.pointer->get_eye_pos( ), bone_pos );
-
-		if ( m_settings.m_rcs_enabled->get_state( ) )
-			angle -= m_punch_angle;
-		
-		fov = m_math.calc_fov( m_globals.m_cmd->m_view_angles, angle );
-		
+		fov = m_math.calc_fov( m_globals.m_cmd->m_view_angles, angle );	
 		if ( std::isnan( fov ) || fov < best_fov && fov < m_settings.m_fov->get_value( ) && is_visible( player, bone_pos ) ) {
 			
 			m_player.pointer = player;
@@ -121,6 +106,9 @@ void legitbot::aimbot( ) {
 		
 	}
 
+	if ( m_settings.m_silent_aim->get_state( ) && !m_recoil_punch_angle.is_zero( ) )
+		best_angle += m_recoil_punch_angle;
+	 
 	best_angle.normalize( );
 	best_angle.clamp( );
 	
@@ -136,22 +124,22 @@ void legitbot::rcs( ) {
 	if ( !m_globals.m_weapon.is_gun || !m_settings.m_rcs_enabled->get_state( ) || m_globals.m_local_player.pointer->get_aim_punch_angle( ).is_zero( ) )
 		return;
 
-	m_punch_angle = m_globals.m_local_player.pointer->get_aim_punch_angle( ) * m_globals.m_weapon.recoil_scale;
+	m_recoil_punch_angle = m_globals.m_local_player.pointer->get_aim_punch_angle( ) * m_globals.m_weapon.recoil_scale;
 
 	if ( m_settings.m_rcs_x->get_value( ) )
-		m_punch_angle.x *= m_settings.m_rcs_x->get_value( ) / 10;
+		m_recoil_punch_angle.x *= m_settings.m_rcs_x->get_value( ) / 10.f;
 
 	if ( m_settings.m_rcs_y->get_value( ) )
-		m_punch_angle.y *= m_settings.m_rcs_y->get_value( ) / 10;
+		m_recoil_punch_angle.y *= m_settings.m_rcs_y->get_value( ) / 10.f;
 	
 	static q_angle old_punch_angle;
 	
 	if ( !m_settings.m_silent_aim->get_state( ) )
-		m_interfaces.m_engine->set_view_angles( m_globals.m_cmd->m_view_angles += old_punch_angle - m_punch_angle );
+		m_interfaces.m_engine->set_view_angles( m_globals.m_cmd->m_view_angles += old_punch_angle - m_recoil_punch_angle );
 	else
-		m_globals.m_cmd->m_view_angles -= m_punch_angle;
+		m_globals.m_cmd->m_view_angles -= m_recoil_punch_angle;
 
-	old_punch_angle = m_punch_angle;
+	old_punch_angle = m_recoil_punch_angle;
 	
 }
 
@@ -180,7 +168,7 @@ void legitbot::accuracy( ) {
 }
 
 void legitbot::triggerbot( ) {
-
+	
 	if ( !m_settings.m_triggerbot_enabled->get_state( ) )
 		return;
 
@@ -194,24 +182,21 @@ void legitbot::triggerbot( ) {
 
 	forward *= m_globals.m_weapon.info->m_range;
 	vector_3d end = start + forward;
-	
+
 	ray ray;
 	ray.init( start, end );
-
+	
 	trace_filter filter;
-	filter.m_skip = m_globals.m_local_player.pointer;
+	filter.init( m_globals.m_local_player.pointer, 2 );
 
 	game_trace trace;
 	m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
 
 	cs_player* player = trace.m_hit_entity;
 
-	m_interfaces.m_debug_overlay->draw_box_overlay( end, vector_3d( -1.4, -1.4, -1.4 ), vector_3d( 1.4, 1.4, 1.4 ), q_angle( 0, 0, 0 ), m_menu.m_colors.white, m_menu.m_colors.dark1, 0.01f );
-	m_interfaces.m_debug_overlay->draw_box_overlay( start, vector_3d( -1.4, -1.4, -1.4 ), vector_3d( 1.4, 1.4, 1.4 ), q_angle( 0, 0, 0 ), m_menu.m_colors.white, m_menu.m_colors.dark1, 0.01f );
-
 	if ( !player )
 		return;
-
+	
 	if ( m_globals.m_weapon.pointer->can_shoot( ) )
 		m_globals.m_cmd->m_buttons |= in_attack;
 	
@@ -250,10 +235,12 @@ void legitbot::antiaim( ) {
 	static float desync_side = 1.f;
 	if ( m_input.is_key_toggled( 0x46 ) )
 		desync_side = -desync_side;
-		
+
+	// this can be made a lot faster, but how :sad_face:
+	
 	auto desync_on_shot = [ ]( ) {
 
-		if ( !m_globals.m_weapon.is_gun /*m_globals.m_weapon.item_definition_index == weapon_id_revolver*/ )
+		if ( !m_globals.m_weapon.is_shooting )
 			return;
 		
 		m_globals.m_cmd->m_buttons &= ~( in_attack | in_attack2 );
@@ -350,45 +337,42 @@ void legitbot::antiaim( ) {
 
 void legitbot::fakelag( ) {
 
-	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none )  {
-
-		m_fakelag_value = 0;
-
+	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none )
 		return;
 
-	}	
-			
+	int fakelag_value;
+				
 	if ( m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_globals.m_local_player.pointer->get_flags( ) & fl_onground ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_in_air ) && !( m_globals.m_local_player.pointer->get_flags() & fl_onground ) ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_shot ) && m_globals.m_local_player.pointer->get_shots_fired( ) > 0 ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_reload ) && m_globals.m_local_player.pointer->is_activity_active( activity_reload ) ) {
 
-		m_fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_triggers_value->get_value( ) );
+		fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_triggers_value->get_value( ) );
 
 	} else {
 
-		m_fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_value->get_value( ) );
+		fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_value->get_value( ) );
 		
 	}	
 
 	// do not fakelag on shot
 	
-	if ( !m_fakelag_value || m_globals.m_local_player.pointer->get_shots_fired( ) > 0 )
+	if ( !fakelag_value || m_globals.m_weapon.is_shooting )
 		return;
 
 	switch ( m_menu.m_antiaim_fakelag_type->get_index( ) ) {
 		case fakelag_jitter:
-			m_fakelag_value = std::rand( ) % m_fakelag_value;
+			fakelag_value = std::rand( ) % fakelag_value;
 			break;
 		case fakelag_adaptive:
-			m_fakelag_value = m_fakelag_value * ( m_globals.m_local_player.anim_state->m_velocity_length_xy / m_globals.m_weapon.pointer->get_max_speed( ) );
+			fakelag_value = fakelag_value * ( m_globals.m_local_player.anim_state->m_velocity_length_xy / m_globals.m_weapon.pointer->get_max_speed( ) );
 			break;
 		default: 
 			break;
 	}
 
-	m_fakelag_value = ( m_interfaces.m_cs_game_rules_proxy->is_valve_server( ) && m_fakelag_value > 6 ) ? std::clamp( m_fakelag_value, 0, 6 ) : m_fakelag_value;
-	*m_globals.m_server.send_packet = m_interfaces.m_client_state->m_choked_commands >= m_fakelag_value;
+	fakelag_value = ( m_interfaces.m_cs_game_rules_proxy->is_valve_server( ) && fakelag_value > 6 ) ? std::clamp( fakelag_value, 0, 6 ) : fakelag_value;
+	*m_globals.m_server.send_packet = m_interfaces.m_client_state->m_choked_commands >= fakelag_value;
 	
 }
 

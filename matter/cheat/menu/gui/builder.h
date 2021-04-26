@@ -59,7 +59,7 @@ struct builder {
 		
 	}
 
-	builder& title( std::string_view title ) {
+	builder& title( const std::string& title ) {
 
 		m_temp_widget->set_title( title );
 
@@ -95,7 +95,7 @@ struct builder {
 
 	}
 
-	builder& prefix( std::string_view prefix ) {
+	builder& prefix( const std::string& prefix ) {
 
 		std::reinterpret_pointer_cast< slider >( m_temp_widget )->set_prefix( prefix );
 

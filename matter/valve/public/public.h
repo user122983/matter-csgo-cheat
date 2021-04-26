@@ -20,3 +20,4 @@
 #include "bspflags.h"
 #include "game_trace.h"
 #include "trace.h"
+#include "vgui/vgui.h"

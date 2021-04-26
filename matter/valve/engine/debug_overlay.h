@@ -12,9 +12,9 @@ struct debug_overlay {
 
 	}
 
-	auto draw_box_overlay( const vector_3d& origin, const vector_3d& abs_min, const vector_3d& abs_max, q_angle const& orientation, const color& face_color, const color& edge_color, float duration ) {
+	auto draw_box_overlay( const vector_3d& origin, const vector_3d& abs_min, const vector_3d& abs_max, const q_angle& orientation, const color& face_color, const color& edge_color, float duration ) {
 
-		return m_memory.get_v_func< void( __thiscall* )( void*, const vector_3d&, const vector_3d&, const vector_3d&, q_angle const&, const color&, const color&, float ) >( this, 22 )( this, origin, abs_min, abs_max, orientation, face_color, edge_color, duration );
+		return m_memory.get_v_func< void( __thiscall* )( void*, const vector_3d&, const vector_3d&, const vector_3d&, const q_angle&, const color&, const color&, float ) >( this, 22 )( this, origin, abs_min, abs_max, orientation, face_color, edge_color, duration );
 
 	}
 

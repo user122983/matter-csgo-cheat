@@ -2,7 +2,7 @@
 
 void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, paint_mode mode ) {
 
-	static auto o_paint = m_modules.m_engine_dll.get< decltype( &paint ) >( "CEngineVGui::Paint" );
+	static auto o_paint = m_modules.m_engine_dll.get< decltype( &paint ) >( xorstr_( "CEngineVGui::Paint" ) );
 
 	// capture cs_game_rules once per game
 	
@@ -13,7 +13,7 @@ void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, pain
 
 		m_globals.m_game.cs_game_rules_captured = true;
 
-		m_interfaces.m_cs_game_rules_proxy = **m_modules.m_client_dll.get_address( "CCSGameRulesProxy::CGameRulesProxy" ).add( 0x1 ).as< cs_game_rules_proxy*** >( );
+		m_interfaces.m_cs_game_rules_proxy = **m_modules.m_client_dll.get_address( xorstr_( "CCSGameRulesProxy::CGameRulesProxy" ) ).add( 0x1 ).as< cs_game_rules_proxy*** >( );
 		
 	}
 	

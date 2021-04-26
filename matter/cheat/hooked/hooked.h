@@ -3,7 +3,6 @@
 #include "../cheat.h"
 
 #include "../features/features.h"
-#include "../input/input.h"
 
 struct hooked {
 	

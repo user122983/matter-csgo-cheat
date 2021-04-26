@@ -4,9 +4,9 @@
 #include "key_binder/key_binder.h"
 #include "tab_panel/tab_panel.h"
 
-void widgets::set_title( std::string_view title ) {
+void widgets::set_title( const std::string& title ) {
 
-	m_title = title.data( );
+	m_title = title;
 	
 }
 

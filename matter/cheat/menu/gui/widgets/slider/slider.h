@@ -8,7 +8,7 @@ struct slider final : widgets {
 
 	void set_range( float min, float max );
 	
-	void set_prefix( std::string_view prefix );
+	void set_prefix( const std::string& prefix );
 
 	void set_value( float value );
 	
@@ -22,6 +22,6 @@ private:
 
 	bool m_moving_slider;
 	float m_value, m_min, m_max;
-	std::string_view m_prefix;
+	std::string m_prefix;
 	
 };

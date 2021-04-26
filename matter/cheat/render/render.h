@@ -3,8 +3,6 @@
 #include "../cheat.h"
 #include "../menu/gui/definitions.h"
 
-#include "../../other/color/color.h"
-
 enum render_flags {
 
 	x_right = 1,

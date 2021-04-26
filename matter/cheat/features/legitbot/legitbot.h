@@ -65,10 +65,8 @@ private:
 	void fakelag( );
 	
 	void init_settings( );
-
-	int m_fakelag_value;
-
-	q_angle m_punch_angle;
+	
+	q_angle m_recoil_punch_angle;
 	
 	struct {
 

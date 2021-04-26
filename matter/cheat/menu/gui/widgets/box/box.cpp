@@ -111,13 +111,13 @@ void box::geometry( ) {
 			if ( m_entries.second[ i ] && !has_reached_end ) {
 
 				if ( !is_first_item )
-					selected_text.append( ", " );
+					selected_text.append( xorstr_( ", " ) );
 
 				selected_text.append( m_entries.first[ i ] );
 
 			} else if ( has_reached_end && !is_first_item ) {
 
-				std::string three_dots = " ...";
+				std::string three_dots = xorstr_( " ..." );
 				
 				if ( !( selected_text.compare( selected_text.size( ) - three_dots.size( ), three_dots.size( ), three_dots ) == 0 ) )
 					selected_text.append( three_dots );
@@ -134,7 +134,7 @@ void box::geometry( ) {
 	}
 
 	if ( selected_text.empty( ) )
-		selected_text = "None";
+		selected_text = xorstr_( "None" );
 	 
 	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + text_size.m_width + 12, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, selected_text, m_menu.m_colors.white, y_centre );

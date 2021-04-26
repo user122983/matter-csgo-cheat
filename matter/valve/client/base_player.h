@@ -8,7 +8,7 @@ struct base_player : base_combat_character {
 
 	auto& get_health( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_iHealth" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_iHealth" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -16,7 +16,7 @@ struct base_player : base_combat_character {
 
 	auto* get_pose_parameter( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flPoseParameter" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flPoseParameter" ) ) ];
 
 		return reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -24,7 +24,7 @@ struct base_player : base_combat_character {
 
 	auto& get_sequence( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_nSequence" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_nSequence" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -32,7 +32,7 @@ struct base_player : base_combat_character {
 
 	auto& get_tick_base( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_nTickBase" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_nTickBase" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -40,7 +40,7 @@ struct base_player : base_combat_character {
 
 	auto& get_next_think_tick( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_nNextThinkTick" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_nNextThinkTick" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -48,7 +48,7 @@ struct base_player : base_combat_character {
 
 	auto get_last_place_name( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_szLastPlaceName" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_szLastPlaceName" ) ) ];
 
 		return reinterpret_cast< const char* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -56,7 +56,7 @@ struct base_player : base_combat_character {
 
 	auto& get_current_command( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_LastCmd" ).add( 0xc ).to< std::size_t >( );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_LastCmd" ) ).add( 0xc ).to< std::size_t >( );
 
 		return *reinterpret_cast< user_cmd** >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -64,7 +64,7 @@ struct base_player : base_combat_character {
 
 	auto& get_last_command( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_LastCmd" ).add( 0x2 ).to< std::size_t >( );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_LastCmd" ) ).add( 0x2 ).to< std::size_t >( );
 
 		return *reinterpret_cast< user_cmd* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -72,7 +72,7 @@ struct base_player : base_combat_character {
 
 	auto& get_button_forced( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonForced" ).add( 0x2 ).to< std::size_t >( );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonForced" ) ).add( 0x2 ).to< std::size_t >( );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -80,7 +80,7 @@ struct base_player : base_combat_character {
 
 	auto& get_button_disabled( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonForced" ).add( 0x2 ).to( ).sub< std::size_t >( 0x4 );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonForced" ) ).add( 0x2 ).to( ).sub< std::size_t >( 0x4 );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -88,7 +88,7 @@ struct base_player : base_combat_character {
 
 	auto& get_button_last( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonLast" ).add( 0x4 ).to< std::size_t >( );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonLast" ) ).add( 0x4 ).to< std::size_t >( );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -96,7 +96,7 @@ struct base_player : base_combat_character {
 
 	auto& get_button_pressed( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonLast" ).add( 0x4 ).to( ).add< std::size_t >( 0x4 );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonLast" ) ).add( 0x4 ).to( ).add< std::size_t >( 0x4 );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -104,7 +104,7 @@ struct base_player : base_combat_character {
 
 	auto& get_button_released( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonLast" ).add( 0x4 ).to( ).add< std::size_t >( 0x8 );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonLast" ) ).add( 0x4 ).to( ).add< std::size_t >( 0x8 );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -112,7 +112,7 @@ struct base_player : base_combat_character {
 
 	auto& get_buttons( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonLast" ).add( 0x4 ).to( ).add< std::size_t >( 0xc );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonLast" ) ).add( 0x4 ).to( ).add< std::size_t >( 0xc );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -120,7 +120,7 @@ struct base_player : base_combat_character {
 
 	auto& get_impulse( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_BasePlayer->m_afButtonLast" ).add( 0x4 ).to( ).add< std::size_t >( 0x10 );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_afButtonLast" ) ).add( 0x4 ).to( ).add< std::size_t >( 0x10 );
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -158,7 +158,7 @@ struct base_player : base_combat_character {
 
 	auto is_local_player( ) {
 
-		static auto function = m_modules.m_client_dll.get_address( "C_BasePlayer::IsLocalPlayer" ).as< bool( __thiscall* )( void* ) >( );
+		static auto function = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer::IsLocalPlayer" ) ).as< bool( __thiscall* )( void* ) >( );
 
 		return function( this );
 
@@ -166,7 +166,7 @@ struct base_player : base_combat_character {
 
 	auto get_view_model( int index ) {
 
-		static auto function = m_modules.m_client_dll.get_address( "C_BasePlayer::GetViewModel" ).as< base_view_model* ( __thiscall* )( void*, int ) >( );
+		static auto function = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer::GetViewModel" ) ).as< base_view_model* ( __thiscall* )( void*, int ) >( );
 
 		return function( this, index );
 
@@ -174,7 +174,7 @@ struct base_player : base_combat_character {
 
 	auto util_player_by_index( int entindex ) {
 
-		static auto function = m_modules.m_server_dll.get_address( "UTIL_PlayerByIndex" ).as< base_player* ( __thiscall* )( int ) >( );
+		static auto function = m_modules.m_server_dll.get_address( xorstr_( "UTIL_PlayerByIndex" ) ).as< base_player* ( __thiscall* )( int ) >( );
 
 		return function( entindex );
 

@@ -10,7 +10,7 @@ struct widgets : std::enable_shared_from_this< widgets > {
 
 	friend struct container;
 		
-	void set_title( std::string_view title );
+	void set_title( const std::string& title );
 	
 	void set_position( int x, int y );
 	
@@ -38,7 +38,7 @@ protected:
 
 	virtual void update( ) = 0;
 
-	std::string_view m_title;
+	std::string m_title;
 	point m_position;
 	dimension m_size;
 	area m_widget_area;

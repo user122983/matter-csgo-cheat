@@ -115,13 +115,18 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <DisableSpecificWarnings>5105</DisableSpecificWarnings>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -188,6 +193,7 @@
     <ClInclude Include="other\module\module.h" />
     <ClInclude Include="other\other.h" />
     <ClInclude Include="other\pe\pe.h" />
+    <ClInclude Include="other\xorstr\xorstr.h" />
     <ClInclude Include="valve\engine\cdll_engine_int.h" />
     <ClInclude Include="valve\client\animation_layer.h" />
     <ClInclude Include="valve\client\base_animating.h" />
@@ -260,8 +266,8 @@
     <ClInclude Include="valve\tier1\utl_memory.h" />
     <ClInclude Include="valve\tier1\utl_vector.h" />
     <ClInclude Include="valve\valve.h" />
-    <ClInclude Include="valve\vgui\surface.h" />
-    <ClInclude Include="valve\vgui\vgui.h" />
+    <ClInclude Include="valve\public\vgui\surface.h" />
+    <ClInclude Include="valve\public\vgui\vgui.h" />
     <ClInclude Include="valve\public\view_shared.h" />
   </ItemGroup>
   <ItemGroup>

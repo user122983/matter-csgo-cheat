@@ -1,6 +1,7 @@
 #include "pe.h"
 
 #include "../console/console.h"
+#include "../xorstr/xorstr.h"
 
 #include <winternl.h>
 
@@ -24,7 +25,7 @@ bool pe::setup( ) {
 
 		m_loaded_modules[ m_hash.get( name ) ] = reinterpret_cast< std::size_t >( ldr_entry->DllBase );
 		
-		m_console.log( "found module %s -> 0x%x", name.data( ), m_loaded_modules[ m_hash.get( name ) ] );
+		m_console.log( xorstr_( "found module %s -> 0x%x" ), name.data( ), m_loaded_modules[ m_hash.get( name ) ] );
 		
 	}
 

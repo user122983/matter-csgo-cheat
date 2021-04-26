@@ -9,7 +9,7 @@ bool console::setup( const std::string_view name ) {
 	if ( !m_cheat.m_debug_mode || !AllocConsole( ) )
 		return false;
 
-	freopen_s( reinterpret_cast< _iobuf** >( stdout ), "CONOUT$", "w", stdout );
+	freopen_s( reinterpret_cast< _iobuf** >( stdout ), xorstr_( "CONOUT$" ), xorstr_( "w" ), stdout );
 
 	m_handle = GetStdHandle( STD_OUTPUT_HANDLE );
 

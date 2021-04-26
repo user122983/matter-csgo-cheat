@@ -1,6 +1,8 @@
 #include "module.h"
 
 #include "../console/console.h"
+#include "../xorstr/xorstr.h"
+
 #include "../../valve/modules/modules.h"
 
 module_info::module_info( std::size_t loaded_module ) {
@@ -27,7 +29,7 @@ address pattern::find( std::string_view pattern ) {
 	delete[ ] bytes;
 
 	if ( !result )
-		m_console.log( "failed to find pattern: %s", pattern.data( ) );
+		m_console.log( xorstr_( "failed to find pattern: %s" ), pattern.data( ) );
 
 	return result;
 
@@ -145,18 +147,18 @@ bool loaded_module::hook_function( std::string_view name, void* custom_function,
 	if ( !function )
 		return false;
 	
-	static auto hook = m_modules.m_gameoverlayrenderer_dll.get_address( "GameOverlayRenderer::HookFunc" ).as< bool( __cdecl* )( void*, void*, void*, int ) >( );
+	static auto hook = m_modules.m_gameoverlayrenderer_dll.get_address( xorstr_( "GameOverlayRenderer::HookFunc" ) ).as< bool( __cdecl* )( void*, void*, void*, int ) >( );
 	if ( !hook( function, custom_function, &m_originals[ hash ], 0 ) )
 		return false;
 
-	m_console.log( "hooked %s -> 0x%x", name.data( ), function );
+	m_console.log( xorstr_( "hooked %s -> 0x%x" ), name.data( ), function );
 
 	return true;
 }
 
 void loaded_module::unload_functions( ) {
 
-	static auto unhook = m_modules.m_gameoverlayrenderer_dll.get_address( "GameOverlayRenderer::UnhookFunc" ).as< void( __cdecl* )( void*, bool ) >( );
+	static auto unhook = m_modules.m_gameoverlayrenderer_dll.get_address( xorstr_( "GameOverlayRenderer::UnhookFunc" ) ).as< void( __cdecl* )( void*, bool ) >( );
 	
 	for ( auto& [ k, v ] : m_functions )
 		unhook( v, false );

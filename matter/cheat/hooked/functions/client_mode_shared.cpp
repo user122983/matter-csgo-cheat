@@ -4,7 +4,7 @@
 
 bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx, float input_sample_time, user_cmd* cmd ) {
 
-	static auto o_create_move = m_modules.m_client_dll.get< decltype( &create_move ) >( "ClientModeShared::CreateMove" );
+	static auto o_create_move = m_modules.m_client_dll.get< decltype( &create_move ) >( xorstr_( "ClientModeShared::CreateMove" ) );
 
 	// initialize globals
 	
@@ -26,10 +26,14 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 		m_globals.m_weapon.info = m_globals.m_weapon.pointer->get_cs_wpn_data( );
 		m_globals.m_weapon.item_definition_index = m_globals.m_weapon.base_combat_pointer->get_item_definition_index( );
 		m_globals.m_weapon.is_gun = m_globals.m_weapon.pointer->is_gun( );
+
+		// todo: make it proper
+		
+		m_globals.m_weapon.is_shooting = m_globals.m_cmd->m_buttons & in_attack;
 		
 	}
 
-	m_globals.m_weapon.recoil_scale = m_interfaces.m_convar->find_var( "weapon_recoil_scale" )->get_float( );
+	m_globals.m_weapon.recoil_scale = m_interfaces.m_convar->find_var( xorstr_( "weapon_recoil_scale" ) )->get_float( );
 	
 	stack stack( _AddressOfReturnAddress( ) );
 	
@@ -57,7 +61,7 @@ float __fastcall hooked::client_mode_shared_fn::get_view_model_fov( void* ecx, v
 
 void __fastcall hooked::client_mode_shared_fn::override_view( void* ecx, const int edx, view_setup* view_setup ) {
 
-	static auto o_override_view = m_modules.m_client_dll.get< decltype( &override_view ) >( "ClientModeShared::OverrideView" );
+	static auto o_override_view = m_modules.m_client_dll.get< decltype( &override_view ) >( xorstr_( "ClientModeShared::OverrideView" ) );
 
 	m_globals.m_local_player.view_origin = view_setup->m_origin;
 

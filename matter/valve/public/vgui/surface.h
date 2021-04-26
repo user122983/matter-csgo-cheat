@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../modules/modules.h"
+#include "../../modules/modules.h"
+
+#include "../../../other/xorstr/xorstr.h"
 
 using h_font = unsigned long;
 
@@ -119,7 +121,7 @@ struct surface {
 
 	auto start_drawing( ) {
 
-		static auto function = m_modules.m_vguimatsurface_dll.get_address( "CMatSystemSurface::StartDrawing" ).as< void( __thiscall* )( void* ) >( );
+		static auto function = m_modules.m_vguimatsurface_dll.get_address( xorstr_( "CMatSystemSurface::StartDrawing" ) ).as< void( __thiscall* )( void* ) >( );
 		
 		return function( this );
 
@@ -127,7 +129,7 @@ struct surface {
 
 	auto finish_drawing( ) {
 		 
-		static auto function = m_modules.m_vguimatsurface_dll.get_address( "CMatSystemSurface::FinishDrawing" ).as< void( __thiscall* )( void* ) >( );
+		static auto function = m_modules.m_vguimatsurface_dll.get_address( xorstr_( "CMatSystemSurface::FinishDrawing" ) ).as< void( __thiscall* )( void* ) >( );
 		
 		return function( this );
 

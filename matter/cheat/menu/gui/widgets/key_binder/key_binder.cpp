@@ -8,7 +8,7 @@
 key_binder::key_binder( ) {
 
 	m_type = widget_type_key_binder;
-	m_status = "none";
+	m_status = xorstr_( "none" );
 	m_type_dropdown = { 50, 42 };
 	m_is_getting_key = false;
 	m_is_getting_type = false;
@@ -40,7 +40,7 @@ bool key_binder::get_key_state( ) {
 
 void key_binder::geometry( ) {
 
-	std::string text = "[ " + m_status + " ]";
+	std::string text = xorstr_( "[ " ) + m_status + xorstr_( " ]" );
 	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( text.begin( ), text.end( ) ) );
 	
 	m_widget_area = { get_abs_position( ).m_x - text_size.m_width, get_abs_position( ).m_y, text_size.m_width, text_size.m_height };
@@ -71,7 +71,7 @@ void key_binder::geometry( ) {
 			
 			if ( m_selected_type == 0 ) {
 
-				m_status = "none";
+				m_status = xorstr_( "none" );
 				m_selected_key = 0;
 				m_selected_type = -1;
 
@@ -101,7 +101,7 @@ void key_binder::update( ) {
 	
 	if ( m_is_getting_key ) {
 
-		m_status = "...";
+		m_status = xorstr_( "..." );
 		
 		if ( m_input.get_last_key( ) ) {
 

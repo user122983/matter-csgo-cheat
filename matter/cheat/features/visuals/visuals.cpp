@@ -3,12 +3,6 @@
 #include "../../menu/menu.h"
 #include "../../render/render.h"
 
-/* todo:
- * 
- * paddings
- * 
- */
-
 void visuals::run( ) {
 
 	dormant_esp( );
@@ -70,7 +64,7 @@ void visuals::run( ) {
 
 void visuals::draw_box( ) {
 
-	if ( !m_menu.m_esp_widgets[ enemy ].m_box->get_state( ) )
+	if ( !m_menu.m_esp_widgets[ player_enemy ].m_box->get_state( ) )
 		return;
 	
 	m_render.draw_outlined_rect( m_box.left, m_box.top, m_box.width, m_box.height, m_player.m_colors.white, 0 );
@@ -151,10 +145,10 @@ void visuals::draw_flags( ) {
 	std::vector< std::pair< std::string, color > > flags;
 
 	if ( m_player.pointer->has_helmet( ) )
-		flags.emplace_back( m_player.pointer->get_armor( ) ? "hk" : "h", m_player.m_colors.white );
+		flags.emplace_back( m_player.pointer->get_armor( ) ? xorstr_( "hk" ) : xorstr_( "h" ), m_player.m_colors.white );
 
 	if ( m_player.pointer->has_defuser( ) )
-		flags.emplace_back( "kit", m_player.m_colors.white );
+		flags.emplace_back( xorstr_( "kit" ), m_player.m_colors.white );
 
 	std::string last_place_name = std::string( m_player.pointer->get_last_place_name( ) );
 	 
@@ -165,31 +159,31 @@ void visuals::draw_flags( ) {
 		
 	}	
 	
-	flags.emplace_back( std::to_string( m_player.pointer->get_money( ) ) + "$", m_player.m_colors.green );
+	flags.emplace_back( std::to_string( m_player.pointer->get_money( ) ) + xorstr_( "$" ), m_player.m_colors.green );
 
 	if ( m_player.pointer->has_c4( ) )
-		flags.emplace_back( "c4", m_player.m_colors.red );
+		flags.emplace_back( xorstr_( "c4" ), m_player.m_colors.red );
 
 	if ( m_player.pointer->is_activity_active( activity_reload ) )
-		flags.emplace_back( "reload", m_player.m_colors.blue );
+		flags.emplace_back( xorstr_( "reload" ), m_player.m_colors.blue );
 
 	if ( m_globals.m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
-		flags.emplace_back( "shot", m_player.m_colors.blue );
+		flags.emplace_back( xorstr_( "shot" ), m_player.m_colors.blue );
 	
 	if ( m_player.pointer->get_flash_duration( ) > 0.f )
-		flags.emplace_back( "flash", m_player.m_colors.blue );
+		flags.emplace_back( xorstr_( "flash" ), m_player.m_colors.blue );
 
 	if ( m_player.pointer->is_activity_active( activity_plant ) )
-		flags.emplace_back( "plant", m_player.m_colors.blue );
+		flags.emplace_back( xorstr_( "plant" ), m_player.m_colors.blue );
 	
 	if ( m_player.pointer->is_defusing( ) )
-		flags.emplace_back( "defuse", m_player.m_colors.red );
+		flags.emplace_back( xorstr_( "defuse" ), m_player.m_colors.red );
 
 	if ( m_player.pointer->is_scoped( ) )
-		flags.emplace_back( "scope", m_player.m_colors.blue );
+		flags.emplace_back( xorstr_( "scope" ), m_player.m_colors.blue );
 
 	if ( m_player.is_dormant )
-		flags.emplace_back( "dormant", m_player.m_colors.blue );
+		flags.emplace_back( xorstr_( "dormant" ), m_player.m_colors.blue );
 	
 	for ( std::size_t i = 0; i < flags.size( ); ++i ) {
 

@@ -67,7 +67,7 @@ struct loaded_module : pattern, detour {
 
 	loaded_module( ) = default;
 
-	loaded_module( std::size_t loaded_module ) : pattern( loaded_module ) { };
+	loaded_module( std::size_t loaded_module ) : pattern( loaded_module ) { }
 
 	bool add_address( std::string_view name, std::string_view pattern, bool relative = false );
 

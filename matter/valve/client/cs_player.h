@@ -2,13 +2,8 @@
 
 #include "base_animating.h"
 
-#include "../engine/engine_trace.h"
 #include "../mathlib/matrix.h"
-#include "../public/cmodel.h"
-#include "../public/game_trace.h"
-#include "../engine/engine_trace.h"
-#include "../interfaces/interfaces.h"
-#include "../public/bspflags.h"
+#include "../../other/xorstr/xorstr.h"
 
 enum activity {
 
@@ -24,7 +19,7 @@ struct cs_player : base_animating {
 
 	auto& is_player_ghost( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_bIsPlayerGhost" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bIsPlayerGhost" ) ) ];
 
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -32,7 +27,7 @@ struct cs_player : base_animating {
 
 	auto& get_third_person_recoil( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flThirdpersonRecoil" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flThirdpersonRecoil" ) ) ];
 
 		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -40,7 +35,7 @@ struct cs_player : base_animating {
 
 	auto& get_duck_amount( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flDuckAmount" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flDuckAmount" ) ) ];
 
 		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -48,7 +43,7 @@ struct cs_player : base_animating {
 
 	auto& get_playback_rate( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flPlaybackRate" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flPlaybackRate" ) ) ];
 
 		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -56,7 +51,7 @@ struct cs_player : base_animating {
 
 	auto& get_cycle( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flCycle" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flCycle" ) ) ];
 
 		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -64,7 +59,7 @@ struct cs_player : base_animating {
 
 	auto& get_lower_body_yaw_target( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flLowerBodyYawTarget" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flLowerBodyYawTarget" ) ) ];
 
 		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -72,7 +67,7 @@ struct cs_player : base_animating {
 
 	auto& get_eye_angles( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_angEyeAngles" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_angEyeAngles" ) ) ];
 
 		return *reinterpret_cast< q_angle* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -80,7 +75,7 @@ struct cs_player : base_animating {
 
 	auto& get_killed_by_taser( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_bKilledByTaser" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bKilledByTaser" ) ) ];
 
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -88,7 +83,7 @@ struct cs_player : base_animating {
 
 	auto get_player_anim_state_csgo( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_CSPlayer->m_PlayerAnimStateCSGO" ).add( 0x2 ).to< std::size_t >( );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_CSPlayer->m_PlayerAnimStateCSGO" ) ).add( 0x2 ).to< std::size_t >( );
 		
 		return *reinterpret_cast< csgo_player_anim_state** >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -96,7 +91,7 @@ struct cs_player : base_animating {
 
 	auto get_coordinate_frame( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BaseEntity->m_CollisionGroup" ) ] - 0x30;
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BaseEntity->m_CollisionGroup" ) ) ] - 0x30;
 
 		return *reinterpret_cast< matrix3x4* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -104,7 +99,7 @@ struct cs_player : base_animating {
 
 	auto has_helmet( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_bHasHelmet" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bHasHelmet" ) ) ];
 
 		return *reinterpret_cast< bool* >( reinterpret_cast<std::size_t>( this ) + offset );
 
@@ -112,7 +107,7 @@ struct cs_player : base_animating {
 
 	auto get_armor( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_ArmorValue" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_ArmorValue" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -120,7 +115,7 @@ struct cs_player : base_animating {
 
 	auto get_money( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_iAccount" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_iAccount" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -128,7 +123,7 @@ struct cs_player : base_animating {
 
 	auto has_defuser( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_bHasDefuser" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bHasDefuser" ) ) ];
 
 		return *reinterpret_cast< bool* > ( reinterpret_cast< std::size_t > ( this ) + offset );
 
@@ -136,7 +131,7 @@ struct cs_player : base_animating {
 
 	auto get_flash_duration( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_flFlashDuration" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_flFlashDuration" ) ) ];
 
 		return *reinterpret_cast<float*> ( reinterpret_cast< std::size_t > ( this ) + offset );
 
@@ -144,7 +139,7 @@ struct cs_player : base_animating {
 
 	auto is_defusing( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_bIsDefusing" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bIsDefusing" ) ) ];
 
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset);
 
@@ -152,7 +147,7 @@ struct cs_player : base_animating {
 
 	auto has_c4( ) {
 
-		static auto function = m_modules.m_client_dll.get_address( "C_CSPlayer::HasC4" ).as< bool( __thiscall* )( void* ) >( );
+		static auto function = m_modules.m_client_dll.get_address(xorstr_( "C_CSPlayer::HasC4" ) ).as< bool( __thiscall* )( void* ) >( );
 
 		return function( this );
 
@@ -160,7 +155,7 @@ struct cs_player : base_animating {
 
 	auto is_scoped( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_bIsScoped" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bIsScoped" ) ) ];
 
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -198,7 +193,7 @@ struct cs_player : base_animating {
 	
 	auto get_obb_min( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_vecMins" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_vecMins" ) ) ];
 
 		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -206,7 +201,7 @@ struct cs_player : base_animating {
 
 	auto get_obb_max( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_vecMaxs" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_vecMaxs" ) ) ];
 
 		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -220,7 +215,7 @@ struct cs_player : base_animating {
 
 	auto get_flags( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_BasePlayer->m_fFlags" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_fFlags" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -228,7 +223,7 @@ struct cs_player : base_animating {
 
 	auto get_shots_fired( ) {
 		 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_iShotsFired" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_iShotsFired" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -236,7 +231,7 @@ struct cs_player : base_animating {
 
 	auto get_aim_punch_angle( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_CSPlayer->m_aimPunchAngle" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_aimPunchAngle" ) ) ];
 
 		return *reinterpret_cast< q_angle* >( reinterpret_cast< std::size_t >( this ) + offset);
 
@@ -244,7 +239,7 @@ struct cs_player : base_animating {
 
 	auto& get_use_new_animstate( ) {
 
-		static auto offset = m_modules.m_client_dll.get_address( "C_CSPlayer->m_bUseNewAnimstate" ).add( 0x2 ).to< std::size_t >( );
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_CSPlayer->m_bUseNewAnimstate" ) ).add( 0x2 ).to< std::size_t >( );
 		
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -268,7 +263,7 @@ struct cs_player : base_animating {
 	
 	auto handle_taser_animation( ) {
 		 
-		static auto function = m_modules.m_client_dll.get_address( "C_CSPlayer::HandleTaserAnimation" ).as< void( __thiscall* )( void* ) >( );
+		static auto function = m_modules.m_client_dll.get_address( xorstr_( "C_CSPlayer::HandleTaserAnimation" ) ).as< void( __thiscall* )( void* ) >( );
 		
 		return function( this );
 

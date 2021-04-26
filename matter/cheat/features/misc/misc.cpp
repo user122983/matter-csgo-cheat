@@ -1,6 +1,5 @@
 #include "misc.h"
 
-#include "../globals.h"
 #include "../../cheat.h"
 
 void misc::movement_fix( q_angle& angle ) {

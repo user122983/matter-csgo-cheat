@@ -24,7 +24,7 @@ void slider::set_range( float min, float max ) {
 	
 }
 
-void slider::set_prefix( std::string_view prefix ) {
+void slider::set_prefix( const std::string& prefix ) {
 
 	m_prefix = prefix;
 	
@@ -51,7 +51,7 @@ void slider::geometry( ) {
 
 	std::string value_text = std::to_string( static_cast< int >( m_value ) );
 	if ( !m_prefix.empty( ) )
-		value_text = value_text + " " + m_prefix.data( );
+		value_text = value_text + xorstr_( " " ) + m_prefix;
 	
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_widget_area.m_width - m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( value_text.begin( ), value_text.end( ) ) ).m_width, m_widget_area.m_y - text_size.m_height - 2, value_text, m_menu.m_colors.white );
 

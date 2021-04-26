@@ -14,7 +14,7 @@ struct math {
 
 	float calc_fov( q_angle& view_angle, q_angle& aim_angle );
 
-	q_angle calc_angle( const vector_3d& start, vector_3d& end );
+	q_angle calc_angle( const vector_3d& start, const vector_3d& end );
 
 };
 

@@ -2,6 +2,8 @@
 
 #include "gui/gui.h"
 
+#include "../../other/xorstr/xorstr.h"
+
 struct legitbot_widgets {
 
 	std::shared_ptr< checkbox > m_enabled;
@@ -37,8 +39,6 @@ struct visuals_widgets {
 struct menu {
 
 	bool setup( );
-
-	// todo: try using less colors
 	
 	struct {
 
@@ -55,7 +55,7 @@ struct menu {
 		color dark4 = color( 35, 35, 35 );
 		color dark5 = color( 55, 55, 55 );
 
-	} m_colors = { };
+	} m_colors;
 
 	std::shared_ptr< container > m_menu;
 	
@@ -63,7 +63,11 @@ struct menu {
 
 	std::vector< std::pair< std::string, std::string > > tabs{
 
-		{ "1", "Legitbot" }, { "2", "Visuals" }, { "3", "World" }, { "4", "Misc" }, { "5", "Settings" }
+		{ xorstr_( "1" ), xorstr_( "Legitbot" ) },
+		{ xorstr_( "2" ), xorstr_( "Visuals" ) },
+		{ xorstr_( "3" ), xorstr_( "World" ) },
+		{ xorstr_( "4" ), xorstr_( "Misc" ) },
+		{ xorstr_( "5" ), xorstr_( "Settings" ) }
 
 	};
 	
@@ -93,31 +97,45 @@ struct menu {
 	
 	std::vector< std::string > m_weapon_names {
 
-		"Default", "Pistols", "Heavy", "Rifles", "Scout", "Awp"
+		xorstr_( "Default" ),
+		xorstr_( "Pistols" ),
+		xorstr_( "Heavy" ),
+		xorstr_( "Rifles" ),
+		xorstr_( "Scout" ),
+		xorstr_( "Awp" )
 		
 	};
 
 	std::vector< std::string > m_target_names {
 
-		"Head", "Neck", "Upper chest", "Chest", "Stomach"
+		xorstr_( "Head" ),
+		xorstr_( "Neck" ),
+		xorstr_( "Upper chest" ),
+		xorstr_( "Chest" ),
+		xorstr_( "Stomach" )
 
 	};
 
 	std::vector< std::string > m_hitbox_names {
 
-		"Head", "Chest", "Stomach", "Arms", "Legs"
+		xorstr_( "Head" ),
+		xorstr_( "Chest" ),
+		xorstr_( "Stomach" ),
+		xorstr_( "Arms" ),
+		xorstr_( "Legs" )
 
 	};
 
 	std::vector< std::string > m_ignore_names {
 
-		"Flash", "Smoke"
+		xorstr_( "Flash" ),
+		xorstr_( "Smoke" )
 
 	};
 
 	std::vector< std::string > m_accuracy_names{
 
-		"Fast stop"
+		xorstr_( "Fast stop" )
 
 	};
 	
@@ -134,19 +152,27 @@ struct menu {
 
 	std::vector< std::string > m_desync_names{
 
-		"None", "Normal", "Extended"
+		xorstr_( "None" ),
+		xorstr_( "Normal" ),
+		xorstr_( "Extended" )
 
 	};
 
 	std::vector< std::string > m_fakelag_names {
 
-		"None", "Static", "Jitter", "Adaptive"
+		xorstr_( "None" ),
+		xorstr_( "Static" ),
+		xorstr_( "Jitter" ),
+		xorstr_( "Adaptive" )
 
 	};
 
 	std::vector< std::string > m_fakelag_triggers_names {
 
-		"On ground", "In air", "On shot", "On reload"
+		xorstr_( "On ground" ),
+		xorstr_( "In air" ),
+		xorstr_( "On shot" ),
+		xorstr_( "On reload" )
 
 	};
 	
@@ -158,7 +184,9 @@ struct menu {
 
 	std::vector< std::string > m_player_names {
 
-		"Enemy", "Team", "Local"
+		xorstr_( "Enemy" ),
+		xorstr_( "Team" ),
+		xorstr_( "Local" )
 
 	};
 

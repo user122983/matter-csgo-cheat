@@ -22,7 +22,7 @@ struct weapon_cs_base : base_entity {
 
 	auto& get_ammo( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_iClip1" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_WeaponCSBase->m_iClip1" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -30,7 +30,7 @@ struct weapon_cs_base : base_entity {
 
 	auto& get_view_model_index( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_nViewModelIndex" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_WeaponCSBase->m_nViewModelIndex" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -38,7 +38,7 @@ struct weapon_cs_base : base_entity {
 
 	auto is_burst_mode( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_bBurstMode" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_WeaponCSBase->m_bBurstMode" ) ) ];
 
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -46,7 +46,7 @@ struct weapon_cs_base : base_entity {
 
 	auto get_burst_shots_remaining( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_iBurstShotsRemaining" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_WeaponCSBase->m_iBurstShotsRemaining" ) ) ];
 
 		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
 
@@ -54,7 +54,7 @@ struct weapon_cs_base : base_entity {
 
 	auto get_postpone_fire_ready_time( ) {
 
-		static auto offset = m_netvars.m_offsets[ m_hash.get( "DT_WeaponCSBase->m_flPostponeFireReadyTime" ) ];
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_WeaponCSBase->m_flPostponeFireReadyTime" ) ) ];
 
 		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
 

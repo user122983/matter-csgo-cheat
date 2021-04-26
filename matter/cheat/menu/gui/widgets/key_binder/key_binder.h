@@ -6,9 +6,9 @@
 
 inline std::vector< std::string > key_binder_types {
 
-	"None",
-	"Hold",
-	"Toggle"
+	xorstr_( "None" ),
+	xorstr_( "Hold" ),
+	xorstr_( "Toggle" )
 	
 };
 

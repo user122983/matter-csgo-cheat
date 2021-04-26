@@ -6,9 +6,9 @@
 
 enum players {
 
-	enemy,
-	team,
-	local
+	player_enemy,
+	player_team,
+	player_local
 	
 };
 

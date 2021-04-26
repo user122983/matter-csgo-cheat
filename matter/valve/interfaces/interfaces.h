@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../engine/cdll_engine_int.h"
-#include "../vgui/surface.h"
+#include "../public/vgui/surface.h"
 #include "../public/client_entity_list.h"
 #include "../engine/debug_overlay.h"
 #include "../public/global_vars_base.h"
@@ -53,7 +53,7 @@ private:
 
 	template< class t > t get( module_info the_module, std::string_view interface_name ) {
 		
-		static std::size_t fn_hash = m_hash.get( "CreateInterface" );
+		static std::size_t fn_hash = m_hash.get( xorstr_( "CreateInterface" ) );
 
 		std::size_t create_interface = m_pe.export_fn( the_module.get_module( ), fn_hash );
 		if ( !create_interface )
@@ -75,7 +75,7 @@ private:
 				if ( !interface_address )
 					return t( );
 
-				m_console.log( "found interface %s -> 0x%x", interface_node->m_name, interface_address );
+				m_console.log( xorstr_( "found interface %s -> 0x%x" ), interface_node->m_name, interface_address );
 
 				return static_cast< t >( interface_address);
 

@@ -45,7 +45,7 @@ float math::calc_fov( q_angle& view_angle, q_angle& aim_angle ) {
 	
 }
 
-q_angle math::calc_angle( const vector_3d& start, vector_3d& end ) {
+q_angle math::calc_angle( const vector_3d& start, const vector_3d& end ) {
 	
 	q_angle view;
 	auto delta = end - start;

@@ -12,7 +12,7 @@ bool netvars::setup( ) {
 	if ( !list )
 		return false;
 
-	m_file.open( "netvars.txt", std::ios::out | std::ios::trunc );
+	m_file.open( xorstr_( "netvars.txt" ), std::ios::out | std::ios::trunc );
 
 	while ( list != nullptr ) {
 
@@ -24,7 +24,7 @@ bool netvars::setup( ) {
 
 	m_file.close( );
 
-	m_console.log( "dumped netvars in CSGO directory" );
+	m_console.log( xorstr_( "dumped netvars in csgo directory" ) );
 
 	return true;
 
@@ -42,14 +42,14 @@ void netvars::store( std::string_view name, recv_table* table, std::size_t offse
 
 		char* variable = prop->m_var_name;
 
-		std::string netvar = std::string( name.data( ) ) + "->" + variable;
+		std::string netvar = std::string( name.data( ) ) + xorstr_( "->" ) + variable;
 		std::size_t hash = m_hash.get( netvar );
 
 		if ( !m_offsets[ hash ] ) {
 
 			m_offsets[ hash ] = prop->m_offset + offset;
 
-			m_file << netvar << " = 0x" << std::hex << m_offsets[ hash ] << std::endl;
+			m_file << netvar << xorstr_( " = 0x" ) << std::hex << m_offsets[ hash ] << std::endl;
 
 		}
 

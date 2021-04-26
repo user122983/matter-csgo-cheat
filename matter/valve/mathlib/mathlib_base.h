@@ -141,7 +141,7 @@ struct mathlib_base {
 		
 	}
 
-	void vector_angles( vector_3d& forward, q_angle& view ) {
+	void vector_angles( const vector_3d& forward, q_angle& view ) {
 
 		float pitch, yaw;
 
