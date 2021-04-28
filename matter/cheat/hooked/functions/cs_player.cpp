@@ -11,7 +11,7 @@ void __fastcall hooked::cs_player_fn::update_client_side_animation( cs_player* e
 		if ( ecx->get_sequence( ) != -1 )
 			ecx->frame_advance( 0.f );
 
-		if ( ecx->is_local_player( ) /* && *((_BYTE *)this + 13860 */ )
+		if ( ecx->is_local_player( ) )
 			ecx->get_player_anim_state_csgo( )->update( ecx->eye_angles( ).y, ecx->eye_angles( ).x );
 		else
 			ecx->get_player_anim_state_csgo( )->update( ecx->get_eye_angles( ).y, ecx->get_eye_angles( ).x );
@@ -19,7 +19,7 @@ void __fastcall hooked::cs_player_fn::update_client_side_animation( cs_player* e
 	}
 
 	if ( ecx->get_sequence( ) != -1 )
-		ecx->on_latch_interpolated_variables( 1 /* LATCH_ANIMATION_VAR */ );
+		ecx->on_latch_interpolated_variables( 1 );
 
 	if ( ecx->get_killed_by_taser( ) )
 		ecx->handle_taser_animation( );
@@ -35,9 +35,9 @@ void __fastcall hooked::cs_player_fn::update_client_side_animation( cs_player* e
 
 		} else {
 
-			for ( auto i = 0; i < 3 /* MAX_VIEWMODELS */; i++ ) {
+			for ( int i = 0; i < 3; i++ ) {
 
-				auto view_model = ecx->get_view_model( i );
+				base_view_model* view_model = ecx->get_view_model( i );
 				if ( view_model ) {
 
 					view_model->remove_viewmodel_arm_models( );

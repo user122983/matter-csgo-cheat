@@ -88,15 +88,15 @@ void __cdecl hooked::cl_main_fn::cl_send_move( ) {
 	int nextcommandnr = m_interfaces.m_client_state->m_lastoutgoingcommand + m_interfaces.m_client_state->m_choked_commands + 1;
 	int choked_commands = m_interfaces.m_client_state->m_choked_commands;
 
-	byte data[ 4000 /* MAX_CMD_BUFFER */ ];
+	byte data[ 4000 ];
 	cl_msg_move move_msg;
 
 	move_msg.m_data_out.start_writing( data, sizeof( data ) );
 
 	int cl_cmdbackup = 2;
-	int backup_commands = std::clamp( cl_cmdbackup, 0, 7 /* MAX_BACKUP_COMMANDS */ );
+	int backup_commands = std::clamp( cl_cmdbackup, 0, 7 );
 
-	int new_commands = std::clamp( choked_commands + 1, 0, 15 /* MAX_NEW_COMMANDS */ );
+	int new_commands = std::clamp( choked_commands + 1, 0, 15 );
 
 	move_msg.set_num_backup_commands( backup_commands );
 	move_msg.set_num_new_commands( new_commands );

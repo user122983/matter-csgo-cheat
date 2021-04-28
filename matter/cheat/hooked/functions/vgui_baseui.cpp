@@ -3,12 +3,7 @@
 void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, paint_mode mode ) {
 
 	static auto o_paint = m_modules.m_engine_dll.get< decltype( &paint ) >( xorstr_( "CEngineVGui::Paint" ) );
-
-	// capture cs_game_rules once per game
-	
-	if ( !m_interfaces.m_engine->is_in_game( ) )
-		m_globals.m_game.cs_game_rules_captured = false;
-	
+		
 	if ( m_interfaces.m_engine->is_in_game( ) && !m_globals.m_game.cs_game_rules_captured ) {
 
 		m_globals.m_game.cs_game_rules_captured = true;

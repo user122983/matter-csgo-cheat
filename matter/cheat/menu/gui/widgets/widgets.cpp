@@ -56,12 +56,16 @@ bool widgets::is_unlocked( ) {
 		return true;
 
 	switch ( m_medium_widget->m_type ) {
+		
 		case widget_type_tab_panel:
 			return std::reinterpret_pointer_cast< tab_panel >( m_medium_widget )->get_index( ) == m_page;
+		
 		case widget_type_box:
 			return std::reinterpret_pointer_cast< box >( m_medium_widget )->get_index( ) == m_page;
+		
 		default: 
 			return true;
+		
 	}
 
 }
@@ -86,16 +90,20 @@ bool widgets::is_input_unlocked( ) {
 	for ( const auto& widgets : m_lock_input_widget ) {
 		
 		switch ( widgets->m_type ) {
+			
 			case widget_type_box:
 				if ( std::reinterpret_pointer_cast< box >( widgets )->get_state( ) )
 					return false;
 				break;
+			
 			case widget_type_key_binder:
 				if ( std::reinterpret_pointer_cast< key_binder >( widgets )->get_state( ) )
 					return false;
 				break;
+			
 			default:
 				return true;
+			
 		}
 		
 	}

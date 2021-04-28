@@ -9,6 +9,7 @@
 
 #include "../../other/hash/hash.h"
 #include "../../other/math/q_angle.h"
+#include "../../other/xorstr/xorstr.h"
 
 struct base_player;
 

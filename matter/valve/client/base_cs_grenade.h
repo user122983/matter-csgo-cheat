@@ -1,8 +1,6 @@
 #pragma once
 
-#include "weapon_cs_base.h"
-
-struct base_cs_grenade : weapon_cs_base {
+struct base_cs_grenade {
 
 	auto is_pin_pulled( ) {
 

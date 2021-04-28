@@ -22,12 +22,16 @@ bool box::get_state( ) {
 std::size_t box::get_index( std::size_t index ) {
 
 	switch ( m_box_type ) {
+		
 		case box_type_combobox:
 			return m_selected_entry;
+		
 		case box_type_multibox:
 			return m_entries.second.at( index );
+		
 		default:
 			return -1;
+		
 	}
 	
 }

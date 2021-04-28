@@ -159,7 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cheat\features\features.h" />
-    <ClInclude Include="cheat\features\globals.h" />
+    <ClInclude Include="cheat\globals\globals.h" />
     <ClInclude Include="cheat\features\legitbot\legitbot.h" />
     <ClInclude Include="cheat\features\misc\misc.h" />
     <ClInclude Include="cheat\features\visuals\visuals.h" />
@@ -275,6 +275,7 @@
     <ClCompile Include="cheat\features\legitbot\legitbot.cpp" />
     <ClCompile Include="cheat\features\misc\misc.cpp" />
     <ClCompile Include="cheat\features\visuals\visuals.cpp" />
+    <ClCompile Include="cheat\globals\globals.cpp" />
     <ClCompile Include="cheat\hooked\functions\cdll_client.cpp" />
     <ClCompile Include="cheat\hooked\functions\client_input.cpp" />
     <ClCompile Include="cheat\hooked\functions\client_mode_shared.cpp" />

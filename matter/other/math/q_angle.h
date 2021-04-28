@@ -92,7 +92,7 @@ struct q_angle {
 
 	q_angle operator+( const q_angle& a ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result += a;
 
@@ -100,7 +100,7 @@ struct q_angle {
 
 	q_angle operator-( const q_angle& a ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result -= a;
 
@@ -108,7 +108,7 @@ struct q_angle {
 
 	q_angle operator*( const q_angle& a ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result *= a;
 
@@ -116,7 +116,7 @@ struct q_angle {
 
 	q_angle operator/( const q_angle& a ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result /= a;
 
@@ -124,7 +124,7 @@ struct q_angle {
 
 	q_angle operator+( float fl ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result += fl;
 
@@ -132,7 +132,7 @@ struct q_angle {
 
 	q_angle operator-( float fl ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result -= fl;
 
@@ -140,7 +140,7 @@ struct q_angle {
 
 	q_angle operator*( float fl ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result *= fl;
 
@@ -148,7 +148,7 @@ struct q_angle {
 
 	q_angle operator/( float fl ) {
 
-		auto result = *this;
+		q_angle result = *this;
 
 		return result /= fl;
 
@@ -156,9 +156,9 @@ struct q_angle {
 	
 	q_angle normalize( ) {
 
-		this->x = std::isfinite( this->x ) ? std::remainderf( this->x, 360.f ) : 0.f;
-		this->y = std::isfinite( this->y ) ? std::remainderf( this->y, 360.f ) : 0.f;
-		this->z = std::clamp( this->z, -50.f, 50.f );
+		x = std::isfinite( x ) ? std::remainderf( x, 360.f ) : 0.f;
+		y = std::isfinite( y ) ? std::remainderf( y, 360.f ) : 0.f;
+		z = std::clamp( z, -50.f, 50.f );
 		
 		return *this;
 		
@@ -166,17 +166,11 @@ struct q_angle {
 
 	q_angle clamp( ) {
 		
-		this->x = std::clamp( this->x, -89.f, 89.f );
-		this->y = std::clamp( this->y, -180.f, 180.f );
-		this->z = std::clamp( this->z, -50.f, 50.f );
+		x = std::clamp( x, -89.f, 89.f );
+		y = std::clamp( y, -180.f, 180.f );
+		z = std::clamp( z, -50.f, 50.f );
 
 		return *this;
-
-	}
-
-	bool is_zero( ) {
-
-		return ( std::fpclassify( this->x ) == FP_ZERO && std::fpclassify( this->y ) == FP_ZERO && std::fpclassify( this->z ) == FP_ZERO );
 
 	}
 

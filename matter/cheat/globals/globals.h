@@ -7,42 +7,66 @@ struct cs_weapon_info;
 struct weapon_cs_base;
 
 struct globals {
-	
+
+	void setup( );
+
+	void unload( );
+		
 	user_cmd* m_cmd;
 	
 	struct {
 
 		cs_player* pointer;
+				
+		csgo_player_anim_state* anim_state;
 
 		vector_3d view_origin;
+
+		vector_3d eye_pos;
+
+		q_angle aim_punch_angle;
 		
-		q_angle real_angle;
+		int move_type;
+
+		int flags;
+
+		int team;
 		
-		csgo_player_anim_state* anim_state;
+		int pressed_move_key;
+
+		bool is_alive;
+
+		bool is_use_new_animstate;
+
+		float spawn_time;
 
 	} m_local_player;
 	
 	struct {
 
 		weapon_cs_base* pointer;
-
-		base_combat_character* base_combat_pointer;
 		
 		cs_weapon_info* info;
 
+		q_angle punch_angle;
+		
 		short item_definition_index;
 
 		bool is_gun;
 
 		bool is_shooting;
-		
-		float recoil_scale;
 
+		bool is_reloading;
+		
 	} m_weapon;
 	
 	struct {
 
-		bool cs_game_rules_captured = false;
+		bool cs_game_rules_captured;
+
+		bool is_freeze_period;
+
+		bool is_valve_server;
 		
 	} m_game;
 	

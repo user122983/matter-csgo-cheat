@@ -216,8 +216,6 @@ void visuals::dormant_esp( ) {
 		if ( !player || !player->get_client_networkable( )->is_dormant( ) )
 			continue;
 
-		// execute on every new footstep sound
-
 		if ( sound_guid[ sound_element.m_sound_source ] < sound_element.m_guid && sound_element.m_origin && !sound_element.m_origin->is_zero( ) ) {
 
 			sound_guid[ sound_element.m_sound_source ] = sound_element.m_guid;

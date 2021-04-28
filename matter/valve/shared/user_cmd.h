@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../other/math/q_angle.h"
+
 struct user_cmd {
 
     char _pad0[ 0x4 ]; 

@@ -4,7 +4,7 @@
 
 void misc::movement_fix( q_angle& angle ) {
 
-	if ( !m_globals.m_local_player.pointer->is_alive( ) )
+	if ( !m_globals.m_local_player.is_alive )
 		return;
 
 	vector_3d view_forward, view_right, view_up, cmd_forward, cmd_right, cmd_up;
@@ -44,8 +44,8 @@ void misc::movement_fix( q_angle& angle ) {
 	float v29 = normal_view_up.y * m_globals.m_cmd->m_up_move;
 
 	m_globals.m_cmd->m_forward_move = ( ( ( ( normal_cmd_fwd.x * v24 ) + ( normal_cmd_fwd.y * v23 ) ) + ( normal_cmd_fwd.z * v25 ) )
-		+ ( ( ( normal_cmd_fwd.x * v22) + ( normal_cmd_fwd.y * v26 ) ) + ( normal_cmd_fwd.z * v28 ) ) )
-		+ ( ( ( normal_cmd_fwd.y * v30) + ( normal_cmd_fwd.x * v29 ) ) + ( normal_cmd_fwd.z * v27 ) );
+		+ ( ( ( normal_cmd_fwd.x * v22 ) + ( normal_cmd_fwd.y * v26 ) ) + ( normal_cmd_fwd.z * v28 ) ) )
+		+ ( ( ( normal_cmd_fwd.y * v30 ) + ( normal_cmd_fwd.x * v29 ) ) + ( normal_cmd_fwd.z * v27 ) );
 	
 	m_globals.m_cmd->m_side_move = ( ( ( ( normal_cmd_right.x * v24 ) + ( normal_cmd_right.y * v23 ) ) + ( normal_cmd_right.z * v25 ) )
 		+ ( ( ( normal_cmd_right.x * v22 ) + ( normal_cmd_right.y * v26 ) ) + ( normal_cmd_right.z * v28 ) ) )

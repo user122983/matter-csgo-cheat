@@ -32,30 +32,36 @@ void input::think( UINT message, WPARAM w_param, LPARAM l_param ) {
 	key_state state;
 
 	switch ( message ) {
+		
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 			key = w_param;
 			state = down;
 			break;
+		
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
 			key = w_param;
 			state = up;
 			break;
+		
 		case WM_LBUTTONDOWN:
 		case WM_LBUTTONUP:
 		case WM_LBUTTONDBLCLK:
 			key = VK_LBUTTON;
 			state = message == WM_LBUTTONUP ? up : down;
 			break;
+		
 		case WM_RBUTTONDOWN:
 		case WM_RBUTTONUP:
 		case WM_RBUTTONDBLCLK:
 			key = VK_RBUTTON;
 			state = message == WM_RBUTTONUP ? up : down;
 			break;
+		
 		default:
 			return;
+		
 	}
 
 	if ( m_key_states[ key ].m_state == up && state == down ) {

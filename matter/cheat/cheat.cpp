@@ -60,7 +60,7 @@ void cheat::iterate_players( const std::function< void( cs_player* ) >& function
 				continue;
 
 		if ( !( flags & iterate_teammates ) )
-			if ( player->get_team( ) == m_globals.m_local_player.pointer->get_team( ) )
+			if ( player->get_team( ) == m_globals.m_local_player.team )
 				continue;
 
 		function( player );

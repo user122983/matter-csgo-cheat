@@ -3,6 +3,7 @@
 #include "base_player.h"
 
 #include "../public/studio.h"
+#include "../../other/xorstr/xorstr.h"
 
 struct base_animating : base_player {
 
@@ -102,7 +103,7 @@ struct base_animating : base_player {
 
 			}
 
-			this->get_pose_parameter( )[ parameter ] = new_value;
+			get_pose_parameter( )[ parameter ] = new_value;
 
 		}
 
@@ -114,7 +115,7 @@ struct base_animating : base_player {
 
 		static auto address = m_modules.m_server_dll.get_address( xorstr_( "CBaseAnimating::DrawServerHitboxes" ) );
 		
-		base_player* player = util_player_by_index( this->get_client_networkable( )->get_index( ) );
+		base_player* player = util_player_by_index( get_client_networkable( )->get_index( ) );
 		if ( !player )
 			return;
 

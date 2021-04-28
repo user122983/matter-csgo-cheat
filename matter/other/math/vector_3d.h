@@ -194,7 +194,7 @@ struct vector_3d {
 
 	float length_2d( ) const {
 
-		return std::sqrtf( this->x * this->x + this->y * this->y );
+		return std::sqrtf( x * x + y * y );
 
 	}
 	
@@ -225,19 +225,19 @@ struct vector_3d {
 
 	float dot_product( const vector_3d& dot ) const {
 
-		return this->x * dot.x + this->y * dot.y + this->z * dot.z;
+		return x * dot.x + y * dot.y + z * dot.z;
 
 	}
 
 	bool is_valid( ) {
 
-		return std::isfinite( this->x ) && std::isfinite( this->y ) && std::isfinite( this->z );
+		return std::isfinite( x ) && std::isfinite( y ) && std::isfinite( z );
 
 	}
 
 	bool is_zero( ) {
 
-		return ( std::fpclassify( this->x ) == FP_ZERO && std::fpclassify( this->y ) == FP_ZERO && std::fpclassify( this->z ) == FP_ZERO );
+		return ( std::fpclassify( x ) == FP_ZERO && std::fpclassify( y ) == FP_ZERO && std::fpclassify( z ) == FP_ZERO );
 		
 	}
 	

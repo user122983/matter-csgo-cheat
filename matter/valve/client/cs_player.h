@@ -163,23 +163,28 @@ struct cs_player : base_animating {
 
 	auto is_activity_active( int checked_activity ) {
 
-		animation_layer* animation_layer_weapon_action = this->get_anim_overlay( checked_activity == activity_plant ? 8 : 1 );
+		animation_layer* animation_layer_weapon_action = get_anim_overlay( checked_activity == activity_plant ? 8 : 1 );
 		if ( animation_layer_weapon_action ) {
 
-			const auto activity = this->get_sequence_activity( animation_layer_weapon_action->m_sequence );
+			const auto activity = get_sequence_activity( animation_layer_weapon_action->m_sequence );
 
 			switch ( checked_activity ) {
+				
 				case activity_reload:
 					checked_activity = 967;
 					break;
+				
 				case activity_attack:
 					checked_activity = 961;
 					break;
+				
 				case activity_plant:
 					checked_activity = 978;
 					break;
+				
 				default: 
 					break;
+				
 			}
 			
 			if ( activity == checked_activity && animation_layer_weapon_action->m_weight != 0.f )
@@ -250,7 +255,7 @@ struct cs_player : base_animating {
 		vector_3d eye_pos;
 		
 		m_memory.get_v_func< void ( __thiscall* )( void*, vector_3d& ) >( this, 168 )( this, eye_pos );
-
+		
 		return eye_pos;
 
 	}
@@ -273,7 +278,7 @@ struct cs_player : base_animating {
 	
 /*	auto is_visible( cs_player* player, const vector_3d end_pos ) {
 
-		vector_3d start = this->get_eye_pos( );
+		vector_3d start = get_eye_pos( );
 
 		ray ray;
 		ray.init( start, end_pos );
