@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../other/memory/memory.h"
-
 struct client_unknown;
 
 struct client_renderable {

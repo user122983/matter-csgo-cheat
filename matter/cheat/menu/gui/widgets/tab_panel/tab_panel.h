@@ -4,7 +4,7 @@
 
 #include <vector>
 
-struct tab_panel final : widgets {
+struct tab_panel : widgets {
 
 	tab_panel( );
 	

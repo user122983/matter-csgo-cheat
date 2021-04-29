@@ -2,9 +2,11 @@
 
 #include "../../cheat.h"
 
+// recode br0
+
 void misc::movement_fix( q_angle& angle ) {
 
-	if ( !m_globals.m_local_player.is_alive )
+	if ( !m_globals.m_local_player.pointer->is_alive( ) )
 		return;
 
 	vector_3d view_forward, view_right, view_up, cmd_forward, cmd_right, cmd_up;

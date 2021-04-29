@@ -4,7 +4,7 @@
 
 #include "../../../../../other/color/color.h"
 
-struct color_picker final : widgets {
+struct color_picker : widgets {
 
 	color_picker( );
 

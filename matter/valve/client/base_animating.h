@@ -3,7 +3,6 @@
 #include "base_player.h"
 
 #include "../public/studio.h"
-#include "../../other/xorstr/xorstr.h"
 
 struct base_animating : base_player {
 

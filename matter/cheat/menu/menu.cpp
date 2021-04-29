@@ -1,9 +1,5 @@
 #include "menu.h"
 
-#include "gui/builder.h"
-
-#include "../../other/xorstr/xorstr.h"
-
 bool menu::setup( ) {
 
 	m_menu = std::make_shared< container >( );
@@ -138,7 +134,7 @@ bool menu::setup( ) {
 	m_esp_player = std::make_shared< box >( );
 	m_builder.widget( m_esp_player ).position( 54, 54 ).title( xorstr_( "Player:" ) ).entries( m_player_names ).spawn_in( m_esp_container ).type( box_type_combobox );
 
-	for ( std::uint8_t i = 0; i < m_esp_widgets.size( ); i++ ) {
+	for ( unsigned int i = 0; i < m_esp_widgets.size( ); i++ ) {
 
 		m_esp_widgets[ i ].m_enabled = std::make_shared< checkbox >( );
 		m_builder.widget( m_esp_widgets[ i ].m_enabled ).position( 30, 30 ).title( xorstr_( "Enabled" ) ).spawn_in( m_esp_container ).medium( m_esp_player, i );

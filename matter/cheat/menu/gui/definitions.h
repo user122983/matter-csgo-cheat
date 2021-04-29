@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string_view>
-
 #include "../../../other/xorstr/xorstr.h"
+
+#include <string_view>
 
 struct area {
 

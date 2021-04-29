@@ -2,7 +2,7 @@
 
 #include "../widgets.h"
 
-struct checkbox final : widgets {
+struct checkbox : widgets {
 
 	checkbox( );
 	

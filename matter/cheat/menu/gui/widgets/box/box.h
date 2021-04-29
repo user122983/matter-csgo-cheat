@@ -12,7 +12,7 @@ enum box_type {
 	
 };
 
-struct box final : widgets {
+struct box : widgets {
 
 	box( );
 

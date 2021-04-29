@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../other/math/q_angle.h"
-
 struct user_cmd {
 
     char _pad0[ 0x4 ]; 
@@ -20,7 +18,7 @@ struct user_cmd {
     short m_moused_x; 
     short m_moused_y;
     bool m_has_been_predicted; 
-    q_angle head_angles; 
-    vector_3d head_offset;
+    q_angle m_head_angles; 
+    vector_3d m_head_offset;
 
 };

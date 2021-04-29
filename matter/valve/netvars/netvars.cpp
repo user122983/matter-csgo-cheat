@@ -8,7 +8,6 @@
 bool netvars::setup( ) {
 
 	client_class* list = m_interfaces.m_client->get_all_classes( );
-
 	if ( !list )
 		return false;
 

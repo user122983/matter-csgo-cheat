@@ -4,7 +4,7 @@ struct easing {
 
 	// https://github.com/nicolausYes/easing-functions
 
-	static double in_cubic( const double x ) {
+	double in_cubic( double x ) {
 
 		return x * x * x;
 

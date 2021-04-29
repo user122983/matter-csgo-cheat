@@ -5,7 +5,7 @@
 #include <comcat.h>
 #include <vector>
 
-struct container final : widgets {
+struct container : widgets {
 
 	container( );
 	

@@ -54,6 +54,8 @@ private:
 	
 	void aimbot( );
 
+	bool find_target( );
+	
 	void rcs( );
 
 	void accuracy( );
@@ -64,26 +66,18 @@ private:
 
 	void fakelag( );
 	
-	void init_settings( );
-	
-	q_angle m_recoil_punch_angle;
-	
-	struct {
-
-		bool force_update;
-		
-		float next_update;
-
-	} m_lby;
+	void settings( );
 	
 	struct {
 
 		cs_player* pointer;
 
-		int index;
-
+		q_angle angle;
+		
 	} m_player;
 
+	q_angle m_recoil_punch_angle;
+	
 	legitbot_widgets m_settings;
 	
 };

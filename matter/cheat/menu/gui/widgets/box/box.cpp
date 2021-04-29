@@ -55,6 +55,8 @@ void box::set_value( std::size_t index, unsigned int value ) {
 	
 }
 
+// bug: input area of box and entires lineup and can both be toggled with one click
+
 void box::geometry( ) {
 
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };

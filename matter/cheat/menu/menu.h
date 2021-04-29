@@ -150,7 +150,7 @@ struct menu {
 	std::shared_ptr< box > m_antiaim_fakelag_triggers;
 	std::shared_ptr< slider > m_antiaim_fakelag_triggers_value;
 
-	std::vector< std::string > m_desync_names{
+	std::vector< std::string > m_desync_names {
 
 		xorstr_( "None" ),
 		xorstr_( "Normal" ),
@@ -210,8 +210,8 @@ struct menu {
 
 	std::shared_ptr< container > m_misc_container;
 	std::shared_ptr< checkbox > m_server_hitboxes;
-	std::shared_ptr < slider > m_fov;
-		
+	std::shared_ptr < slider > m_fov;	
+	
 };
 
 inline menu m_menu;

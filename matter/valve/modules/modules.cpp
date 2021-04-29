@@ -183,7 +183,7 @@ void modules::get_addresses( ) {
 	m_gameoverlayrenderer_dll.add_address( xorstr_( "GameOverlayRenderer::UnhookFunc" ), xorstr_( "E8 ? ? ? ? 83 C4 08 FF 15 ? ? ? ?" ), true );
 
 	m_server_dll.add_address( xorstr_( "CBaseAnimating::DrawServerHitboxes" ), xorstr_( "E8 ? ? ? ? F6 83 ? ? ? ? ? 0F 84 ? ? ? ? 33 FF" ), true );
-	m_server_dll.add_address( xorstr_( "UTIL_PlayerByIndex" ), xorstr_( "85 C9 7E 2A A1 ? ? ? ?" ) );
+	m_server_dll.add_address( xorstr_( "UTIL_PlayerByIndex" ), xorstr_( "85 C9 7E 32 A1 ? ? ? ?" ) );
 	m_server_dll.add_address( xorstr_( "CCSGOPlayerAnimState::SetUpVelocity" ), xorstr_( "55 8B EC 83 E4 F8 83 EC 28 56 57 8B 3D ? ? ? ? 8B F1 8B CF" ) );
 	
 }

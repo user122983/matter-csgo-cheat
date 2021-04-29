@@ -2,7 +2,7 @@
 
 #include "../widgets.h"
 
-struct slider final : widgets {
+struct slider : widgets {
 
 	slider( );
 

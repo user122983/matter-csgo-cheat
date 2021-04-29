@@ -20,7 +20,7 @@ enum key_binder_type {
 	
 };
 
-struct key_binder final : widgets {
+struct key_binder : widgets {
 
 	key_binder( );
 

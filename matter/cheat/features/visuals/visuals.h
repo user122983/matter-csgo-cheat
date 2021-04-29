@@ -34,15 +34,9 @@ private:
 
 	void init_colors( );
 	
-	void calc_alpha( );
+	void calculate_alpha( );
 
-	bool calc_box( );
-
-	struct {
-
-		int left, top, right, bottom, width, height;
-
-	} m_box;
+	bool calculate_box( );
 
 	struct {
 
@@ -51,12 +45,6 @@ private:
 		int index;
 
 		bool is_dormant;
-
-		struct {
-
-			color white, black, blue, green, red, alpha;
-			
-		} m_colors;
 
 	} m_player;
 
@@ -67,6 +55,18 @@ private:
 		cs_weapon_info* info;
 		
 	} m_weapon;
+
+	struct {
+
+		int left, top, right, bottom, width, height;
+
+	} m_box;
+	
+	struct {
+
+		color white, black, blue, green, red, alpha;
+
+	} m_colors;
 	
 	std::array< int, 64 > m_alpha;
 

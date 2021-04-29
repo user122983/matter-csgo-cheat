@@ -7,8 +7,8 @@ void __fastcall hooked::studio_render_fn::draw_model( studio_render_context* ecx
 	if ( !m_globals.m_local_player.pointer || !info.m_client_entity )
 		return o_draw_model( ecx, edx, results, info, bone_to_world, flex_weights, flex_delayed_rates, origin, flags );
 
-	base_entity* entity = reinterpret_cast< base_entity* >( info.m_client_entity - 0x4 );
-	if ( entity && entity->is_player( ) && entity->get_team( ) != m_globals.m_local_player.team ) {
+	base_entity* entity = reinterpret_cast< base_entity* >( info.m_client_entity - 0x4 ); 
+	if ( entity && entity->is_player( ) && entity->get_team( ) != m_globals.m_local_player.pointer->get_team() ) {
 
 		ecx->set_color( color( 37, 37, 37 ) );
 		

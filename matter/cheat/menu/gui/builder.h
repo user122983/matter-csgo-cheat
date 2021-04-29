@@ -111,7 +111,7 @@ struct builder {
 
 	}
 
-	builder& lock_inputs ( const std::vector< std::shared_ptr< widgets > >& widgets ) {
+	builder& lock_inputs( const std::vector< std::shared_ptr< widgets > >& widgets ) {
 
 		for ( auto& widget : widgets ) {
 

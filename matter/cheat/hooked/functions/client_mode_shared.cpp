@@ -13,8 +13,8 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 
 	m_globals.setup( );
 	
-	if ( m_globals.m_local_player.is_use_new_animstate )
-		csgo_player_anim_state_fn::modify_eye_position( m_globals.m_local_player.anim_state, nullptr, m_globals.m_local_player.eye_pos );
+	if ( m_globals.m_local_player.pointer->get_use_new_animstate( ) )
+		csgo_player_anim_state_fn::modify_eye_position( m_globals.m_local_player.pointer->get_player_anim_state_csgo( ), nullptr, m_globals.m_local_player.eye_pos );
 	
 	stack stack( _AddressOfReturnAddress( ) );
 	

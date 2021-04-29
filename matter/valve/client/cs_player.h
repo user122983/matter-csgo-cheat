@@ -3,7 +3,6 @@
 #include "base_animating.h"
 
 #include "../mathlib/matrix.h"
-#include "../../other/xorstr/xorstr.h"
 
 enum activity {
 
@@ -16,7 +15,7 @@ enum activity {
 struct csgo_player_anim_state;
 
 struct cs_player : base_animating {
-
+	
 	auto& is_player_ghost( ) {
 
 		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_bIsPlayerGhost" ) ) ];
@@ -166,8 +165,6 @@ struct cs_player : base_animating {
 		animation_layer* animation_layer_weapon_action = get_anim_overlay( checked_activity == activity_plant ? 8 : 1 );
 		if ( animation_layer_weapon_action ) {
 
-			const auto activity = get_sequence_activity( animation_layer_weapon_action->m_sequence );
-
 			switch ( checked_activity ) {
 				
 				case activity_reload:
@@ -187,7 +184,7 @@ struct cs_player : base_animating {
 				
 			}
 			
-			if ( activity == checked_activity && animation_layer_weapon_action->m_weight != 0.f )
+			if ( get_sequence_activity( animation_layer_weapon_action->m_sequence ) == checked_activity && animation_layer_weapon_action->m_weight != 0.f )
 				return true;
 
 		}
@@ -242,6 +239,14 @@ struct cs_player : base_animating {
 
 	}
 
+	auto get_velocity( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_vecVelocity[0]" ) ) ];
+
+		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+
 	auto& get_use_new_animstate( ) {
 
 		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_CSPlayer->m_bUseNewAnimstate" ) ).add( 0x2 ).to< std::size_t >( );
@@ -249,7 +254,7 @@ struct cs_player : base_animating {
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
 	}
-	
+
 	auto get_eye_pos( ) {
 
 		vector_3d eye_pos;
@@ -274,24 +279,4 @@ struct cs_player : base_animating {
 
 	}
 
-	// todo: put this somewhere else
-	
-/*	auto is_visible( cs_player* player, const vector_3d end_pos ) {
-
-		vector_3d start = get_eye_pos( );
-
-		ray ray;
-		ray.init( start, end_pos );
-
-		trace_filter filter;
-		filter.m_skip = this;
-
-		game_trace trace;
-
-		m_interfaces.m_engine_trace->trace_ray( ray, mask_shot, &filter, &trace );
-
-		return trace.m_hit_entity == player;
-
-	}*/
-	
 };

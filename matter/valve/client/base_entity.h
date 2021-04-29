@@ -9,7 +9,7 @@
 
 #include "../../other/hash/hash.h"
 #include "../../other/math/q_angle.h"
-#include "../../other/xorstr/xorstr.h"
+#include "../../other/math/vector_3d.h"
 
 struct base_player;
 
@@ -81,7 +81,7 @@ struct base_entity {
 
 	}
 
-	auto calc_absolute_velocity( ) {
+	auto calculate_absolute_velocity( ) {
 
 		static auto function = m_modules.m_client_dll.get_address( xorstr_( "C_BaseEntity::CalcAbsoluteVelocity" ) ).as< void( __thiscall* )( void* ) >( );
 		
@@ -93,7 +93,7 @@ struct base_entity {
 
 		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BaseEntity->m_vecAbsVelocity" ) ).add( 0x4 ).to< std::size_t >( );
 		
-		calc_absolute_velocity( );
+		calculate_absolute_velocity( );
 
 		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
 
