@@ -18,8 +18,6 @@ void input::unload( ) {
 		return;
 
 	SetWindowLongPtr( m_cheat.m_window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( m_original_wnd_proc ) );
-
-	m_interfaces.m_input_system->enable_input( true );
 	
 }
 

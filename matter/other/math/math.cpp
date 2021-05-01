@@ -8,6 +8,7 @@ bool math::world_to_screen( const vector_3d& origin, vector_2d& screen ) {
 	view_matrix world_to_screen = m_interfaces.m_engine->get_world_to_screen_matrix( );
 	
 	float width = world_to_screen[ 3 ][ 0 ] * origin.x + world_to_screen[ 3 ][ 1 ] * origin.y + world_to_screen[ 3 ][ 2 ] * origin.z + world_to_screen[ 3 ][ 3 ];
+	
 	if ( width < 0.01f )
 		return false;
 
@@ -34,7 +35,7 @@ vector_3d math::vector_transform( vector_3d& transform, matrix3x4& matrix ) {
 
 }
 
-float math::calculate_fov( q_angle& view_angle, q_angle& aim_angle ) {
+float math::calculate_fov( q_angle& view_angle, const q_angle& aim_angle ) {
 	
 	vector_3d view, aim;
 
@@ -47,9 +48,9 @@ float math::calculate_fov( q_angle& view_angle, q_angle& aim_angle ) {
 
 q_angle math::calculate_angle( const vector_3d& start, const vector_3d& end ) {
 	
-	q_angle view;
 	auto delta = end - start;
-	
+
+	q_angle view;
 	m_mathlib_base.vector_angles( delta, view );
 	
 	return view.normalize( );

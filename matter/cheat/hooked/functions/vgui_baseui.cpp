@@ -4,9 +4,9 @@ void __fastcall hooked::vgui_baseui_fn::paint( engine_vgui* ecx, void* edx, pain
 
 	static auto o_paint = m_modules.m_engine_dll.get< decltype( &paint ) >( xorstr_( "CEngineVGui::Paint" ) );
 		
-	if ( m_interfaces.m_engine->is_in_game( ) && !m_globals.m_game.cs_game_rules_captured ) {
+	if ( m_interfaces.m_engine->is_in_game( ) && !m_globals.m_cs_game_rules_captured ) {
 
-		m_globals.m_game.cs_game_rules_captured = true;
+		m_globals.m_cs_game_rules_captured = true;
 
 		m_interfaces.m_cs_game_rules_proxy = **m_modules.m_client_dll.get_address( xorstr_( "CCSGameRulesProxy::CGameRulesProxy" ) ).add( 0x1 ).as< cs_game_rules_proxy*** >( );
 		

@@ -128,7 +128,7 @@ struct mathlib_base {
 
 	}
 
-	void angle_vectors( q_angle& angles, vector_3d* forward )	{
+	void angle_vectors( const q_angle& angles, vector_3d* forward )	{
 
 		float sin_x = sin( deg_to_rad( angles.x ) );
 		float sin_y = sin( deg_to_rad( angles.y ) );

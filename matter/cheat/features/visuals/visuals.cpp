@@ -5,6 +5,9 @@
 
 void visuals::run( ) {
 
+	if ( !m_globals.m_local_player.pointer )
+		return;
+	
 	dormant_esp( );
 	
 	std::vector< std::pair< cs_player*, float > > order;
@@ -31,11 +34,11 @@ void visuals::run( ) {
 
 		};
 		
-		m_globals.m_weapon.pointer = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
-		if ( !m_globals.m_weapon.pointer )
+		m_weapon.pointer = m_interfaces.m_entity_list->get< weapon_cs_base* >( m_player.pointer->get_active_weapon( ) );
+		if ( !m_weapon.pointer )
 			continue;
 
-		m_weapon.info = m_globals.m_weapon.pointer->get_cs_wpn_data( );
+		m_weapon.info = m_weapon.pointer->get_cs_wpn_data( );
 		if ( !m_weapon.info )
 			continue;
 		
@@ -118,7 +121,7 @@ void visuals::draw_weapon( ) {
 
 void visuals::draw_ammo( ) {
 	
-	int ammo = m_globals.m_weapon.pointer->get_ammo( );
+	int ammo = m_weapon.pointer->get_ammo( );
 	int max_ammo = m_weapon.info->m_max_clip1;
 	
 	float scalar = static_cast< float >( ammo ) / static_cast< float >( max_ammo );
@@ -167,7 +170,7 @@ void visuals::draw_flags( ) {
 	if ( m_player.pointer->is_activity_active( activity_reload ) )
 		flags.emplace_back( xorstr_( "reload" ), m_colors.blue );
 
-	if ( m_globals.m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
+	if ( m_weapon.pointer->is_gun( ) && m_player.pointer->is_activity_active( activity_attack ))
 		flags.emplace_back( xorstr_( "shot" ), m_colors.blue );
 	
 	if ( m_player.pointer->get_flash_duration( ) > 0.f )

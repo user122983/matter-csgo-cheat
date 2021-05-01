@@ -11,17 +11,13 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 	if ( !cmd || !cmd->m_command_number )
 		return o_create_move( ecx, edx, input_sample_time, cmd );
 
-	m_globals.setup( );
-	
-	if ( m_globals.m_local_player.pointer->get_use_new_animstate( ) )
-		csgo_player_anim_state_fn::modify_eye_position( m_globals.m_local_player.pointer->get_player_anim_state_csgo( ), nullptr, m_globals.m_local_player.eye_pos );
-	
+	m_globals.init( );
+		
 	stack stack( _AddressOfReturnAddress( ) );
-	
-	m_globals.m_server.send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
+	m_globals.m_send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	
 	q_angle old_view_angles = m_globals.m_cmd->m_view_angles;
-
+	
 	m_legitbot.run( );
 				
 	m_misc.movement_fix( old_view_angles );
@@ -39,7 +35,7 @@ float __fastcall hooked::client_mode_shared_fn::get_view_model_fov( void* ecx, v
 
 }
 
-void __fastcall hooked::client_mode_shared_fn::override_view( void* ecx, const int edx, view_setup* view_setup ) {
+void __fastcall hooked::client_mode_shared_fn::override_view( void* ecx, int edx, view_setup* view_setup ) {
 
 	static auto o_override_view = m_modules.m_client_dll.get< decltype( &override_view ) >( xorstr_( "ClientModeShared::OverrideView" ) );
 

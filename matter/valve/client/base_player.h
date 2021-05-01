@@ -54,6 +54,14 @@ struct base_player : base_combat_character {
 
 	}
 
+	auto& get_move_state( ) {
+
+		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_iMoveState" ) ) ];
+
+		return *reinterpret_cast< int* >( reinterpret_cast< std::size_t >( this ) + offset );
+
+	}
+	
 	auto& get_current_command( ) {
 
 		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_BasePlayer->m_LastCmd" ) ).add( 0xc ).to< std::size_t >( );

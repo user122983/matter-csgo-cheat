@@ -239,7 +239,7 @@ struct cs_player : base_animating {
 
 	}
 
-	auto get_velocity( ) {
+	auto& get_velocity( ) {
 
 		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_CSPlayer->m_vecVelocity[0]" ) ) ];
 

@@ -97,6 +97,9 @@ struct weapon_cs_base : base_combat_character, base_cs_grenade {
 
 	auto can_shoot( ) {
 
+		if ( !this->is_gun( ) )
+			return false;
+		
 		return true;
 		
 		/* if ( !m_globals.m_weapon.is_gun || get_ammo( ) <= 0 || m_globals.m_local_player.pointer->get_next_attack( ) > m_globals.m_server.time )

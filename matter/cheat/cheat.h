@@ -20,10 +20,10 @@ struct cheat {
 	void unload( );
 
 	void iterate_players( const std::function< void( cs_player* ) >& function, int flags = { } );
-
+	
 	HWND m_window;
 
-	bool m_debug_mode = false;
+	bool m_debug_mode;
 
 };
 

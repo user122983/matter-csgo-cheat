@@ -2,6 +2,7 @@
 
 #include "../cheat.h"
 
+#include "../menu/menu.h"
 #include "../features/features.h"
 
 struct hooked {

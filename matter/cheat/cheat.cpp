@@ -3,6 +3,7 @@
 #include "hooked/hooked.h"
 #include "input/input.h"
 #include "render/render.h"
+#include "menu/menu.h"
 
 #include <thread>
 
@@ -27,20 +28,17 @@ DWORD WINAPI cheat::setup( void* parameter ) {
 
 void cheat::unload( ) {
 
+	m_console.unload( );
+
 	m_input.unload( );
 
 	m_hooked.unload( );
-
-	m_console.unload( );
 
 	Beep( 400, 400 );
 
 }
 
 void cheat::iterate_players( const std::function< void( cs_player* ) >& function, int flags ) {
-
-	if ( !m_globals.m_local_player.pointer )
-		return;
 
 	for ( int i = 1; i <= m_interfaces.m_globals->m_max_clients; i++ ) {
 

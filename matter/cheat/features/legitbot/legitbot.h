@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../cheat/cheat.h"
-#include "../../menu/menu.h"
 
 enum desync_type {
 
@@ -54,7 +53,7 @@ private:
 	
 	void aimbot( );
 
-	bool find_target( );
+	void find_target( );
 	
 	void rcs( );
 
@@ -65,21 +64,27 @@ private:
 	void antiaim( );
 
 	void fakelag( );
-	
-	void settings( );
-	
+
+	void init_settings( );
+
 	struct {
 
 		cs_player* pointer;
 
 		q_angle angle;
 		
+		int index;
+		
 	} m_player;
 
-	q_angle m_recoil_punch_angle;
-	
-	legitbot_widgets m_settings;
-	
+	struct {
+
+		q_angle angle;
+
+		q_angle old_punch_angle;
+		
+	} m_rcs;
+ 			
 };
 
 inline legitbot m_legitbot;

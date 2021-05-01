@@ -6,24 +6,20 @@
 
 void legitbot::run( ) {
 	
-	if ( !m_globals.m_local_player.pointer || !m_globals.m_local_player.pointer->is_alive( ) || !m_globals.m_game.cs_game_rules_captured )
+	if ( !m_globals.m_local_player.pointer || !m_globals.m_local_player.pointer->is_alive( ) || !m_globals.m_cs_game_rules_captured )
 		return;
 
 	if ( m_interfaces.m_cs_game_rules_proxy->is_freeze_period( ) || m_globals.m_local_player.pointer->get_flags( ) & fl_frozen )
 		return;
 	
-	settings( );
+	init_settings( );
 	
-	if ( m_settings.m_enabled->get_state( ) ) {
+	if ( m_menu.m_legitbot_widgets.m_enabled->get_state( ) ) {
 
-		if ( m_globals.m_weapon.is_gun ) {
+		aimbot( );
 
-			aimbot( );
-
-			rcs( );
-			
-		}
-		
+		rcs( );
+				
 		accuracy( );
 		
 	}
@@ -41,60 +37,54 @@ void legitbot::run( ) {
 
 void legitbot::aimbot( ) {
 
-	if ( !m_settings.m_fov->get_value( ) )
+	if ( !m_menu.m_legitbot_widgets.m_fov->get_value( ) || !m_globals.m_weapon.is_gun )
 		return;
 	
-	if ( !find_target( ) )
+	find_target( );
+
+	m_player.pointer = m_interfaces.m_entity_list->get< cs_player* >( m_player.index );
+	if ( !m_player.pointer || m_player.angle.is_zero( ) )
 		return;
 
-	if ( m_settings.m_smooth->get_value( ) )
-		m_player.angle = m_globals.m_cmd->m_view_angles + ( m_player.angle - m_globals.m_cmd->m_view_angles ) / m_settings.m_smooth->get_value( );
+	if ( m_menu.m_legitbot_widgets.m_smooth->get_value( ) )
+		m_player.angle = m_globals.m_cmd->m_view_angles + ( m_player.angle - m_globals.m_cmd->m_view_angles ) / m_menu.m_legitbot_widgets.m_smooth->get_value( );
 
-	if ( m_settings.m_silent_aim->get_state() && m_settings.m_rcs_enabled->get_state( ) )
-		m_player.angle += m_recoil_punch_angle;
+	if ( m_menu.m_legitbot_widgets.m_silent_aim->get_state( ) && m_menu.m_legitbot_widgets.m_rcs_enabled->get_state( ) )
+		m_player.angle += m_rcs.angle;
 
 	m_player.angle.normalize( );
 	m_player.angle.clamp( );
 
 	m_globals.m_cmd->m_view_angles = m_player.angle;
 
-	if ( !m_settings.m_silent_aim->get_state( ) )
+	if ( !m_menu.m_legitbot_widgets.m_silent_aim->get_state( ) )
 		m_interfaces.m_engine->set_view_angles( m_player.angle );
 	
 }
 
 void legitbot::rcs( ) {
 
-	// bug: switching weapon -> knife -> weapon makes rcs flick up
-	
-	if ( !m_settings.m_rcs_enabled->get_state( ) || !m_globals.m_local_player.pointer->get_aim_punch_angle( ).x )
+	if ( !m_menu.m_legitbot_widgets.m_rcs_enabled->get_state( ) || !m_globals.m_weapon.is_gun )
 		return;
 
-	m_recoil_punch_angle = m_globals.m_weapon.punch_angle;
+	m_rcs.angle = m_globals.m_local_player.punch_angle;
 
-	if ( m_settings.m_rcs_x->get_value( ) > 0.f )
-		m_recoil_punch_angle.x *= m_settings.m_rcs_x->get_value( ) / 10.f;
+	if ( m_menu.m_legitbot_widgets.m_rcs_x->get_value( ) > 0.f )
+		m_rcs.angle.x *= m_menu.m_legitbot_widgets.m_rcs_x->get_value( ) / 10.f;
 
-	if ( m_settings.m_rcs_y->get_value( ) > 0.f )
-		m_recoil_punch_angle.y *= m_settings.m_rcs_y->get_value( ) / 10.f;
+	if ( m_menu.m_legitbot_widgets.m_rcs_y->get_value( ) > 0.f )
+		m_rcs.angle.y *= m_menu.m_legitbot_widgets.m_rcs_y->get_value( ) / 10.f;
 		
-	if ( !m_settings.m_silent_aim->get_state( ) ) {
+	if ( !m_menu.m_legitbot_widgets.m_silent_aim->get_state( ) )
+		m_interfaces.m_engine->set_view_angles( m_globals.m_cmd->m_view_angles += m_rcs.old_punch_angle - m_rcs.angle );
+	else
+		m_globals.m_cmd->m_view_angles -= m_rcs.angle;
 
-		static q_angle old_punch_angle;
-		
-		m_interfaces.m_engine->set_view_angles( m_globals.m_cmd->m_view_angles += old_punch_angle - m_recoil_punch_angle );
+	m_rcs.old_punch_angle = m_rcs.angle;
 
-		old_punch_angle = m_recoil_punch_angle;
-
-	} else {
-
-		m_globals.m_cmd->m_view_angles -= m_recoil_punch_angle;
-		
-	}
-	
 }
 
-bool legitbot::find_target( ) {
+void legitbot::find_target( ) {
 
 	auto is_visible = [ ]( cs_player* player, const vector_3d end_pos ) {
 
@@ -110,66 +100,50 @@ bool legitbot::find_target( ) {
 		return trace.m_hit_entity == player;
 
 	};
-
-	// I DO NOT LIKE THIS CODEN ZZZZ GRRRRRR BORINS GROMP WILL STOMP YOU!!!
 	
-	float best_fov = FLT_MAX;
-	bool target_found = false;
-
-	m_cheat.iterate_players( [ this, is_visible, &best_fov, &target_found ]( cs_player* player ) mutable -> void {
+	float best_fov = m_menu.m_legitbot_widgets.m_fov->get_value( );
+	
+	m_cheat.iterate_players( [ this, is_visible, &best_fov ]( cs_player* player ) {
 
 		vector_3d bone_pos;
-		player->get_bone_position( 8 - m_settings.m_target->get_index( ), bone_pos );
-		
-		q_angle angle = m_math.calculate_angle( m_globals.m_local_player.eye_pos, bone_pos ) - m_globals.m_weapon.punch_angle;
+		player->get_bone_position( 8 - m_menu.m_legitbot_widgets.m_target->get_index( ), bone_pos );
+
+		q_angle angle = m_math.calculate_angle( m_globals.m_local_player.eye_pos, bone_pos ) - m_globals.m_local_player.punch_angle;
 		
 		float fov = m_math.calculate_fov( m_globals.m_cmd->m_view_angles, angle );
-		
-		if ( std::isnan( fov ) || fov < best_fov && fov < m_settings.m_fov->get_value( ) && is_visible( player, bone_pos ) ) {
 
-			m_player.pointer = player;
-			m_player.angle = angle;
+		if ( std::isnan( fov ) || fov < best_fov && is_visible( player, bone_pos ) ) {
+
+			m_player.angle = angle;	
+			m_player.index = player->get_client_networkable( )->get_index( );
 
 			best_fov = fov;
-			target_found = true;
 
 		}
 
-	}, m_settings.m_friendly_fire->get_state( ) ? iterate_teammates : 0 );
-	
-	return target_found;
-	
+	}, m_menu.m_legitbot_widgets.m_friendly_fire->get_state( ) ? iterate_teammates : 0 );
+		
 }
 
 void legitbot::accuracy( ) {
 
-	if ( !m_settings.m_accuracy->get_index( accuracy_faststop ) || !( m_globals.m_local_player.pointer->get_flags( ) & fl_onground ) || m_globals.m_local_player.pressed_move_key )
+	if ( !m_menu.m_legitbot_widgets.m_accuracy->get_index( accuracy_faststop ) || !( m_globals.m_local_player.pointer->get_flags( ) & fl_onground ) || m_globals.m_local_player.pointer->get_move_state( ) == 0 )
 		return;
 
-	csgo_player_anim_state* anim_state = m_globals.m_local_player.pointer->get_player_anim_state_csgo( );
+	if ( m_globals.m_cmd->m_buttons & ( in_forward | in_move_left | in_back | in_move_right | in_jump ) )
+		return;
 	
-	q_angle angle;
-	m_mathlib_base.vector_angles( anim_state->m_velocity, angle );
-
-	angle.y = m_globals.m_cmd->m_view_angles.y - angle.y;
-
-	vector_3d direction;
-	m_mathlib_base.angle_vectors( angle, &direction );
-	
-	vector_3d stop = direction * -anim_state->m_velocity_length_xy;
-
-	m_globals.m_cmd->m_forward_move = stop.x;
-	m_globals.m_cmd->m_side_move = stop.y;
+	// hehe
 			
 }
 
 void legitbot::triggerbot( ) {
 	
-	if ( !m_settings.m_triggerbot_enabled->get_state( ) )
+	if ( !m_menu.m_legitbot_widgets.m_triggerbot_enabled->get_state( ) )
 		return;
 
 	q_angle view = m_globals.m_cmd->m_view_angles;
-	view += m_globals.m_weapon.punch_angle;
+	view += m_globals.m_local_player.punch_angle;
 
 	vector_3d forward;
 	m_mathlib_base.angle_vectors( view, &forward );
@@ -193,8 +167,7 @@ void legitbot::triggerbot( ) {
 	if ( !player )
 		return;
 	
-	if ( m_globals.m_weapon.is_shooting )
-		m_globals.m_cmd->m_buttons |= in_attack;
+	m_globals.m_cmd->m_buttons |= in_attack;
 	
 }
 
@@ -212,117 +185,106 @@ void legitbot::antiaim( ) {
 		
 	} else if ( m_globals.m_weapon.info->m_weapon_type == weapon_type_knife ) {
 		
-		if ( m_globals.m_cmd->m_buttons & in_attack && m_globals.m_weapon.pointer->get_next_primary_attack( ) <= m_globals.m_server.time ||
-			m_globals.m_cmd->m_buttons & in_attack2 && m_globals.m_weapon.pointer->get_next_secondary_attack( ) <= m_globals.m_server.time )
+		if ( m_globals.m_cmd->m_buttons & in_attack && m_globals.m_weapon.pointer->get_next_primary_attack( ) <= m_globals.m_server_time ||
+			m_globals.m_cmd->m_buttons & in_attack2 && m_globals.m_weapon.pointer->get_next_secondary_attack( ) <= m_globals.m_server_time )
 			return;
 		
 	}
 		
-	static int m_last_desync_type = desync_none;
+	static int last_desync_type = desync_none;
 
 	if ( m_menu.m_antiaim_desync->get_index( ) == desync_none ) {
 
-		m_last_desync_type = desync_none;
+		last_desync_type = desync_none;
 		
 		return;
 		
 	}
 	
 	static float desync_side = 1.f;
+	
 	if ( m_input.is_key_toggled( 0x46 ) )
 		desync_side = -desync_side;
 	
 	auto desync_on_shot = [ ]( ) {
 
-		if ( !m_globals.m_weapon.is_shooting )
-			return;
-		
-		m_globals.m_cmd->m_buttons &= ~( in_attack | in_attack2 );
+		if ( m_globals.m_weapon.is_shooting )
+			m_globals.m_cmd->m_buttons &= ~( in_attack );
 		
 	};
-	
+
 	auto micromovement_desync = [ desync_on_shot ]( float yaw ) mutable  {
 
-		if ( m_globals.m_local_player.pressed_move_key )
+		if ( m_globals.m_cmd->m_buttons & ( in_forward | in_move_left | in_back | in_move_right | in_jump ) )
 			return;
-
-		static bool move_side = false;
 		
 		float velocity = m_globals.m_local_player.pointer->get_duck_amount( ) ? 3.25f : 1.01f;
+
+		static bool move_side = false;
 
 		m_globals.m_cmd->m_side_move = move_side ? velocity : -velocity;
 
 		move_side = !move_side;
-		
-		if ( !m_interfaces.m_client_state->m_choked_commands )
-			*m_globals.m_server.send_packet = m_globals.m_cmd->m_command_number % 2;
-		
-		if ( !*m_globals.m_server.send_packet ) {
 
-			desync_on_shot( );
+		if ( !m_interfaces.m_client_state->m_choked_commands )
+			*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
+		
+		if ( !*m_globals.m_send_packet ) {
 			
 			m_globals.m_cmd->m_view_angles.y += yaw * desync_side;
-
-		}
+			
+		} 
 
 	};
-	
-	if ( m_menu.m_antiaim_desync->get_index( ) == desync_normal ) {
 
+	if ( m_menu.m_antiaim_desync->get_index( ) == desync_normal ) {
+		
 		micromovement_desync( 200.f );
 
-		m_last_desync_type = desync_normal;
+		last_desync_type = desync_normal;
 
 	} else if ( m_menu.m_antiaim_desync->get_index( ) == desync_extended ) {
 
 		static float spawn_time;
 
-		if ( spawn_time != m_globals.m_local_player.pointer->get_spawn_time( ) || m_last_desync_type != desync_extended ) {
+		if ( spawn_time != m_globals.m_local_player.pointer->get_spawn_time( ) || last_desync_type != desync_extended ) {
 
 			spawn_time = m_globals.m_local_player.pointer->get_spawn_time( );
 
 			micromovement_desync( 120.f );
 
 		}
-
-		static float next_lby_update;
 		
 		csgo_player_anim_state* anim_state = m_globals.m_local_player.pointer->get_player_anim_state_csgo( );
-		if ( anim_state->m_velocity_length_xy > 0.1 || std::fabs( anim_state->m_velocity_length_z ) > 100.f ) {
-
-			next_lby_update = m_globals.m_server.time + 0.22f;
-			
-		} else if ( m_globals.m_server.time >= next_lby_update ) {
-			
-			next_lby_update = m_globals.m_server.time + 1.1f;
-
-		}
+		if ( !anim_state )
+			return;
 		
-		if ( next_lby_update - m_globals.m_server.time <= m_interfaces.m_globals->m_interval_per_tick ) {
+		float lower_body_realign_time = std::fmaxf( 0.f, anim_state->m_lower_body_realign_timer - m_globals.m_server_time );
 
-			*m_globals.m_server.send_packet = false;
+		if ( lower_body_realign_time <= m_interfaces.m_globals->m_interval_per_tick ) {
+
+			*m_globals.m_send_packet = false;
 
 			desync_on_shot( );
-			
-			m_globals.m_cmd->m_view_angles.y += 120.f * desync_side;
 
+			m_globals.m_cmd->m_view_angles.y += 120.f * desync_side;
 			
 		} else {
-
+			
 			if ( !m_interfaces.m_client_state->m_choked_commands )
-				*m_globals.m_server.send_packet = m_globals.m_cmd->m_command_number % 2;
+				*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
 						
-			if ( !*m_globals.m_server.send_packet ) {
+			if ( !*m_globals.m_send_packet ) {
 
 				desync_on_shot( );
-
+				
 				m_globals.m_cmd->m_view_angles.y -= 120.f * desync_side;
-
+				
 			}
 			
 		}
-
-		m_last_desync_type = desync_extended;
+		
+		last_desync_type = desync_extended;
 
 	}
 	
@@ -342,11 +304,11 @@ void legitbot::fakelag( ) {
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_shot ) && m_globals.m_weapon.is_shooting ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_reload ) && m_globals.m_local_player.pointer->is_activity_active( activity_reload ) ) {
 
-		fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_triggers_value->get_value( ) );
+		fakelag_value = m_menu.m_antiaim_fakelag_triggers_value->get_value( );
 
 	} else {
 
-		fakelag_value = static_cast< int >( m_menu.m_antiaim_fakelag_value->get_value( ) );
+		fakelag_value = m_menu.m_antiaim_fakelag_value->get_value( );
 		
 	}	
 	
@@ -370,14 +332,14 @@ void legitbot::fakelag( ) {
 
 	fakelag_value = m_interfaces.m_cs_game_rules_proxy->is_valve_server( ) && fakelag_value > 6 ? std::clamp( fakelag_value, 0, 6 ) : fakelag_value;
 
-	// broken on release build
+	// broken with xorstr
 	
-	*m_globals.m_server.send_packet = m_interfaces.m_client_state->m_choked_commands >= fakelag_value;
+	*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= fakelag_value;
 	
 }
 
-void legitbot::settings( ) {
-
+void legitbot::init_settings( ) {
+	
 	int weapon = weapon_default;
 	
 	switch ( m_globals.m_weapon.info->m_weapon_type ) {
@@ -407,6 +369,6 @@ void legitbot::settings( ) {
 		
 	}
 	
-	m_settings = m_menu.m_weapon_widgets[ weapon ];
+	m_menu.m_legitbot_widgets = m_menu.m_weapon_widgets[ weapon ];
 	
 }

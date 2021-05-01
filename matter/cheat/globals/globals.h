@@ -3,6 +3,7 @@
 #include "../../other/math/q_angle.h"
 #include "../../other/math/vector_3d.h"
 
+struct csgo_player_anim_state;
 struct cs_player;
 struct user_cmd;
 struct cs_weapon_info;
@@ -10,53 +11,47 @@ struct weapon_cs_base;
 
 struct globals {
 
-	void setup( );
+	void init( );
 
-	void unload( );
-		
-	user_cmd* m_cmd;
+	// client
 	
 	struct {
 
 		cs_player* pointer;
-				
-		vector_3d view_origin;
 
 		vector_3d eye_pos;
 
-		bool pressed_move_key;
-
-	} m_local_player;
-	
-	struct {
-
-		weapon_cs_base* pointer;
-		
-		cs_weapon_info* info;
+		vector_3d view_origin;
 
 		q_angle punch_angle;
 		
+	} m_local_player;
+
+	struct {
+
+		weapon_cs_base* pointer;
+
+		cs_weapon_info* info;
+
 		bool is_gun;
 
 		bool is_shooting;
 		
 	} m_weapon;
 	
-	struct {
+	user_cmd* m_cmd;
 
-		bool cs_game_rules_captured;
-		
-	} m_game;
+	// server
+
+	bool m_cs_game_rules_captured;
 	
-	struct {
+	bool* m_send_packet;
 
-		bool* send_packet;
-		
-		float time;
-	
-	} m_server;
+	float m_server_time;
 
-	bool m_third_person = false;
+	// features
+
+	bool m_third_person;
 	
 };
 

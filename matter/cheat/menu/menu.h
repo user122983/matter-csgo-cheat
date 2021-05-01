@@ -73,6 +73,8 @@ struct menu {
 	
 	// legitbot
 
+	legitbot_widgets m_legitbot_widgets;
+	
 	std::shared_ptr< container > m_legitbot_container;
 	std::shared_ptr< key_binder > m_legitbot_activation;
 	std::shared_ptr< box > m_legitbot_weapon;
