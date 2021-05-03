@@ -51,7 +51,7 @@ void container::geometry( ) {
 	} else {
 
 		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, color( 23, 23, 23 ) );
-		m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 30, m_widget_area.m_y, m_title, m_menu.m_colors.white, y_centre );
+		m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 30, m_widget_area.m_y, m_title, m_menu.m_colors.white1, y_centre );
 
 		m_render.draw_line( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_x + 28, m_widget_area.m_y, m_menu.m_colors.dark1 );
 		m_render.draw_line( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_x, m_widget_area.m_y + m_widget_area.m_height, m_menu.m_colors.dark1 );
@@ -65,7 +65,7 @@ void container::geometry( ) {
 	
 	for ( const auto& widgets : m_widgets ) {
 
-		if ( widgets->is_unlocked( ) ) {
+		if ( widgets->is_render_unlocked( ) ) {
 
 			if ( widgets->is_input_unlocked( ) )
 				widgets->update( );

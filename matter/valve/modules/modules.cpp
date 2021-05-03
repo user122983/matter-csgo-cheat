@@ -163,6 +163,7 @@ void modules::get_addresses( ) {
 	m_engine_dll.add_address( xorstr_( "CEngineVGui::Paint" ), xorstr_( "55 8B EC 83 EC 40 53 8B D9 8B 0D ? ? ? ? 89 5D F8" ) );
 
 	m_engine_dll.add_address( xorstr_( "CL_SendMove" ), xorstr_( "E8 ? ? ? ? 84 DB 0F 84 ? ? ? ? 8B 8F ? ? ? ?" ), true );
+	m_engine_dll.add_address( xorstr_( "CL_Move" ), xorstr_( "55 8B EC 81 EC ? ? ? ? 53 56 57 8B 3D ? ? ? ? 8A" ) );
 
 	m_engine_dll.add_address( xorstr_( "CCLCMsg_Move::set_data" ), xorstr_( "E8 ? ? ? ? 8D 7E 18" ), true );
 	m_engine_dll.add_address( xorstr_( "CCLCMsg_Move::Deconstuctor" ), xorstr_( "E8 ? ? ? ? 5F 5E 5B 8B E5 5D C3 CC CC CC CC CC CC CC CC CC CC CC CC CC 55 8B EC 81 EC ? ? ? ?" ), true );

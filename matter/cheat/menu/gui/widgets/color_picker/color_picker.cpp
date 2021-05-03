@@ -9,7 +9,7 @@ color_picker::color_picker( ) {
 	m_type = widget_type_color_picker;
 	m_size = { 21, 11 };
 	m_is_open = false;
-	m_color = m_menu.m_colors.white;
+	m_color = m_menu.m_colors.white1;
 	
 }
 

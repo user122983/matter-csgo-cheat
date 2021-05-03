@@ -24,7 +24,7 @@ void checkbox::geometry( ) {
 	
 	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_is_checked ? m_menu.m_colors.blue1 : m_menu.m_colors.dark1, m_is_checked ? m_menu.m_colors.blue2 : m_menu.m_colors.dark2, false );
 	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark3 );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_size.m_width + 15, m_widget_area.m_y + m_size.m_height / 2 - 1, m_title, m_menu.m_colors.white, y_centre );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_size.m_width + 15, m_widget_area.m_y + m_size.m_height / 2 - 1, m_title, m_menu.m_colors.white1, y_centre );
 	
 }
 

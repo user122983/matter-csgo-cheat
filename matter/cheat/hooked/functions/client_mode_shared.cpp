@@ -12,14 +12,14 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 		return o_create_move( ecx, edx, input_sample_time, cmd );
 
 	m_globals.init( );
-		
+	
 	stack stack( _AddressOfReturnAddress( ) );
 	m_globals.m_send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	
 	q_angle old_view_angles = m_globals.m_cmd->m_view_angles;
 	
 	m_legitbot.run( );
-				
+	
 	m_misc.movement_fix( old_view_angles );
 
 	m_globals.m_cmd->m_view_angles.normalize( );

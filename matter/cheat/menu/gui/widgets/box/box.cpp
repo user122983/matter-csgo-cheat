@@ -55,15 +55,13 @@ void box::set_value( std::size_t index, unsigned int value ) {
 	
 }
 
-// bug: input area of box and entires lineup and can both be toggled with one click
-
 void box::geometry( ) {
 
 	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
 	
 	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark1, m_menu.m_colors.dark4, false );
 	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark3 );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 8, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, m_title, m_menu.m_colors.white, y_centre );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 8, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, m_title, m_menu.m_colors.white1, y_centre );
 	
 	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 8, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 1, 8, 1, m_menu.m_colors.dark5 );
 	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 7, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 2, 6, 1, m_menu.m_colors.dark5 );
@@ -79,24 +77,21 @@ void box::geometry( ) {
 			area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i ) * 20 + m_widget_area.m_height, m_widget_area.m_width, 19 };
 			
 			color text_color, color;
-			h_font font;
-			
+						
 			if ( m_box_type == box_type_combobox && m_selected_entry == i || m_box_type == box_type_multibox && m_entries.second.at( i ) == 1 ) {
 
 				text_color = m_menu.m_colors.blue1;
-				font = m_render.m_fonts.verdana;
 				color = m_menu.m_colors.dark2;
 				
 			} else {
 
-				text_color = m_menu.m_colors.white;
+				text_color = m_menu.m_colors.white1;
 				color = m_menu.m_colors.dark1;
-				font = m_render.m_fonts.verdana;
 				
 			}
 					
 			m_render.draw_filled_rect( entry_area.m_x, entry_area.m_y, entry_area.m_width, entry_area.m_height + 1, color );
-			m_render.draw_text( font, entry_area.m_x + 8, entry_area.m_y + m_widget_area.m_height / 2, m_entries.first.at(i), text_color, y_centre );
+			m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + m_widget_area.m_height / 2, m_entries.first.at(i), text_color, y_centre );
 
 			if ( m_input.is_key_toggled( VK_LBUTTON ) && m_input.is_mouse_in_bounds( entry_area ) ) {
 
@@ -143,19 +138,21 @@ void box::geometry( ) {
 		selected_text = xorstr_( "None" );
 	 
 	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + text_size.m_width + 12, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, selected_text, m_menu.m_colors.white, y_centre );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + text_size.m_width + 12, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, selected_text, m_menu.m_colors.white1, y_centre );
 	
 }
 
 void box::update( ) {
 
 	if ( m_input.is_key_toggled( VK_LBUTTON ) ) {
-
-		if ( m_input.is_mouse_in_bounds( m_widget_area ) )
+		
+		area widget_area = { m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height - 1 };
+		
+		if ( m_input.is_mouse_in_bounds( widget_area ) )
 			m_is_open = !m_is_open;
 
-		if ( m_is_open && !m_input.is_mouse_in_bounds( m_widget_area )
-			and m_input.is_mouse_in_bounds( { m_parent_widget->get_abs_position( ).m_x, m_parent_widget->get_abs_position( ).m_y,  m_parent_widget->get_size( ).m_width, m_parent_widget->get_size( ).m_height } )
+		if ( m_is_open && !m_input.is_mouse_in_bounds( widget_area )
+			and m_input.is_mouse_in_bounds( { m_parent_widget->get_abs_position( ).m_x, m_parent_widget->get_abs_position( ).m_y, m_parent_widget->get_size( ).m_width, m_parent_widget->get_size( ).m_height } )
 			and !m_input.is_mouse_in_bounds( { m_widget_area.m_x, m_widget_area.m_y + m_widget_area.m_height, m_widget_area.m_width, static_cast< int >( m_entries.first.size( ) ) * 20 } ) )
 
 			m_is_open = false;

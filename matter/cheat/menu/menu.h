@@ -42,7 +42,7 @@ struct menu {
 	
 	struct {
 
-		color white = color( 255, 255, 255 );
+		color white1 = color( 255, 255, 255 );
 		color white2 = color( 255, 255, 255, 50 );
 		
 		color blue1 = color( 139, 195, 235 );
@@ -61,7 +61,7 @@ struct menu {
 	
 	std::shared_ptr< tab_panel > m_tab_panel;
 
-	std::vector< std::pair< std::string, std::string > > tabs{
+	std::vector< std::pair< std::string, std::string > > m_tabs{
 
 		{ xorstr_( "1" ), xorstr_( "Legitbot" ) },
 		{ xorstr_( "2" ), xorstr_( "Visuals" ) },

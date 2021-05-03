@@ -30,14 +30,12 @@
 #include <utility>
 #include <type_traits>
 
-/*#ifdef _DEBUG
-#define xorstr_(s) s
-#else
-#define xorstr(str) ::jm::xor_string([]() { return str; }, std::integral_constant<std::size_t, sizeof(str) / sizeof(*str)>{}, std::make_index_sequence<::jm::detail::_buffer_size<sizeof(str)>()>{})
-#define xorstr_(str) xorstr(str).crypt_get()
-#endif*/
-
-#define xorstr_(s) s
+ #ifdef _DEBUG
+ #define xorstr_(s) s
+ #else
+ #define xorstr(str) ::jm::xor_string([]() { return str; }, std::integral_constant<std::size_t, sizeof(str) / sizeof(*str)>{}, std::make_index_sequence<::jm::detail::_buffer_size<sizeof(str)>()>{})
+ #define xorstr_(str) xorstr(str).crypt_get()
+ #endif
 
 #ifdef _MSC_VER
 #define XORSTR_FORCEINLINE __forceinline

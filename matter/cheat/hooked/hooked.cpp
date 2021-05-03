@@ -14,6 +14,9 @@ bool hooked::setup( ) {
 	if ( !m_modules.m_engine_dll.hook_function( xorstr_( "CL_SendMove" ), &cl_main_fn::cl_send_move ) )
 		return false;
 
+	if ( !m_modules.m_engine_dll.hook_function( xorstr_( "CL_Move" ), &cl_main_fn::cl_move ) )
+		return false;
+
 	// client_input_fn
 	if ( !m_modules.m_client_dll.hook_function( xorstr_( "CInput::CAM_Think" ), &client_input_fn::cam_think ) )
 		return false;

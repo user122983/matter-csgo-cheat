@@ -6,7 +6,7 @@ bool menu::setup( ) {
 	m_builder.widget( m_menu ).size( 860, 540 ).position( 400, 400 );
 
 	m_tab_panel = std::make_shared< tab_panel >( );
-	m_builder.widget( m_tab_panel ).size( 200, 40 ).position( 0, 170 ).tabs( tabs ).spawn_in( m_menu );
+	m_builder.widget( m_tab_panel ).size( 200, 40 ).position( 0, 170 ).tabs( m_tabs ).spawn_in( m_menu );
 
 	// legitbot
 	
@@ -27,7 +27,7 @@ bool menu::setup( ) {
 	m_triggerbot_activation = std::make_shared< key_binder >( );
 	m_builder.widget( m_triggerbot_activation ).position( 233, 25 ).spawn_in( m_triggerbot_container );
 	
-	for ( unsigned int i = 0; i < m_weapon_widgets.size( ); i++ ) {
+	for ( std::size_t i = 0; i < m_weapon_widgets.size( ); i++ ) {
 
 		std::vector< std::shared_ptr< widgets > > m_legitbot_lock_input_widgets {
 
@@ -134,7 +134,7 @@ bool menu::setup( ) {
 	m_esp_player = std::make_shared< box >( );
 	m_builder.widget( m_esp_player ).position( 54, 54 ).title( xorstr_( "Player:" ) ).entries( m_player_names ).spawn_in( m_esp_container ).type( box_type_combobox );
 
-	for ( unsigned int i = 0; i < m_esp_widgets.size( ); i++ ) {
+	for ( std::size_t i = 0; i < m_esp_widgets.size( ); i++ ) {
 
 		m_esp_widgets[ i ].m_enabled = std::make_shared< checkbox >( );
 		m_builder.widget( m_esp_widgets[ i ].m_enabled ).position( 30, 30 ).title( xorstr_( "Enabled" ) ).spawn_in( m_esp_container ).medium( m_esp_player, i );

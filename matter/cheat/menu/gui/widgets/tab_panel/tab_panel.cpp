@@ -32,9 +32,9 @@ void tab_panel::geometry( ) {
 	
 		if ( m_selected_entry == i ) {
 			
-			m_render.draw_text( m_render.m_fonts.matter_icons, m_widget_area.m_x + 50, m_widget_area.m_y + m_size.m_height / 2, m_tabs[ i ].first, m_menu.m_colors.white, x_centre | y_centre );
-			m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 80, m_widget_area.m_y + m_size.m_height / 2, m_tabs[ i ].second, m_menu.m_colors.white, y_centre );
-			m_render.draw_filled_rect( m_widget_area.m_x + 1, m_widget_area.m_y + m_size.m_height / 2 - 12, 3, 25, m_menu.m_colors.white );
+			m_render.draw_text( m_render.m_fonts.matter_icons, m_widget_area.m_x + 50, m_widget_area.m_y + m_size.m_height / 2, m_tabs[ i ].first, m_menu.m_colors.white1, x_centre | y_centre );
+			m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 80, m_widget_area.m_y + m_size.m_height / 2, m_tabs[ i ].second, m_menu.m_colors.white1, y_centre );
+			m_render.draw_filled_rect( m_widget_area.m_x + 1, m_widget_area.m_y + m_size.m_height / 2 - 12, 3, 25, m_menu.m_colors.white1 );
 			
 		} else {
 			

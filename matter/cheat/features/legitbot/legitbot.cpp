@@ -203,7 +203,7 @@ void legitbot::antiaim( ) {
 	
 	static float desync_side = 1.f;
 	
-	if ( m_input.is_key_toggled( 0x46 ) )
+	if ( GetAsyncKeyState( 0x46 ) )
 		desync_side = -desync_side;
 	
 	auto desync_on_shot = [ ]( ) {
@@ -226,25 +226,28 @@ void legitbot::antiaim( ) {
 
 		move_side = !move_side;
 
-		if ( !m_interfaces.m_client_state->m_choked_commands )
+		if ( !m_interfaces.m_client_state->m_choked_commands ) {
+
 			*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
+	
+		}
 		
 		if ( !*m_globals.m_send_packet ) {
-			
+
 			m_globals.m_cmd->m_view_angles.y += yaw * desync_side;
 			
-		} 
+		}
 
 	};
 
 	if ( m_menu.m_antiaim_desync->get_index( ) == desync_normal ) {
-		
-		micromovement_desync( 200.f );
+
+		micromovement_desync( 180.f );
 
 		last_desync_type = desync_normal;
 
 	} else if ( m_menu.m_antiaim_desync->get_index( ) == desync_extended ) {
-
+		
 		static float spawn_time;
 
 		if ( spawn_time != m_globals.m_local_player.pointer->get_spawn_time( ) || last_desync_type != desync_extended ) {

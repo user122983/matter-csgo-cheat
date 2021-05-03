@@ -22,6 +22,7 @@ private:
 	struct cl_main_fn {
 
 		static void __cdecl cl_send_move( );
+		static void __cdecl cl_move( void* ecx, void* edx, float accumulated_extra_samples, bool final_tick );
 
 	};
 

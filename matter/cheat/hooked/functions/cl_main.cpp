@@ -123,3 +123,11 @@ void __cdecl hooked::cl_main_fn::cl_send_move( ) {
 	}
 
 }
+
+void __cdecl hooked::cl_main_fn::cl_move( void* ecx, void* edx, float accumulated_extra_samples, bool final_tick ) {
+
+	static auto o_cl_move = m_modules.m_engine_dll.get< decltype( &cl_move ) >( xorstr_( "CL_Move" ) );
+	
+	o_cl_move( ecx, edx, accumulated_extra_samples, final_tick );
+	
+}

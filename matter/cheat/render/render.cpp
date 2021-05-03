@@ -2,7 +2,7 @@
 
 bool render::setup( ) {
 
-	create_font( m_fonts.verdana, xorstr_( "verdana" ), 12, 500, fontflag_dropshadow );
+	create_font( m_fonts.verdana, xorstr_( "verdana" ), 12, 500, fontflag_dropshadow | fontflag_antialias);
 
 	create_font( m_fonts.smallest_pixel_7, xorstr_( "smallest pixel-7" ), 11, 500, fontflag_outline );
 

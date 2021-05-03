@@ -125,7 +125,7 @@ struct builder {
 	
 private:
 
-	std::shared_ptr< widgets > m_temp_widget = nullptr;
+	std::shared_ptr< widgets > m_temp_widget;
 	
 };
 
