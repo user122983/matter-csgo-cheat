@@ -60,5 +60,7 @@ void misc::movement_fix( q_angle& angle ) {
 	m_globals.m_cmd->m_forward_move = std::clamp( m_globals.m_cmd->m_forward_move, -450.f, 450.f );
 	m_globals.m_cmd->m_side_move = std::clamp( m_globals.m_cmd->m_side_move, -450.f, 450.f );
 	m_globals.m_cmd->m_up_move = std::clamp( m_globals.m_cmd->m_up_move, -320.f, 320.f );
-	
+
+	m_globals.m_cmd->m_buttons &= ~( in_forward | in_back | in_move_right | in_move_left );
+
 }

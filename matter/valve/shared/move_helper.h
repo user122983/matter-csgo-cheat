@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../other/memory/memory.h"
-
 struct move_helper {
 
 	auto process_impacts( ) {

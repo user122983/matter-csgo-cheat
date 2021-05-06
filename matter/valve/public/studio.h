@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../modules/modules.h"
-#include "../../other/xorstr/xorstr.h"
 
 struct mstudioseqdesc {
 

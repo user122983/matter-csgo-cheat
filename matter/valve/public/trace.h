@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../other/math/vector_3d.h"
-
 struct cplane {
 
 	vector_3d m_normal;

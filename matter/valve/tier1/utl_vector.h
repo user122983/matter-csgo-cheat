@@ -2,15 +2,13 @@
 
 #include "utl_memory.h"
 
-template < class t >
-void destruct( t* memory ) {
+template < class t > void destruct( t* memory ) {
 	
 	memory->~t( );
 	
 }
 
-template< class t, class a = utl_memory< t > >
-struct utl_vector {
+template< class t, class a = utl_memory< t > > struct utl_vector {
 	
 	t& element( int i ) {
 		

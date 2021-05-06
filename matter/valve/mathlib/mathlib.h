@@ -2,13 +2,11 @@
 
 #include "mathlib_base.h"
 
-#include "../../other/math/vector_3d.h"
-
 #include <algorithm>
 
 struct mathlib {
 	
-	static float simple_spline( float value ) {
+	float simple_spline( float value ) {
 
 		float squared_value = value * value;
 

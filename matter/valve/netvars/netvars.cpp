@@ -2,9 +2,6 @@
 
 #include "../interfaces/interfaces.h"
 
-#include "../../other/hash/hash.h"
-#include "../../other/console/console.h"
-
 bool netvars::setup( ) {
 
 	client_class* list = m_interfaces.m_client->get_all_classes( );

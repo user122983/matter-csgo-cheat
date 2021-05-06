@@ -44,19 +44,21 @@ float slider::get_value( ) {
 
 void slider::geometry( ) {
 
-	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
+	m_widget_area = { get_position( ).m_x, get_position( ).m_y, m_size.m_width, m_size.m_height };
 
 	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( m_title.begin( ), m_title.end( ) ) );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y - text_size.m_height - 2, m_title, m_menu.m_colors.white1 );
-
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y - text_size.m_height - 2, m_title, m_menu.m_colors.white.at( 0 ) );
+	
 	std::string value_text = std::to_string( static_cast< int >( m_value ) );
 	if ( !m_prefix.empty( ) )
 		value_text = value_text + xorstr_( " " ) + m_prefix;
 	
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_widget_area.m_width - m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( value_text.begin( ), value_text.end( ) ) ).m_width, m_widget_area.m_y - text_size.m_height - 2, value_text, m_menu.m_colors.white1 );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_widget_area.m_width - m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( value_text.begin( ), value_text.end( ) ) ).m_width, m_widget_area.m_y - text_size.m_height - 2, value_text, m_menu.m_colors.white.at( 0 ) );
 
-	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark1, m_menu.m_colors.dark2, false );
-	m_render.draw_gradient( m_widget_area.m_x + 1, m_widget_area.m_y + 1, m_value / m_max * ( m_size.m_width - 2 ), 5, m_menu.m_colors.blue1, m_menu.m_colors.blue3, false );
+	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark_gradient.first, m_menu.m_colors.dark_gradient.second, false );
+	m_render.draw_gradient( m_widget_area.m_x + 1, m_widget_area.m_y + 1, m_value / m_max * ( m_size.m_width - 2 ), 6, m_menu.m_colors.blue_gradient.first, m_menu.m_colors.blue_gradient.second, false );
+
+	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width + 1, m_widget_area.m_height + 1, m_menu.m_colors.dark.at( 0 ) );
 
 }
 

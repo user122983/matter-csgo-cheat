@@ -34,12 +34,12 @@ void widgets::set_parent_widget( const std::shared_ptr< widgets >& parent )  {
 	
 }
 
-point widgets::get_abs_position( ) {
+point widgets::get_position( ) {
 
 	if ( !m_parent_widget )
 		return m_position;
 
-	return { m_position.m_x + m_parent_widget->get_abs_position( ).m_x, m_position.m_y + m_parent_widget->get_abs_position( ).m_y  };
+	return { m_position.m_x + m_parent_widget->get_position( ).m_x, m_position.m_y + m_parent_widget->get_position( ).m_y  };
 	
 }
 

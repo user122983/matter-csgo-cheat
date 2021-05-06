@@ -18,10 +18,6 @@ module_info::module_info( std::size_t loaded_module ) {
 
 address pattern::find( std::string_view pattern ) {
 
-	// returns: the address of the pattern in the module
-
-	// size of byte array never exceeds n/2 
-	// so n/2 can be used such that the array is never resized
 	int* bytes = new int[ pattern.size( ) / 2 ];
 
 	address  result = search_byte_array( bytes, build_byte_array( pattern.data( ), bytes ) );
@@ -36,11 +32,6 @@ address pattern::find( std::string_view pattern ) {
 }
 
 std::size_t pattern::build_byte_array( const char* pattern, int* bytes ) {
-
-	// n: length of pattern
-	// time: O(n) 
-	// space: O(n) 
-	// returns: size of the byte array
 
 	std::size_t count = 0;
 
@@ -78,8 +69,6 @@ std::size_t pattern::build_byte_array( const char* pattern, int* bytes ) {
 }
 
 address pattern::search_byte_array( int* bytes, std::size_t size ) {
-
-	// returns: the address of the byte array in the module
 
 	address result;
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../other/memory/memory.h"
-
 struct client_entity_list {
 
 	auto get_client_entity( int entity_number ) {

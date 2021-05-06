@@ -185,7 +185,7 @@ struct vector_3d {
 		};
 
 	}
-
+	
 	float length( ) {
 
 		return std::sqrtf( std::powf( x, 2 ) + std::powf( y, 2 ) + std::powf( z, 2 ) );

@@ -19,7 +19,7 @@ struct widgets : std::enable_shared_from_this< widgets > {
 	
 	void set_parent_widget( const std::shared_ptr< widgets >& parent );
 	
-	point get_abs_position( );
+	point get_position( );
 	
 	void set_medium( const std::shared_ptr< widgets >& medium, std::size_t page );
 	
@@ -41,8 +41,10 @@ protected:
 	point m_position;
 	dimension m_size;
 	area m_widget_area;
-	std::shared_ptr< widgets > m_parent_widget, m_medium_widget;
+	std::shared_ptr< widgets > m_parent_widget;
+	std::shared_ptr< widgets > m_medium_widget;
 	std::vector< std::shared_ptr< widgets > > m_lock_input_widget;
-	std::size_t m_page, m_type;
+	std::size_t m_page;
+	std::size_t m_type;
 	
 };

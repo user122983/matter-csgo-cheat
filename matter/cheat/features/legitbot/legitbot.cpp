@@ -172,7 +172,7 @@ void legitbot::triggerbot( ) {
 }
 
 void legitbot::antiaim( ) {
-
+	
 	if ( m_globals.m_cmd->m_buttons & in_use || m_globals.m_local_player.pointer->get_move_type( ) == move_type_ladder || m_globals.m_local_player.pointer->get_move_type( ) == move_type_noclip )
 		return;
 	
@@ -208,46 +208,41 @@ void legitbot::antiaim( ) {
 	
 	auto desync_on_shot = [ ]( ) {
 
-		if ( m_globals.m_weapon.is_shooting )
-			m_globals.m_cmd->m_buttons &= ~( in_attack );
+		if ( !m_interfaces.m_client_state->m_choked_commands )
+			m_globals.m_cmd->m_buttons &= ~in_attack;
 		
 	};
 
-	auto micromovement_desync = [ desync_on_shot ]( float yaw ) mutable  {
+	auto micromovement_desync = [ ]( float yaw ) {
 
 		if ( m_globals.m_cmd->m_buttons & ( in_forward | in_move_left | in_back | in_move_right | in_jump ) )
 			return;
-		
+
 		float velocity = m_globals.m_local_player.pointer->get_duck_amount( ) ? 3.25f : 1.01f;
 
-		static bool move_side = false;
+		if ( !m_globals.m_cmd->m_forward_move && !m_globals.m_cmd->m_side_move )			
+			m_globals.m_cmd->m_side_move = m_globals.m_cmd->m_command_number % 2 ? velocity : -velocity;
 
-		m_globals.m_cmd->m_side_move = move_side ? velocity : -velocity;
+		if ( !m_interfaces.m_client_state->m_choked_commands )
+			*m_globals.m_send_packet = false;
 
-		move_side = !move_side;
-
-		if ( !m_interfaces.m_client_state->m_choked_commands ) {
-
-			*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
-	
-		}
-		
-		if ( !*m_globals.m_send_packet ) {
-
+		if ( !*m_globals.m_send_packet )
 			m_globals.m_cmd->m_view_angles.y += yaw * desync_side;
-			
-		}
 
+		*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= 4;
+		
 	};
-
+	
 	if ( m_menu.m_antiaim_desync->get_index( ) == desync_normal ) {
 
-		micromovement_desync( 180.f );
-
+		desync_on_shot( );
+		
+		micromovement_desync( 200.f );
+		
 		last_desync_type = desync_normal;
 
 	} else if ( m_menu.m_antiaim_desync->get_index( ) == desync_extended ) {
-		
+
 		static float spawn_time;
 
 		if ( spawn_time != m_globals.m_local_player.pointer->get_spawn_time( ) || last_desync_type != desync_extended ) {
@@ -264,35 +259,34 @@ void legitbot::antiaim( ) {
 		
 		float lower_body_realign_time = std::fmaxf( 0.f, anim_state->m_lower_body_realign_timer - m_globals.m_server_time );
 
-		if ( lower_body_realign_time <= m_interfaces.m_globals->m_interval_per_tick ) {
-
-			*m_globals.m_send_packet = false;
+		if ( lower_body_realign_time < m_interfaces.m_globals->m_interval_per_tick ) {
 
 			desync_on_shot( );
 
-			m_globals.m_cmd->m_view_angles.y += 120.f * desync_side;
-			
-		} else {
-			
-			if ( !m_interfaces.m_client_state->m_choked_commands )
-				*m_globals.m_send_packet = m_globals.m_cmd->m_command_number % 2;
-						
-			if ( !*m_globals.m_send_packet ) {
+			*m_globals.m_send_packet = false;
 
-				desync_on_shot( );
-				
+			m_globals.m_cmd->m_view_angles.y += 120.f * desync_side;
+
+			*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= m_menu.m_antiaim_fakelag_value->get_value( );
+
+		} else {
+
+			desync_on_shot( );
+
+			if ( !m_interfaces.m_client_state->m_choked_commands )
+				*m_globals.m_send_packet = false;
+
+			if ( !*m_globals.m_send_packet )
 				m_globals.m_cmd->m_view_angles.y -= 120.f * desync_side;
-				
-			}
 			
+			*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= m_menu.m_antiaim_fakelag_value->get_value();
+
 		}
-		
+
 		last_desync_type = desync_extended;
 
 	}
 	
-	m_globals.m_cmd->m_buttons &= ~( in_forward | in_back | in_move_right | in_move_left );
-
 }
 
 void legitbot::fakelag( ) {
@@ -315,7 +309,7 @@ void legitbot::fakelag( ) {
 		
 	}	
 	
-	if ( !fakelag_value || m_globals.m_weapon.is_shooting )
+	if ( !fakelag_value )
 		return;
 
 	switch ( m_menu.m_antiaim_fakelag_type->get_index( ) ) {
@@ -338,6 +332,9 @@ void legitbot::fakelag( ) {
 	// broken with xorstr
 	
 	*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= fakelag_value;
+
+	if ( m_globals.m_weapon.is_shooting )
+		*m_globals.m_send_packet = true;
 	
 }
 

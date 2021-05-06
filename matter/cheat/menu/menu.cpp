@@ -6,12 +6,12 @@ bool menu::setup( ) {
 	m_builder.widget( m_menu ).size( 860, 540 ).position( 400, 400 );
 
 	m_tab_panel = std::make_shared< tab_panel >( );
-	m_builder.widget( m_tab_panel ).size( 200, 40 ).position( 0, 170 ).tabs( m_tabs ).spawn_in( m_menu );
+	m_builder.widget( m_tab_panel ).size( 200, 40 ).position( 0, 150 ).tabs( m_tabs ).spawn_in( m_menu );
 
 	// legitbot
 	
 	m_legitbot_container = std::make_shared< container >( );
-	m_builder.widget( m_legitbot_container ).size( 285, 480 ).position( 230, 30 ).title( xorstr_( "Legitbot" ) ).spawn_in( m_menu ).medium( m_tab_panel, 0 );
+	m_builder.widget( m_legitbot_container ).size( 285, 480 ).position( 230, 30 ).title( xorstr_( "Legitbot" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_legitbot );
 	
 	m_legitbot_activation = std::make_shared< key_binder >( );
 	m_builder.widget( m_legitbot_activation ).position( 233, 25 ).spawn_in( m_legitbot_container );
@@ -22,7 +22,7 @@ bool menu::setup( ) {
 	// triggerbot
 
 	m_triggerbot_container = std::make_shared< container >( );
-	m_builder.widget( m_triggerbot_container ).size( 285, 225 ).position( 545, 30 ).title( xorstr_( "Triggerbot" ) ).spawn_in( m_menu ).medium( m_tab_panel, 0 );
+	m_builder.widget( m_triggerbot_container ).size( 285, 225 ).position( 545, 30 ).title( xorstr_( "Triggerbot" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_legitbot );
 
 	m_triggerbot_activation = std::make_shared< key_binder >( );
 	m_builder.widget( m_triggerbot_activation ).position( 233, 25 ).spawn_in( m_triggerbot_container );
@@ -106,7 +106,7 @@ bool menu::setup( ) {
 	// antiaim
 	
 	m_antiaim_container = std::make_shared< container >( );
-	m_builder.widget( m_antiaim_container ).size( 285, 225 ).position( 545, 285 ).title( xorstr_( "Antiaim" ) ).spawn_in( m_menu ).medium( m_tab_panel, 0 );
+	m_builder.widget( m_antiaim_container ).size( 285, 225 ).position( 545, 285 ).title( xorstr_( "Antiaim" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_legitbot );
 
 	m_antiaim_enabled = std::make_shared< checkbox >( );
 	m_builder.widget( m_antiaim_enabled ).position( 30, 30 ).title( xorstr_( "Enabled" ) ).spawn_in( m_antiaim_container );
@@ -118,7 +118,7 @@ bool menu::setup( ) {
 	m_builder.widget( m_antiaim_fakelag_type ).position( 54, 87 ).title( xorstr_( "Fakelag:" ) ).entries( m_fakelag_names ).spawn_in( m_antiaim_container ).type( box_type_combobox ).lock_input( m_antiaim_desync );
 
 	m_antiaim_fakelag_value = std::make_shared< slider >( );
-	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 131 ).title( xorstr_( "Choke:" ) ).spawn_in( m_antiaim_container ).range( 0.f, 15.f ).prefix( xorstr_( "ticks" ) ).lock_input( m_antiaim_fakelag_type );
+	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 131 ).title( xorstr_( "Choke:" ) ).spawn_in( m_antiaim_container ).range( 0.f, 17.f ).prefix( xorstr_( "ticks" ) ).lock_input( m_antiaim_fakelag_type );
 
 	m_antiaim_fakelag_triggers = std::make_shared< box >( );
 	m_builder.widget( m_antiaim_fakelag_triggers ).position( 54, 153 ).title( xorstr_( "Trigger:" ) ).entries( m_fakelag_triggers_names ).spawn_in( m_antiaim_container ).type( box_type_multibox ).lock_input( m_antiaim_fakelag_type );
@@ -129,7 +129,7 @@ bool menu::setup( ) {
 	// esp
 	
 	m_esp_container = std::make_shared< container >( );
-	m_builder.widget( m_esp_container ).size( 285, 480 ).position( 230, 30 ).title( xorstr_( "Esp" ) ).spawn_in( m_menu ).medium( m_tab_panel, 1 );
+	m_builder.widget( m_esp_container ).size( 285, 480 ).position( 230, 30 ).title( xorstr_( "Esp" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_visuals );
 
 	m_esp_player = std::make_shared< box >( );
 	m_builder.widget( m_esp_player ).position( 54, 54 ).title( xorstr_( "Player:" ) ).entries( m_player_names ).spawn_in( m_esp_container ).type( box_type_combobox );
@@ -150,24 +150,23 @@ bool menu::setup( ) {
 	// chams
 	
 	m_chams_container = std::make_shared< container >( );
-	m_builder.widget( m_chams_container ).size( 285, 225 ).position( 545, 30 ).title( xorstr_( "Chams" ) ).spawn_in( m_menu ).medium( m_tab_panel, 1 );
+	m_builder.widget( m_chams_container ).size( 285, 225 ).position( 545, 30 ).title( xorstr_( "Chams" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_visuals );
 
 	// hud
 	
 	m_hud_container = std::make_shared< container >( );
-	m_builder.widget( m_hud_container ).size( 285, 225 ).position( 545, 285 ).title( xorstr_( "Hud" ) ).spawn_in( m_menu ).medium( m_tab_panel, 1 );
+	m_builder.widget( m_hud_container ).size( 285, 225 ).position( 545, 285 ).title( xorstr_( "Hud" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_visuals );
 
 	// misc
 
 	m_misc_container = std::make_shared< container >( );
-	m_builder.widget( m_misc_container ).size( 285, 480 ).position( 230, 30 ).title( xorstr_( "Misc" ) ).spawn_in( m_menu ).medium( m_tab_panel, 3 );
+	m_builder.widget( m_misc_container ).size( 285, 480 ).position( 230, 30 ).title( xorstr_( "Misc" ) ).spawn_in( m_menu ).medium( m_tab_panel, tab_misc );
 
 	m_server_hitboxes = std::make_shared< checkbox >( );
 	m_builder.widget( m_server_hitboxes ).position( 30, 30 ).title( xorstr_( "Server hitboxes" ) ).spawn_in( m_misc_container );
 
 	m_fov = std::make_shared< slider >( );
-	m_builder.widget( m_fov ).position( 54, 62 ).title( xorstr_( "Fov" ) ).spawn_in( m_misc_container ).range( 0.f, 200.f );
-	m_fov->set_value( 100.f );
+	m_builder.widget( m_fov ).position( 54, 62 ).title( xorstr_( "Fov" ) ).spawn_in( m_misc_container ).range( 0.f, 200.f ).value( 100.f );
 	
 	return true;
 	

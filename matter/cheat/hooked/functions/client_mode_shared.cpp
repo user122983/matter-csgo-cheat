@@ -12,7 +12,7 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 		return o_create_move( ecx, edx, input_sample_time, cmd );
 
 	m_globals.init( );
-	
+
 	stack stack( _AddressOfReturnAddress( ) );
 	m_globals.m_send_packet = stack.next( ).local( 0x1c ).as< bool* >( );
 	

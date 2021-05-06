@@ -30,11 +30,9 @@ void cheat::unload( ) {
 
 	m_console.unload( );
 
-	m_input.unload( );
-
 	m_hooked.unload( );
 
-	Beep( 400, 400 );
+	m_input.unload( );
 
 }
 

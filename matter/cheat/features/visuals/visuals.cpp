@@ -7,7 +7,7 @@ void visuals::run( ) {
 
 	if ( !m_globals.m_local_player.pointer )
 		return;
-	
+
 	dormant_esp( );
 	
 	std::vector< std::pair< cs_player*, float > > order;

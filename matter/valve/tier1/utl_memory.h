@@ -1,7 +1,6 @@
 #pragma once
 
-template< class t, class i = int >
-struct utl_memory {
+template< class t, class i = int > struct utl_memory {
 
 	t& operator[ ]( i i ) {
 		

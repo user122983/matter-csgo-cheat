@@ -48,22 +48,22 @@ void key_binder::geometry( ) {
 	std::string text = xorstr_( "[ " ) + m_status + xorstr_( " ]" );
 	dimension text_size = m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( text.begin( ), text.end( ) ) );
 	
-	m_widget_area = { get_abs_position( ).m_x - text_size.m_width, get_abs_position( ).m_y, text_size.m_width, text_size.m_height };
+	m_widget_area = { get_position( ).m_x - text_size.m_width, get_position( ).m_y, text_size.m_width, text_size.m_height };
 	
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y, text, m_menu.m_colors.white1 );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x, m_widget_area.m_y, text, m_menu.m_colors.white.at( 0 ) );
 
-	int m_none_available = m_selected_key ? 0 : 1;
-	m_type_dropdown.m_height = m_none_available ? 42 : 62;
+	int is_none_available = m_selected_key ? 0 : 1;
+	m_type_dropdown.m_height = is_none_available ? 42 : 62;
 	
 	if ( m_is_getting_type ) {
 
-		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y + text_size.m_height, m_type_dropdown.m_width, m_type_dropdown.m_height, m_menu.m_colors.dark3 );
+		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y + text_size.m_height, m_type_dropdown.m_width, m_type_dropdown.m_height, m_menu.m_colors.dark.at( 1 ) );
 		
-		for ( std::size_t i = m_none_available; i < key_binder_types.size( ); i++ ) {
+		for ( std::size_t i = is_none_available; i < key_binder_types.size( ); i++ ) {
 
-			area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i + ( m_none_available ? 0 : 1 ) ) * 20 - 7, m_type_dropdown.m_width, 20 };
+			area entry_area = { m_widget_area.m_x, m_widget_area.m_y + static_cast< int >( i + ( is_none_available ? 0 : 1 ) ) * 20 - 7, m_type_dropdown.m_width, 20 };
 
-			m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + 4, key_binder_types[ i ].data( ), m_selected_type == i ? m_menu.m_colors.blue1 : m_menu.m_colors.white1 );
+			m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + 4, key_binder_types[ i ].data( ), m_selected_type == i ? m_menu.m_colors.blue_gradient.first : m_menu.m_colors.white.at( 0 ) );
 
 			if ( m_input.is_key_toggled( VK_LBUTTON ) && m_input.is_mouse_in_bounds( entry_area) ) {
 
@@ -87,7 +87,7 @@ void key_binder::geometry( ) {
 	}
 	
 	if ( m_is_getting_type && m_input.is_key_toggled( VK_LBUTTON ) && !m_input.is_mouse_in_bounds( { m_widget_area.m_x, m_widget_area.m_y + text_size.m_height, m_type_dropdown.m_width, m_type_dropdown.m_height } )
-		and m_input.is_mouse_in_bounds( { m_parent_widget->get_abs_position(  ).m_x, m_parent_widget->get_abs_position( ).m_y,  m_parent_widget->get_size(  ).m_width, m_parent_widget->get_size().m_height} ) )
+		and m_input.is_mouse_in_bounds( { m_parent_widget->get_position(  ).m_x, m_parent_widget->get_position( ).m_y,  m_parent_widget->get_size(  ).m_width, m_parent_widget->get_size().m_height} ) )
 		m_is_getting_type = false;
 	
 }
@@ -99,7 +99,7 @@ void key_binder::update( ) {
 		if ( m_input.is_key_toggled( VK_LBUTTON ) && !m_is_getting_type )
 			m_is_getting_key = m_input.m_listen_for_last_key = true;
 
-		if ( m_input.is_key_toggled( 2 ) && !m_is_getting_key )
+		if ( m_input.is_key_toggled( VK_RBUTTON ) && !m_is_getting_key )
 			m_is_getting_type = !m_is_getting_type;
 		
 	}

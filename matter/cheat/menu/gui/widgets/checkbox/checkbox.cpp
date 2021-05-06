@@ -20,11 +20,11 @@ bool checkbox::get_state( ) {
 
 void checkbox::geometry( ) {
 
-	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
+	m_widget_area = { get_position( ).m_x, get_position( ).m_y, m_size.m_width, m_size.m_height };
 	
-	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_is_checked ? m_menu.m_colors.blue1 : m_menu.m_colors.dark1, m_is_checked ? m_menu.m_colors.blue2 : m_menu.m_colors.dark2, false );
-	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark3 );
-	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_size.m_width + 15, m_widget_area.m_y + m_size.m_height / 2 - 1, m_title, m_menu.m_colors.white1, y_centre );
+	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_is_checked ? m_menu.m_colors.blue_gradient.first : m_menu.m_colors.dark_gradient.first, m_is_checked ? m_menu.m_colors.blue_gradient.second : m_menu.m_colors.dark_gradient.second, false );
+	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width + 1, m_widget_area.m_height + 1, m_menu.m_colors.dark.at( 0 ) );
+	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_size.m_width + 15, m_widget_area.m_y + m_size.m_height / 2 - 1, m_title, m_menu.m_colors.white.at( 0 ), y_centre );
 	
 }
 

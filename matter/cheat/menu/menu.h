@@ -4,6 +4,17 @@
 
 #include "../../other/xorstr/xorstr.h"
 
+enum tabs {
+
+	tab_ragebot,
+	tab_legitbot,
+	tab_visuals,
+	tab_world,
+	tab_misc,
+	tab_settings
+	
+};
+
 struct legitbot_widgets {
 
 	std::shared_ptr< checkbox > m_enabled;
@@ -42,27 +53,38 @@ struct menu {
 	
 	struct {
 
-		color white1 = color( 255, 255, 255 );
-		color white2 = color( 255, 255, 255, 50 );
-		
-		color blue1 = color( 139, 195, 235 );
-		color blue2 = color( 129, 185, 225 );
-		color blue3 = color( 109, 165, 205 );
-		
-		color dark1 = color( 37, 37, 37 );
-		color dark2 = color( 30, 30, 30 );
-		color dark3 = color( 45, 45, 45 );
-		color dark4 = color( 35, 35, 35 );
-		color dark5 = color( 55, 55, 55 );
+		std::vector< color > dark {
 
+			color( 10, 10, 10 ),
+			color( 43, 43, 43 ),
+			color( 35, 35, 35 ),
+			color( 22, 22, 22 ),
+			color( 24, 24, 24 ),
+			color( 80, 80, 80 ),
+			color( 28, 28, 28 )
+			
+		};
+
+		std::vector< color > white {
+
+			color( 255, 255, 255, 200 ),
+			color( 255, 255, 255, 50 )
+			
+		};
+
+		std::pair< color, color > blue_gradient = std::make_pair( color( 139, 195, 235 ), color( 109, 165, 205 ) );
+
+		std::pair< color, color > dark_gradient = std::make_pair( color( 70, 70, 70 ), color( 57, 57, 57 ) );
+		 
 	} m_colors;
 
 	std::shared_ptr< container > m_menu;
 	
 	std::shared_ptr< tab_panel > m_tab_panel;
 
-	std::vector< std::pair< std::string, std::string > > m_tabs{
+	std::vector< std::pair< std::string, std::string > > m_tabs {
 
+		{ xorstr_( "1" ), xorstr_( "Ragebot" ) },
 		{ xorstr_( "1" ), xorstr_( "Legitbot" ) },
 		{ xorstr_( "2" ), xorstr_( "Visuals" ) },
 		{ xorstr_( "3" ), xorstr_( "World" ) },

@@ -67,8 +67,6 @@ struct base_animating : base_player {
 		return function( this, get_model_ptr( ), name );
 
 	}
-
-	// there two do not work on release build becuse of xorstr
 	
 	auto set_pose_parameter( int parameter, float value ) {
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../other/memory/memory.h"
-
 struct client_networkable {
 
 	auto is_dormant( ) {

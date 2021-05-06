@@ -85,7 +85,7 @@ struct cl_msg_move {
 
 void __cdecl hooked::cl_main_fn::cl_send_move( ) {
 
-	int nextcommandnr = m_interfaces.m_client_state->m_lastoutgoingcommand + m_interfaces.m_client_state->m_choked_commands + 1;
+	int next_command_nr = m_interfaces.m_client_state->m_lastoutgoingcommand + m_interfaces.m_client_state->m_choked_commands + 1;
 	int choked_commands = m_interfaces.m_client_state->m_choked_commands;
 
 	byte data[ 4000 ];
@@ -95,27 +95,32 @@ void __cdecl hooked::cl_main_fn::cl_send_move( ) {
 
 	int cl_cmdbackup = 2;
 	int backup_commands = std::clamp( cl_cmdbackup, 0, 7 );
-
-	int new_commands = std::clamp( choked_commands + 1, 0, 15 );
+	
+	int new_commands = std::clamp( choked_commands + 1, 0, 17 );
 
 	move_msg.set_num_backup_commands( backup_commands );
 	move_msg.set_num_new_commands( new_commands );
 
-	int numcmds = new_commands + backup_commands;
+	//int extra_command = choked_commands + 1 - new_commands;
+	
+	int num_cmds = new_commands + backup_commands;
 	int from = -1;
 	bool ok = true;
 
-	for ( int to = nextcommandnr - numcmds + 1; to <= nextcommandnr; ++to ) {
+	for ( int to = next_command_nr - num_cmds + 1; to <= next_command_nr; ++to ) {
 
-		bool isnewcmd = to >= ( nextcommandnr - new_commands + 1 );
+		bool is_new_cmd = to >= ( next_command_nr - new_commands + 1 );
 
-		ok = ok && m_interfaces.m_client->write_usercmd_delta_to_buffer( 0, &move_msg.m_data_out, from, to, isnewcmd );
+		ok = ok && m_interfaces.m_client->write_usercmd_delta_to_buffer( 0, &move_msg.m_data_out, from, to, is_new_cmd );
 		from = to;
 
 	}
 
 	if ( ok ) {
 
+/*		if ( extra_command )
+			m_interfaces.m_client_state->m_net_channel->m_choked_packets -= extra_command;*/
+		
 		move_msg.set_data( move_msg.m_data_out.get_data( ), move_msg.m_data_out.get_num_bytes_written( ) );
 
 		m_interfaces.m_client_state->m_net_channel->send_net_msg( &move_msg );

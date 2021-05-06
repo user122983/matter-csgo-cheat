@@ -10,7 +10,7 @@ struct builder {
 
 	builder& widget( const std::shared_ptr< widgets >& widget ) {
 		
-		m_temp_widget = widget;
+		m_widget = widget;
 
 		return *this;
 		
@@ -18,7 +18,7 @@ struct builder {
 
 	builder& position( int x, int y ) {
 		
-		m_temp_widget->set_position( x, y );
+		m_widget->set_position( x, y );
 
 		return *this;
 		
@@ -26,7 +26,7 @@ struct builder {
 
 	builder& size( int width, int height ) {
 		
-		m_temp_widget->set_size( width, height );
+		m_widget->set_size( width, height );
 
 		return *this;
 		
@@ -34,14 +34,14 @@ struct builder {
 
 	builder& spawn_in( const std::shared_ptr< container >& container ) {
 		
-		container->add_widget( m_temp_widget );
+		container->add_widget( m_widget );
 
 		return *this;
 	}
 
 	builder& medium( const std::shared_ptr< widgets >& medium, int page = 0 ) {
 		
-		m_temp_widget->set_medium( medium, page );
+		m_widget->set_medium( medium, page );
 
 		return *this;
 		
@@ -51,7 +51,7 @@ struct builder {
 		
 		for ( auto& tab : tabs ) {
 			
-			std::reinterpret_pointer_cast< tab_panel >( m_temp_widget )->add_tab( tab );
+			std::reinterpret_pointer_cast< tab_panel >( m_widget )->add_tab( tab );
 			
 		}
 		
@@ -61,7 +61,7 @@ struct builder {
 
 	builder& title( const std::string& title ) {
 
-		m_temp_widget->set_title( title );
+		m_widget->set_title( title );
 
 		return *this;
 
@@ -71,7 +71,7 @@ struct builder {
 
 		for ( auto& entry : entries ) {
 
-			std::reinterpret_pointer_cast< box >( m_temp_widget )->add_entry( entry );
+			std::reinterpret_pointer_cast< box >( m_widget )->add_entry( entry );
 			
 		}
 
@@ -81,7 +81,7 @@ struct builder {
 
 	builder& type( std::size_t type ) {
 
-		std::reinterpret_pointer_cast< box >( m_temp_widget )->set_type( type );
+		std::reinterpret_pointer_cast< box >( m_widget )->set_type( type );
 
 		return *this;
 
@@ -89,7 +89,7 @@ struct builder {
 
 	builder& range( float min, float max ) {
 
-		std::reinterpret_pointer_cast< slider >( m_temp_widget )->set_range( min, max );
+		std::reinterpret_pointer_cast< slider >( m_widget )->set_range( min, max );
 
 		return *this;
 
@@ -97,7 +97,15 @@ struct builder {
 
 	builder& prefix( const std::string& prefix ) {
 
-		std::reinterpret_pointer_cast< slider >( m_temp_widget )->set_prefix( prefix );
+		std::reinterpret_pointer_cast< slider >( m_widget )->set_prefix( prefix );
+
+		return *this;
+
+	}
+
+	builder& value( float value ) {
+
+		std::reinterpret_pointer_cast< slider >( m_widget )->set_value( value );
 
 		return *this;
 
@@ -105,7 +113,7 @@ struct builder {
 
 	builder& lock_input( const std::shared_ptr< widgets >& widget ) {
 
-		m_temp_widget->set_lock_input( widget );
+		m_widget->set_lock_input( widget );
 
 		return *this;
 
@@ -115,7 +123,7 @@ struct builder {
 
 		for ( auto& widget : widgets ) {
 
-			m_temp_widget->set_lock_input( widget );
+			m_widget->set_lock_input( widget );
 			
 		}
 
@@ -125,7 +133,7 @@ struct builder {
 	
 private:
 
-	std::shared_ptr< widgets > m_temp_widget;
+	std::shared_ptr< widgets > m_widget;
 	
 };
 

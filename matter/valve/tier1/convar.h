@@ -11,8 +11,6 @@ struct convar {
 	}
 
 	auto get_float( )  {
-
-		// re-xor the value
 		
 		std::uint32_t xored = *reinterpret_cast< std::uint32_t* >( &m_parent->m_float_value ) ^ reinterpret_cast< std::uint32_t >( this );
 		return *reinterpret_cast< float* >( &xored );

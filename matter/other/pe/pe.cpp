@@ -62,9 +62,7 @@ std::size_t pe::export_fn( std::size_t base, std::size_t fn_hash, bool in_memory
 	if ( nt_headers->Signature != IMAGE_NT_SIGNATURE )
 		return 0;
 
-	auto exports = reinterpret_cast< IMAGE_EXPORT_DIRECTORY* >(
-		rva_2_offset( base + nt_headers->OptionalHeader.DataDirectory[ IMAGE_DIRECTORY_ENTRY_EXPORT ].VirtualAddress,
-			nt_headers, in_memory ) );
+	auto exports = reinterpret_cast< IMAGE_EXPORT_DIRECTORY* >( rva_2_offset( base + nt_headers->OptionalHeader.DataDirectory[ IMAGE_DIRECTORY_ENTRY_EXPORT ].VirtualAddress, nt_headers, in_memory ) );
 
 	auto names = reinterpret_cast< std::uint32_t* >( base + rva_2_offset( exports->AddressOfNames, nt_headers, in_memory ) );
 

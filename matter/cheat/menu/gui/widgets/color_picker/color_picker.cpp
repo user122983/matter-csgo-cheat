@@ -9,16 +9,16 @@ color_picker::color_picker( ) {
 	m_type = widget_type_color_picker;
 	m_size = { 21, 11 };
 	m_is_open = false;
-	m_color = m_menu.m_colors.white1;
+	m_color = m_menu.m_colors.white.at( 0 );
 	
 }
 
 void color_picker::geometry( ) {
 
-	m_widget_area = { get_abs_position( ).m_x, get_abs_position( ).m_y, m_size.m_width, m_size.m_height };
+	m_widget_area = { get_position( ).m_x, get_position( ).m_y, m_size.m_width, m_size.m_height };
 
 	m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_size.m_width, m_size.m_height, m_color );
-	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_size.m_width, m_size.m_height, m_menu.m_colors.dark3 );
+	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_size.m_width, m_size.m_height, m_menu.m_colors.dark.at( 0 ) );
 
 	if ( m_is_open ) {
 

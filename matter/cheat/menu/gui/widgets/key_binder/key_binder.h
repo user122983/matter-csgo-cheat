@@ -34,9 +34,11 @@ struct key_binder : widgets {
 
 private:
 
-	std::size_t m_selected_type, m_selected_key;
+	std::size_t m_selected_type;
+	std::size_t m_selected_key;
 	std::string m_status;
-	bool m_is_getting_key, m_is_getting_type;
+	bool m_is_getting_key;
+	bool m_is_getting_type;
 	dimension m_type_dropdown;
 	
 };
