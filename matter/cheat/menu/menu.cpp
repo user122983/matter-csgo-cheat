@@ -65,14 +65,6 @@ bool menu::setup( ) {
 		m_weapon_widgets[ i ].m_backtrack = std::make_shared< slider >( ); 
 		m_builder.widget( m_weapon_widgets[ i ].m_backtrack ).position( 54, 402 ).title( xorstr_( "Backtrack" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 400.f ).prefix( xorstr_( "ms" ) );
 
-		std::vector< std::shared_ptr< widgets > > m_triggerbot_lock_input_widgets {
-
-			m_triggerbot_activation,
-			m_weapon_widgets[ i ].m_triggerbot_hitbox,
-			m_weapon_widgets[ i ].m_triggerbot_ignore
-
-		};
-		
 		m_weapon_widgets[ i ].m_triggerbot_enabled = std::make_shared< checkbox >( );
 		m_builder.widget( m_weapon_widgets[ i ].m_triggerbot_enabled ).position( 30, 30 ).title( i == 0 ? xorstr_( "Enabled" ) : xorstr_( "Override" ) ).spawn_in( m_triggerbot_container ).medium( m_legitbot_weapon, i );
 

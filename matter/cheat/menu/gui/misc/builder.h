@@ -1,10 +1,10 @@
 #pragma once
 
-#include "widgets/widgets.h"
-#include "widgets/box/box.h"
-#include "widgets/slider/slider.h"
-#include "widgets/tab_panel/tab_panel.h"
-#include "widgets/container/container.h"
+#include "../widgets/widgets.h"
+#include "../widgets/box/box.h"
+#include "../widgets/slider/slider.h"
+#include "../widgets/tab_panel/tab_panel.h"
+#include "../widgets/container/container.h"
 
 struct builder {
 

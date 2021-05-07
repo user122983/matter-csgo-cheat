@@ -78,7 +78,7 @@ void box::geometry( ) {
 			if ( m_box_type == box_type_combobox && m_selected_entry == i || m_box_type == box_type_multibox && m_entries.second.at( i ) == 1 ) {
 
 				m_render.draw_filled_rect( entry_area.m_x, entry_area.m_y, entry_area.m_width, entry_area.m_height + 1, m_menu.m_colors.dark.at( 6 ) );
-				m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + m_widget_area.m_height / 2, m_entries.first.at( i ), m_menu.m_colors.blue_gradient.first, y_centre );
+				m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + m_widget_area.m_height / 2, m_entries.first.at( i ), m_menu.m_colors.blue.at( 0 ), y_centre );
 
 				m_render.draw_line( entry_area.m_x, entry_area.m_y - 1, entry_area.m_x, entry_area.m_y + entry_area.m_height + 1, m_menu.m_colors.dark.at( 0 ) );
 				m_render.draw_line( entry_area.m_x + entry_area.m_width, entry_area.m_y + 1, entry_area.m_x + entry_area.m_width, entry_area.m_y + entry_area.m_height + 1, m_menu.m_colors.dark.at( 0 ) );

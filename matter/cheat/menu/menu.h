@@ -53,6 +53,8 @@ struct menu {
 	
 	struct {
 
+		// cleanup these colors
+		
 		std::vector< color > dark {
 
 			color( 10, 10, 10 ),
@@ -61,23 +63,26 @@ struct menu {
 			color( 22, 22, 22 ),
 			color( 24, 24, 24 ),
 			color( 100, 100, 100 ),
-			color( 28, 28, 28 )
+			color( 28, 28, 28 ),
+			color( 70, 70, 70 ),
+			color( 57, 57, 57 )
 			
 		};
 
+		std::vector< color > blue {
+
+			color( 139, 195, 235 ),
+			color( 109, 165, 205 )
+
+		};
+		
 		std::vector< color > white {
 
 			color( 255, 255, 255, 200 ),
 			color( 255, 255, 255, 50 )
 			
 		};
-
-		// realy dude?
-		
-		std::pair< color, color > blue_gradient = std::make_pair( color( 139, 195, 235 ), color( 109, 165, 205 ) );
-
-		std::pair< color, color > dark_gradient = std::make_pair( color( 70, 70, 70 ), color( 57, 57, 57 ) );
-		 
+				 
 	} m_colors;
 
 	std::shared_ptr< container > m_menu;

@@ -53,8 +53,8 @@ void slider::geometry( ) {
 	
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + m_widget_area.m_width - m_render.get_text_size( m_render.m_fonts.verdana, std::wstring( value_text.begin( ), value_text.end( ) ) ).m_width, m_widget_area.m_y - text_size.m_height - 2, value_text, m_menu.m_colors.white.at( 0 ) );
 
-	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark_gradient.first, m_menu.m_colors.dark_gradient.second, false );
-	m_render.draw_gradient( m_widget_area.m_x + 1, m_widget_area.m_y + 1, m_value / m_max * ( m_size.m_width - 2 ), 6, m_menu.m_colors.blue_gradient.first, m_menu.m_colors.blue_gradient.second, false );
+	m_render.draw_gradient( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark.at( 7 ), m_menu.m_colors.dark.at( 8 ), false );
+	m_render.draw_gradient( m_widget_area.m_x + 1, m_widget_area.m_y + 1, m_value / m_max * ( m_size.m_width - 2 ), 6, m_menu.m_colors.blue.at( 0 ), m_menu.m_colors.blue.at( 1 ), false );
 
 	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width + 1, m_widget_area.m_height + 1, m_menu.m_colors.dark.at( 0 ) );
 

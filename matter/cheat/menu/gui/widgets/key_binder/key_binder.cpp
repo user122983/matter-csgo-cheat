@@ -69,7 +69,7 @@ void key_binder::geometry( ) {
 			if ( m_selected_type == i ) {
 
 				m_render.draw_filled_rect( entry_area.m_x, entry_area.m_y, entry_area.m_width, entry_area.m_height, m_menu.m_colors.dark.at( 6 ) );
-				m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + 4, key_binder_types[ i ].data( ), m_menu.m_colors.blue_gradient.first );
+				m_render.draw_text( m_render.m_fonts.verdana, entry_area.m_x + 8, entry_area.m_y + 4, key_binder_types[ i ].data( ), m_menu.m_colors.blue.at( 0 ) );
 
 			} else {
 
