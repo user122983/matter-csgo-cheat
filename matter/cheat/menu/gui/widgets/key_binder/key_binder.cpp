@@ -147,7 +147,7 @@ void key_binder::update( ) {
 
 			m_input.set_last_key( 0 );
 
-			if ( m_selected_type == key_binder_none )
+			if ( m_selected_type == key_binder_none || m_selected_type == key_binder_always )
 				m_selected_type = key_binder_hold;
 			
 		}
