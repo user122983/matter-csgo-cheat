@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../cheat.h"
-#include "../menu/gui/definitions.h"
+#include "../menu/gui/misc/definitions.h"
 
 #include <array>
 

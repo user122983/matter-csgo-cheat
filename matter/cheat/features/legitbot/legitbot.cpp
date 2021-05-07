@@ -70,10 +70,10 @@ void legitbot::rcs( ) {
 	m_rcs.angle = m_globals.m_local_player.punch_angle;
 
 	if ( m_menu.m_legitbot_widgets.m_rcs_x->get_value( ) > 0.f )
-		m_rcs.angle.x *= m_menu.m_legitbot_widgets.m_rcs_x->get_value( ) / 10.f;
+		m_rcs.angle.x *= m_menu.m_legitbot_widgets.m_rcs_x->get_value( ) / 100.f;
 
 	if ( m_menu.m_legitbot_widgets.m_rcs_y->get_value( ) > 0.f )
-		m_rcs.angle.y *= m_menu.m_legitbot_widgets.m_rcs_y->get_value( ) / 10.f;
+		m_rcs.angle.y *= m_menu.m_legitbot_widgets.m_rcs_y->get_value( ) / 100.f;
 		
 	if ( !m_menu.m_legitbot_widgets.m_silent_aim->get_state( ) )
 		m_interfaces.m_engine->set_view_angles( m_globals.m_cmd->m_view_angles += m_rcs.old_punch_angle - m_rcs.angle );
@@ -267,7 +267,7 @@ void legitbot::antiaim( ) {
 
 			m_globals.m_cmd->m_view_angles.y += 120.f * desync_side;
 
-			*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= m_menu.m_antiaim_fakelag_value->get_value( );
+			*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= 4;
 
 		} else {
 
@@ -279,7 +279,7 @@ void legitbot::antiaim( ) {
 			if ( !*m_globals.m_send_packet )
 				m_globals.m_cmd->m_view_angles.y -= 120.f * desync_side;
 			
-			*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= m_menu.m_antiaim_fakelag_value->get_value();
+			*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= 4;
 
 		}
 
@@ -289,25 +289,22 @@ void legitbot::antiaim( ) {
 	
 }
 
-void legitbot::fakelag( ) {
+void legitbot::fakelag() {
 
-	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none )
+	if ( m_menu.m_antiaim_fakelag_type->get_index( ) == fakelag_none || m_menu.m_antiaim_fakelag_triggers->get_index( ) == trigger_none )
 		return;
 
-	int fakelag_value;
-				
-	if ( m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_globals.m_local_player.pointer->get_flags( ) & fl_onground ||
+	int fakelag_value = 0;
+
+	if ( m_menu.m_antiaim_fakelag_triggers->get_index( trigger_always ) || (
+		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_ground ) && m_globals.m_local_player.pointer->get_flags( ) & fl_onground ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_in_air ) && !( m_globals.m_local_player.pointer->get_flags( ) & fl_onground ) ||
 		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_shot ) && m_globals.m_weapon.is_shooting ||
-		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_reload ) && m_globals.m_local_player.pointer->is_activity_active( activity_reload ) ) {
-
-		fakelag_value = m_menu.m_antiaim_fakelag_triggers_value->get_value( );
-
-	} else {
+		m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_reload ) && m_globals.m_local_player.pointer->is_activity_active( activity_reload ) ) ) {
 
 		fakelag_value = m_menu.m_antiaim_fakelag_value->get_value( );
-		
-	}	
+
+	}
 	
 	if ( !fakelag_value )
 		return;
@@ -333,7 +330,7 @@ void legitbot::fakelag( ) {
 	
 	*m_globals.m_send_packet = m_interfaces.m_client_state->m_choked_commands >= fakelag_value;
 
-	if ( m_globals.m_weapon.is_shooting )
+	if ( m_globals.m_weapon.is_shooting && !m_menu.m_antiaim_fakelag_triggers->get_index( trigger_on_shot ) )
 		*m_globals.m_send_packet = true;
 	
 }

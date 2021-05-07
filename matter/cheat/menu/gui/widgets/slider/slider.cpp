@@ -4,8 +4,6 @@
 #include "../../../../input/input.h"
 #include "../../../../render/render.h"
 
-#include <algorithm>
-
 slider::slider( ) {
 	 
 	m_type = widget_type_slider;

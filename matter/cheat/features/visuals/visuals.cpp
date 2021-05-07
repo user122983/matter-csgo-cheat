@@ -12,7 +12,7 @@ void visuals::run( ) {
 	
 	std::vector< std::pair< cs_player*, float > > order;
 	
-	m_cheat.iterate_players( [ this, &order ]( cs_player* player ) mutable -> void {
+	m_cheat.iterate_players( [ this, &order ]( cs_player* player ) {
 
 		order.emplace_back( std::make_pair( player, ( player->get_client_renderable( )->get_render_origin( ) - m_globals.m_local_player.view_origin ).length( ) ) );
 				

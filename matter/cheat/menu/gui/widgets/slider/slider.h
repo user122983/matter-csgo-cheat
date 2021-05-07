@@ -21,9 +21,13 @@ struct slider : widgets {
 private:
 
 	bool m_moving_slider;
+	
 	float m_value;
+	
 	float m_min;
+	
 	float m_max;
+	
 	std::string m_prefix;
 	
 };

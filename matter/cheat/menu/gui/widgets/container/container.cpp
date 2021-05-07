@@ -42,8 +42,8 @@ void container::geometry( ) {
 
 	if ( !m_parent_widget ) {
 		
-		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark.at( 3 ) );
-		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, 200, m_widget_area.m_height, m_menu.m_colors.dark.at( 4 ) );
+		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark.at(4 ) );
+		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, 200, m_widget_area.m_height, m_menu.m_colors.dark.at( 3 ) );
 		
 		m_render.draw_line( m_widget_area.m_x + 200, m_widget_area.m_y, m_widget_area.m_x + 200, m_widget_area.m_y + m_widget_area.m_height - 1, m_menu.m_colors.dark.at( 1 ) );
 		m_render.draw_line( m_widget_area.m_x + 201, m_widget_area.m_y, m_widget_area.m_x + 201, m_widget_area.m_y + m_widget_area.m_height - 1, m_menu.m_colors.dark.at( 0 ) );
@@ -52,11 +52,12 @@ void container::geometry( ) {
 		m_render.draw_outlined_rect( m_widget_area.m_x - 1, m_widget_area.m_y - 1, m_widget_area.m_width + 2, m_widget_area.m_height + 2, m_menu.m_colors.dark.at( 5 ) );
 		m_render.draw_outlined_rect( m_widget_area.m_x - 2, m_widget_area.m_y - 2, m_widget_area.m_width + 4, m_widget_area.m_height + 4, m_menu.m_colors.dark.at( 5 ) );
 		m_render.draw_outlined_rect( m_widget_area.m_x - 3, m_widget_area.m_y - 3, m_widget_area.m_width + 6, m_widget_area.m_height + 6, m_menu.m_colors.dark.at( 5 ) );
-		m_render.draw_outlined_rect( m_widget_area.m_x - 4, m_widget_area.m_y - 4, m_widget_area.m_width + 8, m_widget_area.m_height + 8, m_menu.m_colors.dark.at( 1 ) );
+		m_render.draw_outlined_rect( m_widget_area.m_x - 4, m_widget_area.m_y - 4, m_widget_area.m_width + 8, m_widget_area.m_height + 8, m_menu.m_colors.dark.at( 5 ) );
+		m_render.draw_outlined_rect( m_widget_area.m_x - 5, m_widget_area.m_y - 5, m_widget_area.m_width + 10, m_widget_area.m_height + 10, m_menu.m_colors.dark.at( 1 ) );
 
 	} else {
 
-		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, color( 22, 22, 22 ) );
+		m_render.draw_filled_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height, m_menu.m_colors.dark.at( 3 ) );
 		m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 30, m_widget_area.m_y, m_title, m_menu.m_colors.white.at( 0 ), y_centre );
 
 		m_render.draw_line( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_x + 28, m_widget_area.m_y, m_menu.m_colors.dark.at( 1 ) );
@@ -77,7 +78,7 @@ void container::geometry( ) {
 	
 	for ( auto& widgets : m_widgets ) {
 
-		if ( widgets->is_render_unlocked( ) ) {
+		if ( widgets->is_medium_unlocked( ) ) {
 
 			if ( widgets->is_input_unlocked( ) )
 				widgets->update( );

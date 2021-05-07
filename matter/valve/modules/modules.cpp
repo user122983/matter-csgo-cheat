@@ -115,6 +115,8 @@ void modules::get_addresses( ) {
 
 	m_client_dll.add_address( xorstr_( "C_CSPlayer->m_PlayerAnimStateCSGO" ), xorstr_( "8B 8E ? ? ? ? EB 39" ) );
 	m_client_dll.add_address( xorstr_( "C_CSPlayer->m_bUseNewAnimstate" ), xorstr_( "80 BE ? ? ? ? ? 74 36 8B 06" ) );
+	m_client_dll.add_address( xorstr_( "C_CSPlayer->m_flSpawnTime" ), xorstr_( "89 87 ? ? ? ? 89 B7 ? ? ? ? 89" ) );
+
 	m_client_dll.add_address( xorstr_( "C_CSPlayer::UpdateClientSideAnimation" ), xorstr_( "55 8B EC 51 56 8B F1 80 BE ? ? ? ? ? 74 36" ) );
 	m_client_dll.add_address( xorstr_( "C_CSPlayer::HandleTaserAnimation" ), xorstr_( "E8 ? ? ? ? 8B 06 8B CE 8B 80 ? ? ? ? FF D0 84 C0 0F 84 ? ? ? ?" ), true );
 	m_client_dll.add_address( xorstr_( "C_CSPlayer::HasC4" ), xorstr_( "56 8B F1 85 F6 74 31 8B 06 8B 80 ? ? ? ? FF D0 84 C0 74 ?" ) );

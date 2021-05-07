@@ -208,13 +208,7 @@ struct cs_player : base_animating {
 		return *reinterpret_cast< vector_3d* >( reinterpret_cast< std::size_t >( this ) + offset );
 
 	}
-
-	auto get_spawn_time( ) {
-		
-		return *reinterpret_cast< float* >( reinterpret_cast< std::uintptr_t >( this ) + 0xA370 );
-		
-	}
-
+	
 	auto get_flags( ) {
 
 		static auto offset = m_netvars.m_offsets[ m_hash.get( xorstr_( "DT_BasePlayer->m_fFlags" ) ) ];
@@ -253,6 +247,14 @@ struct cs_player : base_animating {
 		
 		return *reinterpret_cast< bool* >( reinterpret_cast< std::size_t >( this ) + offset );
 
+	}
+	 
+	auto& get_spawn_time( ) {
+
+		static auto offset = m_modules.m_client_dll.get_address( xorstr_( "C_CSPlayer->m_flSpawnTime" ) ).add( 0x2 ).to< std::size_t >( );
+
+		return *reinterpret_cast< float* >( reinterpret_cast< std::size_t >( this ) + offset );
+		
 	}
 
 	auto get_eye_pos( ) {

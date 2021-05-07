@@ -58,13 +58,23 @@ private:
 
 	struct {
 
-		int left, top, right, bottom, width, height;
+		int left;
+		int top;
+		int right;
+		int bottom;
+		int width;
+		int height;
 
 	} m_box;
 	
 	struct {
 
-		color white, black, blue, green, red, alpha;
+		color white;
+		color black;
+		color blue;
+		color green;
+		color red;
+		color alpha;
 
 	} m_colors;
 	

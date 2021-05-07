@@ -1,8 +1,6 @@
 #include "widgets.h"
 
-#include "box/box.h"
-#include "key_binder/key_binder.h"
-#include "tab_panel/tab_panel.h"
+#include "../gui.h"
 
 void widgets::set_title( const std::string& title ) {
 
@@ -50,7 +48,7 @@ void widgets::set_medium( const std::shared_ptr< widgets >& medium, std::size_t 
 	
 }
 
-bool widgets::is_render_unlocked( ) {
+bool widgets::is_medium_unlocked( ) {
 
 	if ( !m_medium_widget || m_page < 0 )
 		return true;

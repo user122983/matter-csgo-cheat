@@ -21,6 +21,8 @@ enum fakelag_type {
 
 enum fakelag_trigger {
 
+	trigger_none,
+	trigger_always,
 	trigger_on_ground,
 	trigger_in_air,
 	trigger_on_shot,

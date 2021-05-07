@@ -1,8 +1,9 @@
 #pragma once
 
+#include <comcat.h>
+
 #include "../widgets.h"
 
-#include <comcat.h>
 #include <vector>
 
 struct container : widgets {
@@ -22,8 +23,11 @@ struct container : widgets {
 private:
 
 	bool m_is_open;
+	
 	bool m_move_menu;
+	
 	std::vector< std::shared_ptr< widgets > > m_widgets;
+	
 	POINT m_cursor_delta;
 	
 };

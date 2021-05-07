@@ -60,7 +60,7 @@ struct menu {
 			color( 35, 35, 35 ),
 			color( 22, 22, 22 ),
 			color( 24, 24, 24 ),
-			color( 80, 80, 80 ),
+			color( 100, 100, 100 ),
 			color( 28, 28, 28 )
 			
 		};
@@ -72,6 +72,8 @@ struct menu {
 			
 		};
 
+		// realy dude?
+		
 		std::pair< color, color > blue_gradient = std::make_pair( color( 139, 195, 235 ), color( 109, 165, 205 ) );
 
 		std::pair< color, color > dark_gradient = std::make_pair( color( 70, 70, 70 ), color( 57, 57, 57 ) );
@@ -169,10 +171,11 @@ struct menu {
 	std::shared_ptr< container > m_antiaim_container;
 	std::shared_ptr< checkbox > m_antiaim_enabled;
 	std::shared_ptr< box > m_antiaim_desync;
+	std::shared_ptr< checkbox > m_antiaim_invert;
+	std::shared_ptr< key_binder > m_antiaim_invert_activation;
 	std::shared_ptr< box > m_antiaim_fakelag_type;
 	std::shared_ptr< slider > m_antiaim_fakelag_value;
 	std::shared_ptr< box > m_antiaim_fakelag_triggers;
-	std::shared_ptr< slider > m_antiaim_fakelag_triggers_value;
 
 	std::vector< std::string > m_desync_names {
 
@@ -193,6 +196,8 @@ struct menu {
 
 	std::vector< std::string > m_fakelag_triggers_names {
 
+		xorstr_( "None" ),
+		xorstr_( "Always" ),
 		xorstr_( "On ground" ),
 		xorstr_( "In air" ),
 		xorstr_( "On shot" ),

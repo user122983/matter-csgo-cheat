@@ -63,9 +63,9 @@ void box::geometry( ) {
 	m_render.draw_outlined_rect( m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width + 1, m_widget_area.m_height + 1, m_menu.m_colors.dark.at( 0 ) );
 	m_render.draw_text( m_render.m_fonts.verdana, m_widget_area.m_x + 8, m_widget_area.m_y + m_widget_area.m_height / 2 - 1, m_title, m_menu.m_colors.white.at( 0 ), y_centre );
 
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 7, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 2, 5, 1, m_menu.m_colors.white.at( 0 ) );
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 6, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 3, 3, 1, m_menu.m_colors.white.at( 0 ) );
-	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 10 ) - 5, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 4, 1, 1, m_menu.m_colors.white.at( 0 ) );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 6 ) - 7, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 2, 5, 1, m_menu.m_colors.white.at( 0 ) );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 6 ) - 6, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 3, 3, 1, m_menu.m_colors.white.at( 0 ) );
+	m_render.draw_filled_rect( ( m_widget_area.m_x + m_widget_area.m_width - 6 ) - 5, m_widget_area.m_y + ( ( m_widget_area.m_height / 2 ) - 3 ) + 4, 1, 1, m_menu.m_colors.white.at( 0 ) );
 	
 	std::string selected_text;
 
@@ -111,8 +111,8 @@ void box::geometry( ) {
 		}
 
 		if ( m_box_type == box_type_multibox ) {
-
-			bool has_reached_end = selected_text.length( ) > 10;
+			
+			bool has_reached_end = selected_text.length( ) > 12;
 			bool is_first_item = selected_text.length( ) == 0;
 			
 			if ( m_entries.second[ i ] && !has_reached_end ) {
@@ -151,9 +151,11 @@ void box::geometry( ) {
 void box::update( ) {
 
 	if ( m_input.is_key_toggled( VK_LBUTTON ) ) {
+
+		// ghetto drug dealer spotted :@!!
 		
 		area widget_area = { m_widget_area.m_x, m_widget_area.m_y, m_widget_area.m_width, m_widget_area.m_height - 1 };
-		
+
 		if ( m_input.is_mouse_in_bounds( widget_area ) )
 			m_is_open = !m_is_open;
 

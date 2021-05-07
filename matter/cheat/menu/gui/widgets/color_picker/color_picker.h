@@ -15,6 +15,7 @@ struct color_picker : widgets {
 private:
 
 	bool m_is_open;
+	
 	color m_color;
 
 };

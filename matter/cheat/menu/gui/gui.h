@@ -1,7 +1,7 @@
 #pragma once
 
-#include "definitions.h"
-#include "builder.h"
+#include "misc/definitions.h"
+#include "misc/builder.h"
 
 #include "widgets/container/container.h"
 #include "widgets/tab_panel/tab_panel.h"

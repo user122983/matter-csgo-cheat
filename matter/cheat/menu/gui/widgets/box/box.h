@@ -2,11 +2,8 @@
 
 #include "../widgets.h"
 
-#include <vector>
-
 enum box_type {
 
-	box_type_null,
 	box_type_combobox,
 	box_type_multibox
 	
@@ -33,7 +30,11 @@ struct box : widgets {
 private:
 
 	bool m_is_open;
-	std::size_t m_box_type, m_selected_entry;
+	
+	std::size_t m_box_type;
+
+	std::size_t m_selected_entry;
+	
 	std::pair< std::vector< std::string >, std::vector< std::size_t > > m_entries;
 	
 };

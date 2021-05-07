@@ -29,16 +29,6 @@ bool menu::setup( ) {
 	
 	for ( std::size_t i = 0; i < m_weapon_widgets.size( ); i++ ) {
 
-		std::vector< std::shared_ptr< widgets > > m_legitbot_lock_input_widgets {
-
-			m_legitbot_activation,
-			m_legitbot_weapon,
-			m_weapon_widgets[ i ].m_target,
-			m_weapon_widgets[ i ].m_ignore,
-			m_weapon_widgets[ i ].m_accuracy
-			
-		};
-		
 		m_weapon_widgets[ i ].m_enabled = std::make_shared< checkbox >( );
 		m_builder.widget( m_weapon_widgets[ i ].m_enabled ).position( 30, 30 ).title( i == 0 ? xorstr_( "Enabled" ) : xorstr_( "Override" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i );
 		
@@ -55,16 +45,16 @@ bool menu::setup( ) {
 		m_builder.widget( m_weapon_widgets[ i ].m_fov ).position( 54, 179 ).title( xorstr_( "Fov" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 180.f ).lock_input( m_legitbot_weapon ).lock_input( m_weapon_widgets[ i ].m_target );
 
 		m_weapon_widgets[ i ].m_smooth = std::make_shared< slider >( );
-		m_builder.widget( m_weapon_widgets[ i ].m_smooth ).position( 54, 212 ).title( xorstr_( "Smooth" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 100.f ).lock_input( m_weapon_widgets[ i ].m_target );
+		m_builder.widget( m_weapon_widgets[ i ].m_smooth ).position( 54, 212 ).title( xorstr_( "Smooth" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 100.f ).prefix( xorstr_( "%" ) ).lock_input( m_weapon_widgets[ i ].m_target );
 
 		m_weapon_widgets[ i ].m_rcs_enabled = std::make_shared< checkbox >( );
 		m_builder.widget( m_weapon_widgets[ i ].m_rcs_enabled ).position( 30, 234 ).title( xorstr_( "Recoil control" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i );
 
 		m_weapon_widgets[ i ].m_rcs_x = std::make_shared< slider >( );
-		m_builder.widget( m_weapon_widgets[ i ].m_rcs_x ).position( 54, 267 ).title( xorstr_( "X" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 10.f );
+		m_builder.widget( m_weapon_widgets[ i ].m_rcs_x ).position( 54, 267 ).title( xorstr_( "X" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range( 0.f, 100.f ).prefix( xorstr_( "%" ) );
 
 		m_weapon_widgets[ i ].m_rcs_y = std::make_shared< slider >( );
-		m_builder.widget( m_weapon_widgets[ i ].m_rcs_y ).position( 54, 300 ).title( xorstr_( "Y" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range(0.f, 10.f );
+		m_builder.widget( m_weapon_widgets[ i ].m_rcs_y ).position( 54, 300 ).title( xorstr_( "Y" ) ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).range(0.f, 100.f ).prefix( xorstr_( "%" ) );
 
 		m_weapon_widgets[ i ].m_ignore = std::make_shared< box >( );
 		m_builder.widget( m_weapon_widgets[ i ].m_ignore ).position( 54, 325 ).title( xorstr_( "Ignore:" ) ).entries( m_ignore_names ).spawn_in( m_legitbot_container ).medium( m_legitbot_weapon, i ).type( box_type_multibox );
@@ -114,18 +104,21 @@ bool menu::setup( ) {
 	m_antiaim_desync = std::make_shared< box >( );
 	m_builder.widget( m_antiaim_desync ).position( 54, 54 ).title( xorstr_( "Desync:" ) ).entries( m_desync_names ).spawn_in( m_antiaim_container ).type( box_type_combobox );
 
+	m_antiaim_invert = std::make_shared< checkbox >( );
+	m_builder.widget( m_antiaim_invert ).position( 30, 87 ).title( xorstr_( "Invert" ) ).spawn_in( m_antiaim_container );
+
+	m_antiaim_invert_activation = std::make_shared< key_binder >( );
+	m_builder.widget( m_antiaim_invert_activation ).position( 233, 84 ).spawn_in( m_antiaim_container );
+	 
 	m_antiaim_fakelag_type = std::make_shared< box >( );
-	m_builder.widget( m_antiaim_fakelag_type ).position( 54, 87 ).title( xorstr_( "Fakelag:" ) ).entries( m_fakelag_names ).spawn_in( m_antiaim_container ).type( box_type_combobox ).lock_input( m_antiaim_desync );
-
-	m_antiaim_fakelag_value = std::make_shared< slider >( );
-	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 131 ).title( xorstr_( "Choke:" ) ).spawn_in( m_antiaim_container ).range( 0.f, 17.f ).prefix( xorstr_( "ticks" ) ).lock_input( m_antiaim_fakelag_type );
-
-	m_antiaim_fakelag_triggers = std::make_shared< box >( );
-	m_builder.widget( m_antiaim_fakelag_triggers ).position( 54, 153 ).title( xorstr_( "Trigger:" ) ).entries( m_fakelag_triggers_names ).spawn_in( m_antiaim_container ).type( box_type_multibox ).lock_input( m_antiaim_fakelag_type );
-
-	m_antiaim_fakelag_triggers_value = std::make_shared< slider >( );
-	m_builder.widget( m_antiaim_fakelag_triggers_value ).position( 54, 197 ).title( xorstr_( "Trigger choke:" ) ).spawn_in( m_antiaim_container ).range( 0.f, 15.f ).prefix( xorstr_( "ticks" ) ).lock_input( m_antiaim_fakelag_triggers );
+	m_builder.widget( m_antiaim_fakelag_type ).position( 54, 110 ).title( xorstr_( "Fakelag:" ) ).entries( m_fakelag_names ).spawn_in( m_antiaim_container ).type( box_type_combobox ).lock_input( m_antiaim_desync );
 	
+	m_antiaim_fakelag_value = std::make_shared< slider >( );
+	m_builder.widget( m_antiaim_fakelag_value ).position( 54, 154 ).title( xorstr_( "Choke:" ) ).spawn_in( m_antiaim_container ).range( 0.f, 15.f ).prefix( xorstr_( "ticks" ) ).lock_input( m_antiaim_fakelag_type );
+	
+	m_antiaim_fakelag_triggers = std::make_shared< box >( );
+	m_builder.widget( m_antiaim_fakelag_triggers ).position( 54, 176 ).title( xorstr_( "Trigger:" ) ).entries( m_fakelag_triggers_names ).spawn_in( m_antiaim_container ).type( box_type_combobox ).lock_input( m_antiaim_fakelag_type );
+
 	// esp
 	
 	m_esp_container = std::make_shared< container >( );

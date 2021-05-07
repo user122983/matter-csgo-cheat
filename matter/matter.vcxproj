@@ -166,8 +166,8 @@
     <ClInclude Include="cheat\hooked\hooked.h" />
     <ClInclude Include="cheat\input\input.h" />
     <ClInclude Include="cheat\cheat.h" />
-    <ClInclude Include="cheat\menu\gui\builder.h" />
-    <ClInclude Include="cheat\menu\gui\definitions.h" />
+    <ClInclude Include="cheat\menu\gui\misc\builder.h" />
+    <ClInclude Include="cheat\menu\gui\misc\definitions.h" />
     <ClInclude Include="cheat\menu\gui\gui.h" />
     <ClInclude Include="cheat\menu\gui\widgets\box\box.h" />
     <ClInclude Include="cheat\menu\gui\widgets\checkbox\checkbox.h" />

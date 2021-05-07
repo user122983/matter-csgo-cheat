@@ -36,7 +36,7 @@ struct render {
 	struct {
 
 		h_font verdana;
-
+		
 		h_font smallest_pixel_7;
 
 		h_font matter_icons;

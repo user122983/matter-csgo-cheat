@@ -2,7 +2,7 @@
 
 #include "../../cheat.h"
 
-// recode br0
+// fucking aimwhere paste
 
 void misc::movement_fix( q_angle& angle ) {
 

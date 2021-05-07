@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../definitions.h"
+#include "../misc/definitions.h"
 
 #include <memory>
 #include <vector>
@@ -23,7 +23,7 @@ struct widgets : std::enable_shared_from_this< widgets > {
 	
 	void set_medium( const std::shared_ptr< widgets >& medium, std::size_t page );
 	
-	bool is_render_unlocked( );
+	bool is_medium_unlocked( );
 	
 	int get_type( );
 	
@@ -38,13 +38,21 @@ protected:
 	virtual void update( ) = 0;
 
 	std::string m_title;
+	
 	point m_position;
+	
 	dimension m_size;
+	
 	area m_widget_area;
+	
 	std::shared_ptr< widgets > m_parent_widget;
+	
 	std::shared_ptr< widgets > m_medium_widget;
+	
 	std::vector< std::shared_ptr< widgets > > m_lock_input_widget;
+	
 	std::size_t m_page;
+	
 	std::size_t m_type;
 	
 };

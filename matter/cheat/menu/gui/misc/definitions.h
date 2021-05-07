@@ -1,24 +1,29 @@
 #pragma once
 
-#include "../../../other/xorstr/xorstr.h"
+#include "../../../../other/xorstr/xorstr.h"
 
 #include <string_view>
 
 struct area {
 
-    int m_x, m_y, m_width, m_height;
+	int m_x;
+	int m_y;
+	int m_width;
+	int m_height;
 
 };
 
 struct dimension {
 
-    int m_width, m_height;
+	int m_width;
+	int m_height;
 
 };
 
 struct point {
 
-    int m_x, m_y;
+	int m_x;
+	int m_y;
 
 };
 
