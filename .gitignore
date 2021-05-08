@@ -4,7 +4,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Build
-*.tlog 
+*.tlog
+*.lastbuildstate 
+
 build/
 
 # User-specific files
