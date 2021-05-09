@@ -12,7 +12,7 @@ enum box_type {
 struct box : widgets {
 
 	box( );
-
+	
 	bool get_state( );
 	
 	std::size_t get_index( std::size_t index = 0 );
@@ -22,7 +22,7 @@ struct box : widgets {
 	void add_entry( std::string_view name, unsigned int value = 0 );
 	
 	void set_value( std::size_t index, unsigned int value );
-	
+
 	void geometry( ) override;
 
 	void update( ) override;

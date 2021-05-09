@@ -52,7 +52,7 @@ struct globals {
 	// features
 
 	bool m_third_person;
-	
+
 };
 
 inline globals m_globals;

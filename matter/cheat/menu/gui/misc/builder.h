@@ -35,7 +35,7 @@ struct builder {
 	builder& spawn_in( const std::shared_ptr< container >& container ) {
 		
 		container->add_widget( m_widget );
-
+		
 		return *this;
 	}
 
@@ -123,14 +123,14 @@ struct builder {
 
 		for ( auto& widget : widgets ) {
 
-			m_widget->set_lock_input( widget );
-			
+			m_widget->set_lock_input(widget);
+
 		}
 
 		return *this;
 
 	}
-	
+
 private:
 
 	std::shared_ptr< widgets > m_widget;

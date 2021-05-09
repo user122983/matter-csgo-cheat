@@ -85,17 +85,20 @@ bool widgets::is_input_unlocked( ) {
 	if ( m_lock_input_widget.empty( ) )
 		return true;
 
-	for ( auto& widgets : m_lock_input_widget ) {
+	for ( auto& widget : m_lock_input_widget ) {
+
+		if ( widget == shared_from_this( ) )
+			continue;
 		
-		switch ( widgets->m_type ) {
+		switch ( widget->m_type ) {
 			
 			case widget_type_box:
-				if ( std::reinterpret_pointer_cast< box >( widgets )->get_state( ) )
+				if ( std::reinterpret_pointer_cast< box >( widget )->get_state( ) )
 					return false;
 				break;
 			
 			case widget_type_key_binder:
-				if ( std::reinterpret_pointer_cast< key_binder >( widgets )->get_state( ) )
+				if ( std::reinterpret_pointer_cast< key_binder >( widget )->get_state( ) )
 					return false;
 				break;
 			

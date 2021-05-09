@@ -111,6 +111,5 @@ void container::update( ) {
 	
 	if ( !m_input.is_mouse_down( 1 ) )
         m_move_menu = false;
-
 	
 }

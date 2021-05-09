@@ -1,9 +1,8 @@
 #pragma once
 
-#include <comcat.h>
-
 #include "../widgets.h"
 
+#include <comcat.h>
 #include <vector>
 
 struct container : widgets {
@@ -15,7 +14,7 @@ struct container : widgets {
 	void add_widget( std::shared_ptr< widgets >& widget );
 	
 	bool get_state( );
-	
+
 	void geometry( ) override;
 	
 	void update( ) override;

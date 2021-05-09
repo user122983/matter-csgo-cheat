@@ -52,7 +52,7 @@ void key_binder::geometry( ) {
 	
 	dimension text_size = m_render.get_text_size( m_render.m_fonts.smallest_pixel_7, std::wstring( text.begin( ), text.end( ) ) );
 	
-	m_widget_area = { get_position( ).m_x - text_size.m_width, get_position( ).m_y, text_size.m_width, text_size.m_height };
+	m_widget_area = { get_position( ).m_x - text_size.m_width, get_position( ).m_y + 3, text_size.m_width, text_size.m_height };
 	
 	m_render.draw_text( m_render.m_fonts.smallest_pixel_7, m_widget_area.m_x, m_widget_area.m_y, text, m_menu.m_colors.white.at( 1 ) );
 	

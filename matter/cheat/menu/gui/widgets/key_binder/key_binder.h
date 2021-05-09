@@ -2,6 +2,8 @@
 
 #include "../widgets.h"
 
+#include "../../../../../other/xorstr/xorstr.h"
+
 inline std::vector< std::string > key_binder_types {
 
 	xorstr_( "None" ),
@@ -27,7 +29,7 @@ struct key_binder : widgets {
 	bool get_state( );
 
 	bool get_key_state( );
-	
+
 	void geometry( ) override;
 
 	void update( ) override;

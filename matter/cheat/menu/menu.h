@@ -52,8 +52,6 @@ struct menu {
 	bool setup( );
 	
 	struct {
-
-		// cleanup these colors
 		
 		std::vector< color > dark {
 

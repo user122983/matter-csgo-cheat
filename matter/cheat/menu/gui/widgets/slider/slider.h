@@ -13,7 +13,7 @@ struct slider : widgets {
 	void set_value( float value );
 	
 	float get_value( );
-	
+
 	void geometry( ) override;
 
 	void update( ) override;
