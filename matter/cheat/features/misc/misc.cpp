@@ -2,6 +2,33 @@
 
 #include "../../cheat.h"
 
+void misc::run( ) {
+
+	bunnyhop( );
+
+	autostrafe( );
+
+}
+
+void misc::bunnyhop( ) {
+
+	auto move_type = m_globals.m_local_player.pointer->get_move_type( );
+	if ( move_type == move_type_ladder || move_type == move_type_noclip )
+		return;
+
+	if ( m_globals.m_local_player.pointer->get_flags( ) & fl_onground )
+		return;
+
+	m_globals.m_cmd->m_buttons &= ~in_jump;
+
+}
+
+void misc::autostrafe( ) {
+
+
+
+}
+
 // fucking aimwhere paste
 
 void misc::movement_fix( q_angle& angle ) {

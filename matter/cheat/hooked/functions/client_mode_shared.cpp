@@ -19,7 +19,9 @@ bool __fastcall hooked::client_mode_shared_fn::create_move( void* ecx, void* edx
 	q_angle old_view_angles = m_globals.m_cmd->m_view_angles;
 	
 	m_legitbot.run( );
-	
+
+	m_misc.run( );
+
 	m_misc.movement_fix( old_view_angles );
 	
 	m_globals.m_cmd->m_view_angles.normalize( );

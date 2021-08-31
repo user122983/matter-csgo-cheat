@@ -4,6 +4,12 @@
 
 struct misc {
 
+	void run( );
+
+	void bunnyhop( );
+
+	void autostrafe( );
+	
 	void movement_fix( q_angle& angle );
 
 };
